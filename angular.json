@@ -35,6 +35,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/LubomirOfSlavigrad/",
               "budgets": [
                 {
                   "type": "initial",
