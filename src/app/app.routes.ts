@@ -1,0 +1,49 @@
+import { Routes } from '@angular/router';
+
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
+    title: 'Lubomir of Slavigrad Chronicles - Digital CV & Portfolio'
+  },
+  {
+    path: 'home',
+    redirectTo: '',
+    pathMatch: 'full'
+  },
+  {
+    path: 'cv',
+    redirectTo: '',
+    pathMatch: 'full'
+  },
+  {
+    path: 'portfolio',
+    redirectTo: '',
+    pathMatch: 'full'
+  },
+  {
+    path: 'resume',
+    redirectTo: '',
+    pathMatch: 'full'
+  },
+  {
+    path: 'demo',
+    loadComponent: () => import('./shared/components/ui/collapse-demo.component').then(m => m.CollapseDemoComponent),
+    title: 'Collapse Components Demo - Lubomir of Slavigrad Chronicles'
+  },
+  {
+    path: 'pdf-test',
+    loadComponent: () => import('./pages/pdf-test/pdf-test.component').then(m => m.PDFTestComponent),
+    title: 'PDF Template Gallery Test - Lubomir of Slavigrad Chronicles'
+  },
+  {
+    path: '404',
+    loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
+    title: 'Page Not Found - Lubomir of Slavigrad Chronicles'
+  },
+  {
+    path: '**',
+    redirectTo: '/404',
+    pathMatch: 'full'
+  }
+];

@@ -1,0 +1,562 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Futuristic CV Dashboard Design System */
+@layer base {
+  :root {
+    /* Core backgrounds - Dark theme with depth */
+    --background: 220 20% 5%;
+    --foreground: 210 40% 98%;
+
+    /* Glass cards with subtle transparency */
+    --card: 220 15% 8%;
+    --card-foreground: 210 40% 98%;
+    --card-glass: 220 15% 10%;
+
+    /* Electric blue primary with glow */
+    --primary: 217 91% 60%;
+    --primary-foreground: 220 20% 5%;
+    --primary-glow: 217 91% 70%;
+
+    /* Purple secondary accent */
+    --secondary: 280 70% 50%;
+    --secondary-foreground: 210 40% 98%;
+    --secondary-glow: 280 70% 60%;
+
+    /* Vibrant accent colors */
+    --accent: 150 80% 45%;
+    --accent-foreground: 220 20% 5%;
+    --accent-glow: 150 80% 55%;
+
+    /* Borders and inputs */
+    --border: 220 15% 20%;
+    --input: 220 15% 15%;
+    --ring: 217 91% 60%;
+
+    /* Muted tones */
+    --muted: 220 15% 15%;
+    --muted-foreground: 210 20% 70%;
+
+    /* Status colors */
+    --success: 120 70% 50%;
+    --warning: 45 90% 60%;
+    --orange: 24 95% 53%;
+    --destructive: 0 70% 55%;
+
+    /* CV Semantic Colors for Skills and Sections */
+    --skill-primary: 217 91% 60%;      /* Electric Blue for Primary Skills */
+    --skill-secondary: 280 70% 50%;    /* Purple for Secondary Skills */
+    --skill-accent: 150 80% 45%;       /* Green for Accent Skills */
+    --skill-expert: 217 91% 70%;       /* Bright Blue for Expert Level */
+    --skill-advanced: 280 70% 60%;     /* Bright Purple for Advanced Level */
+    --skill-intermediate: 150 80% 55%; /* Bright Green for Intermediate Level */
+    --skill-beginner: var(--orange);      /* Orange for Beginner Level */
+
+    /* Section-specific colors */
+    --hero-accent: 217 91% 60%;        /* Electric Blue for Hero */
+    --experience-accent: 280 70% 50%;  /* Purple for Experience */
+    --projects-accent: 150 80% 45%;    /* Green for Projects */
+    --contact-accent: 217 91% 60%;     /* Electric Blue for Contact */
+
+    /* Glass-morphism variables */
+    --glass-bg: 220 15% 8% / 0.6;
+    --glass-border: 220 15% 20% / 0.3;
+    --glass-shadow: 220 20% 2% / 0.4;
+
+    --radius: 1rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(220 25% 3%) 100%);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary-glow));
+  }
+}
+
+@layer components {
+  /* Glass card effect */
+  .glass-card {
+    @apply backdrop-blur-xl bg-gradient-to-br from-card-glass to-card;
+    @apply border border-border/20;
+    box-shadow:
+      0 8px 32px hsl(220 20% 2% / 0.3),
+      inset 0 1px 0 hsl(var(--border) / 0.1);
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.3);
+  }
+
+  .glow-primary-lg {
+    box-shadow: 0 0 60px hsl(var(--primary) / 0.4);
+  }
+
+  /* Interactive button with glow */
+  .btn-glow {
+    @apply transition-all duration-300 ease-out;
+    @apply hover:shadow-glow-lg hover:scale-105;
+  }
+
+  /* Animated gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /*!* Improve legibility (esp. descenders like “g”) on dark/complex backgrounds *!*/
+    /*text-shadow:*/
+    /*  0 0 2px rgba(0, 0, 0, 0.45),*/
+    /*  0 2px 6px rgba(0, 0, 0, 0.35);*/
+    /*!* Subtle outline where supported to prevent color bleed *!*/
+    /*-webkit-text-stroke: 0.35px rgba(0, 0, 0, 0.35);*/
+  }
+
+  .gradient-text-accent {
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Hover animations */
+  .hover-lift {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+  }
+
+  .hover-glow {
+    transition: box-shadow 0.3s ease;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.4);
+  }
+
+  /* Enhanced Glass Components */
+  .glass-nav {
+    @apply backdrop-blur-md bg-background/80 border-b border-border/20;
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(15px);
+  }
+
+  .glass-button {
+    @apply backdrop-blur-sm bg-primary/10 border border-primary/30;
+    @apply hover:bg-primary/20 hover:border-primary/50 transition-all duration-300;
+    backdrop-filter: blur(10px);
+  }
+
+  .glass-card-glow {
+    @apply glass-card;
+    box-shadow:
+      0 8px 32px hsl(var(--glass-shadow)),
+      0 0 20px hsl(var(--primary) / 0.2);
+  }
+
+  /* Skill Level Indicators */
+  .skill-expert {
+    @apply bg-gradient-to-r from-skill-expert to-primary;
+    box-shadow: 0 0 15px hsl(var(--skill-expert) / 0.4);
+  }
+
+  .skill-advanced {
+    @apply bg-gradient-to-r from-skill-advanced to-secondary;
+    box-shadow: 0 0 15px hsl(var(--skill-advanced) / 0.4);
+  }
+
+  .skill-intermediate {
+    @apply bg-gradient-to-r from-skill-intermediate to-accent;
+    box-shadow: 0 0 15px hsl(var(--skill-intermediate) / 0.4);
+  }
+
+  .skill-beginner {
+    background: linear-gradient(135deg, hsl(var(--orange) / 0.9), hsl(var(--orange)));
+    box-shadow: 0 0 15px hsl(var(--orange) / 0.4);
+  }
+
+  /* Section-specific styling */
+  .hero-glow {
+    box-shadow: 0 0 40px hsl(var(--hero-accent) / 0.3);
+  }
+
+  .experience-glow {
+    box-shadow: 0 0 40px hsl(var(--experience-accent) / 0.3);
+  }
+
+  .projects-glow {
+    box-shadow: 0 0 40px hsl(var(--projects-accent) / 0.3);
+  }
+
+  .contact-glow {
+    box-shadow: 0 0 40px hsl(var(--contact-accent) / 0.3);
+  }
+
+  /* Text glow effects */
+  .text-glow-primary {
+    color: hsl(var(--primary));
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.6);
+  }
+
+  .text-glow-secondary {
+    color: hsl(var(--secondary));
+    text-shadow: 0 0 20px hsl(var(--secondary) / 0.6);
+  }
+
+  .text-glow-accent {
+    color: hsl(var(--accent));
+    text-shadow: 0 0 20px hsl(var(--accent) / 0.6);
+  }
+
+  /* Hover lift effect */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Gradient text animated */
+  .gradient-text-animated {
+    background: linear-gradient(
+      45deg,
+      hsl(var(--primary)),
+      hsl(var(--secondary)),
+      hsl(var(--accent)),
+      hsl(var(--primary))
+    );
+    background-size: 300% 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 3s ease infinite;
+  }
+}
+
+/* Advanced Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes rotate-glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Animation utility classes */
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.4s ease-out;
+}
+
+.animate-rotate-glow {
+  animation: rotate-glow 8s linear infinite;
+}
+
+/* Scroll-triggered animations */
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fadeInDown {
+  animation: fadeInDown 0.6s ease-out forwards;
+}
+
+.animate-fadeInLeft {
+  animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.animate-fadeInRight {
+  animation: fadeInRight 0.6s ease-out forwards;
+}
+
+.animate-zoomIn {
+  animation: zoomIn 0.6s ease-out forwards;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+.animate-rotateIn {
+  animation: rotateIn 0.6s ease-out forwards;
+}
+
+/* Additional keyframes for scroll animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+/* Enhanced Interactive Animations */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-bounce:hover {
+  animation: bounce 0.6s ease;
+}
+
+.hover-pulse:hover {
+  animation: pulse 1s ease infinite;
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+.click-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.click-scale {
+  transition: transform 0.1s ease;
+}
+
+.click-scale:active {
+  transform: scale(0.95);
+}
+
+/* Enhanced keyframes */
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40%, 43% {
+    transform: translateY(-15px);
+  }
+  70% {
+    transform: translateY(-7px);
+  }
+  90% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Lazy Loading Styles */
+.lazy-loading {
+  filter: blur(5px);
+  opacity: 0.7;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.lazy-loaded {
+  filter: none;
+  opacity: 1;
+}
+
+.lazy-error {
+  opacity: 0.5;
+  filter: grayscale(100%);
+}
+
+.lazy-bg-loaded {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Performance optimizations */
+.reduced-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Additional utilities for hero section */
+@layer utilities {
+  .bg-gradient-radial {
+    background: radial-gradient(circle at center, var(--tw-gradient-stops));
+  }
+}
+
+/* Fix descender clipping on large gradient headings */
+h1.text-4xl.md\:text-5xl.lg\:text-6xl.font-bold.mb-4.gradient-text.leading-tight {
+  line-height: 1.5; /* Provides more vertical space so letters like 'y' aren't cut off */
+}
+

@@ -1,0 +1,89 @@
+{
+  "timestamp": "2025-09-19T17:30:39.197Z",
+  "budgets": {
+    "initial": {
+      "maxSize": 512000,
+      "warningSize": 409600,
+      "description": "Initial bundle size"
+    },
+    "lazy": {
+      "maxSize": 204800,
+      "warningSize": 153600,
+      "description": "Lazy-loaded chunk size"
+    },
+    "total": {
+      "maxSize": 2097152,
+      "warningSize": 1572864,
+      "description": "Total bundle size"
+    },
+    "css": {
+      "maxSize": 51200,
+      "warningSize": 40960,
+      "description": "CSS bundle size"
+    }
+  },
+  "results": {
+    "passed": 4,
+    "warnings": 0,
+    "failed": 0,
+    "details": [
+      {
+        "type": "initial",
+        "description": "Initial bundle size",
+        "actualSize": 0,
+        "maxSize": 512000,
+        "warningSize": 409600,
+        "status": "passed",
+        "percentage": 0
+      },
+      {
+        "type": "total",
+        "description": "Total bundle size",
+        "actualSize": 63810,
+        "maxSize": 2097152,
+        "warningSize": 1572864,
+        "status": "passed",
+        "percentage": 3.0426979064941406
+      },
+      {
+        "type": "css",
+        "description": "CSS bundle size",
+        "actualSize": 0,
+        "maxSize": 51200,
+        "warningSize": 40960,
+        "status": "passed",
+        "percentage": 0
+      },
+      {
+        "type": "lazy",
+        "description": "Lazy-loaded chunk size",
+        "actualSize": 0,
+        "maxSize": 204800,
+        "warningSize": 153600,
+        "status": "passed",
+        "percentage": 0
+      }
+    ]
+  },
+  "details": {
+    "totalSize": 63810,
+    "initialSize": 0,
+    "cssSize": 0,
+    "lazyChunks": [],
+    "files": [
+      {
+        "name": "3rdpartylicenses.txt",
+        "size": 63184
+      },
+      {
+        "name": "browser",
+        "size": 608
+      },
+      {
+        "name": "prerendered-routes.json",
+        "size": 18
+      }
+    ]
+  },
+  "recommendations": []
+}
