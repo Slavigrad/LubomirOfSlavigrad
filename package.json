@@ -15,7 +15,7 @@
     "performance:build": "npm run build:prod && npm run performance:budget",
     "performance:lighthouse": "lighthouse http://localhost:4200 --output=json --output-path=./lighthouse-report.json",
     "performance:full": "npm run build:prod && npm run performance:budget && npm run start & npm run performance:lighthouse",
-    "deploy": "gh-pages -d dist/LubomirOfSlavigrad"
+    "deploy": "gh-pages -d dist/LubomirOfSlavigrad/browser"
   },
   "prettier": {
     "printWidth": 100,
