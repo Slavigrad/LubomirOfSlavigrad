@@ -1,7 +1,7 @@
 {
   "name": "lubomir-of-slavigrad",
   "version": "0.0.0",
-  "homepage": "https://slavigrad.github.io/LubomirOfSlavigrad",
+  "homepage": "https://slavigrad.github.io/LubomirOfSlavigrad/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
