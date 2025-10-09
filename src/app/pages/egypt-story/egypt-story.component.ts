@@ -5,6 +5,7 @@ import { EGYPT_STORY, Story } from '../../data/egypt-story-data';
 import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../shared/utils/animations';
 import { ReadingProgressComponent } from '../../shared/components/reading-progress/reading-progress.component';
 import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scroll-to-top.component';
+import { ChapterNavigationComponent, NavigationChapter } from '../../shared/components/chapter-navigation/chapter-navigation.component';
 
 @Component({
   selector: 'app-egypt-story',
@@ -15,7 +16,8 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
     ScrollAnimateDirective,
     InteractiveAnimateDirective,
     ReadingProgressComponent,
-    ScrollToTopComponent
+    ScrollToTopComponent,
+    ChapterNavigationComponent
   ],
   template: `
     <!-- Reading Progress Bar -->
@@ -23,6 +25,9 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
 
     <!-- Scroll to Top Button -->
     <app-scroll-to-top></app-scroll-to-top>
+
+    <!-- Chapter Navigation -->
+    <app-chapter-navigation [chapters]="getNavigationChapters()"></app-chapter-navigation>
 
     <div class="min-h-screen relative overflow-hidden">
       <!-- Ambient Background Effects -->
@@ -80,6 +85,24 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
               {{ story.subtitle }}
             </p>
 
+            <!-- Reading Time and Chapter Count -->
+            <div class="flex items-center justify-center gap-3 mb-6 text-sm text-muted-foreground/80 animate-fade-in-up"
+                 style="animation-delay: 0.5s">
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="font-medium">{{ getReadingTimeText() }}</span>
+              </div>
+              <span class="text-muted-foreground/40">•</span>
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <span class="font-medium">{{ story.chapters.length }} chapters</span>
+              </div>
+            </div>
+
             <div class="flex flex-wrap items-center justify-center gap-4 text-muted-foreground text-sm animate-fade-in-up"
                  style="animation-delay: 0.6s">
               <ng-container *ngFor="let meta of story.metadata; let i = index">
@@ -126,6 +149,7 @@ import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scro
 
               <!-- Chapters (Dynamic) -->
               <div *ngFor="let chapter of story.chapters; let chapterIndex = index"
+                   [id]="'chapter-' + (chapterIndex + 1)"
                    class="chapter-container space-y-8 mb-20 last:mb-0">
 
                 <!-- Chapter Header Card -->
@@ -561,5 +585,54 @@ export class EgyptStoryComponent {
       .map(p => p.trim())
       .filter(p => p.length > 0);
   }
+
+  /**
+   * Calculate estimated reading time
+   * Average reading speed: 200-250 words per minute
+   * We use 225 words per minute as a middle ground
+   */
+  protected getEstimatedReadingTime(): number {
+    const wordsPerMinute = 225;
+
+    // Count words in introduction
+    const introWords = this.story.introduction.split(/\s+/).length;
+
+    // Count words in all chapters
+    const chapterWords = this.story.chapters.reduce((total, chapter) => {
+      const sectionWords = chapter.sections.reduce((sectionTotal, section) => {
+        // Count words in all paragraphs of this section
+        const paragraphWords = section.paragraphs.reduce((paragraphTotal, paragraph) => {
+          return paragraphTotal + paragraph.split(/\s+/).length;
+        }, 0);
+        return sectionTotal + paragraphWords;
+      }, 0);
+      return total + sectionWords;
+    }, 0);
+
+    const totalWords = introWords + chapterWords;
+    const minutes = Math.ceil(totalWords / wordsPerMinute);
+
+    return minutes;
+  }
+
+  /**
+   * Get formatted reading time string
+   */
+  protected getReadingTimeText(): string {
+    const minutes = this.getEstimatedReadingTime();
+    return `${minutes} min read`;
+  }
+
+  /**
+   * Get navigation chapters for the sidebar
+   */
+  protected getNavigationChapters(): NavigationChapter[] {
+    return this.story.chapters.map((chapter, index) => ({
+      id: `chapter-${index + 1}`,
+      title: chapter.title,
+      number: index + 1
+    }));
+  }
+
 }
 
