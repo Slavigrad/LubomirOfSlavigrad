@@ -44,7 +44,7 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
           </a>
 
           <!-- Title -->
-          <div class="text-center mb-16" appScrollAnimate="fadeInUp">
+          <div class="text-center mb-16 animate-fade-in-up">
             <h1 class="text-5xl md:text-7xl font-bold mb-8 gradient-text-enhanced tracking-tight">
               {{ story.title }}
             </h1>
@@ -60,15 +60,13 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
 
             <!-- Subtitle (if present) -->
             <p *ngIf="story.subtitle"
-               appScrollAnimate="fadeInUp"
-               [animationDelay]="200"
-               class="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed font-light italic">
+               class="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed font-light italic animate-fade-in-up"
+               style="animation-delay: 0.3s">
               {{ story.subtitle }}
             </p>
 
-            <div appScrollAnimate="fadeInUp"
-                 [animationDelay]="400"
-                 class="flex flex-wrap items-center justify-center gap-4 text-muted-foreground text-sm">
+            <div class="flex flex-wrap items-center justify-center gap-4 text-muted-foreground text-sm animate-fade-in-up"
+                 style="animation-delay: 0.6s">
               <ng-container *ngFor="let meta of story.metadata; let i = index">
                 <span *ngIf="i > 0" class="text-border">•</span>
                 <span class="flex items-center gap-2 hover:text-primary transition-colors">
@@ -82,9 +80,8 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
           </div>
 
           <!-- Story Content -->
-          <div appScrollAnimate="fadeInUp"
-               [animationDelay]="600"
-               class="glass-card-enhanced p-8 md:p-12 rounded-3xl border border-border/30 space-y-12 relative overflow-hidden">
+          <div class="glass-card-enhanced p-8 md:p-12 rounded-3xl border border-border/30 space-y-12 relative overflow-hidden animate-fade-in-up"
+               style="animation-delay: 0.9s">
             <!-- Enhanced glass overlay -->
             <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 pointer-events-none"></div>
             <div class="absolute inset-0 backdrop-blur-xl pointer-events-none"></div>
@@ -92,12 +89,12 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
             <!-- Content wrapper -->
             <div class="relative z-10">
               <!-- Introduction -->
-              <div appScrollAnimate="fadeInUp"
-                   [animationDelay]="800"
-                   class="prose prose-invert max-w-none mb-16">
-                <!-- Drop cap for first letter -->
-                <p class="text-lg md:text-xl text-foreground/90 leading-relaxed first-letter:text-7xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left first-letter:leading-none">
-                  {{ story.introduction }}
+              <div class="prose prose-invert max-w-none mb-16 space-y-6">
+                <!-- Split introduction into paragraphs -->
+                <p *ngFor="let paragraph of getIntroductionParagraphs(); let i = index"
+                   class="text-lg md:text-xl text-foreground/90 leading-relaxed"
+                   [ngClass]="{'first-letter:text-7xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left first-letter:leading-none': i === 0}">
+                  {{ paragraph }}
                 </p>
               </div>
 
@@ -202,7 +199,6 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
 
               <!-- Closing Quote (if present) -->
               <div *ngIf="story.closingQuote"
-                   appScrollAnimate="fadeInUp"
                    class="mt-16 pt-12 border-t border-border/20">
                 <blockquote class="text-center italic text-xl md:text-2xl text-muted-foreground relative">
                   <svg class="w-12 h-12 text-primary/20 absolute -top-6 left-1/2 -translate-x-1/2" fill="currentColor" viewBox="0 0 24 24">
@@ -215,7 +211,6 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
 
               <!-- Author Info (if present) -->
               <div *ngIf="story.author"
-                   appScrollAnimate="fadeInUp"
                    class="mt-12 pt-12 border-t border-border/20 text-center">
                 <p class="text-lg text-muted-foreground mb-6">
                   Written by <span class="text-foreground font-semibold text-xl gradient-text-enhanced">{{ story.author.name }}</span>
@@ -267,7 +262,7 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
           </div>
 
           <!-- Navigation Footer -->
-          <div appScrollAnimate="fadeInUp" class="mt-16 text-center">
+          <div class="mt-16 text-center">
             <a
               routerLink="/"
               appInteractiveAnimate="lift"
@@ -287,6 +282,23 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
   styles: [`
     :host {
       display: block;
+    }
+
+    /* Fade In Up Animation */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
     }
 
     /* Enhanced Gradient Text */
@@ -519,6 +531,17 @@ export class EgyptStoryComponent {
     console.log('Story title:', this.story.title);
     console.log('Number of chapters:', this.story.chapters?.length);
     console.log('First chapter:', this.story.chapters?.[0]);
+  }
+
+  /**
+   * Split introduction text into paragraphs
+   * The introduction contains line breaks that should be rendered as separate paragraphs
+   */
+  protected getIntroductionParagraphs(): string[] {
+    return this.story.introduction
+      .split('\n\n')
+      .map(p => p.trim())
+      .filter(p => p.length > 0);
   }
 }
 

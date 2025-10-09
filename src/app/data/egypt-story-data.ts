@@ -40,7 +40,7 @@ export interface StorySection {
 export interface StoryChapter {
   number: number;
   title: string;
-  theme?: 'primary' | 'secondary' | 'accent'; // Optional theme for color coding
+  theme?: 'primary' | 'secondary' | 'accent' | 'orange' // Optional theme for color coding
   sections: StorySection[]; // Chapters now contain sections
 }
 
