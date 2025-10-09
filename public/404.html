@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Lubomir of Slavigrad Chronicles</title>
+  <script>
+    // GitHub Pages SPA redirect hack
+    // This script takes the current URL and converts the path and query
+    // string into just a query string, and then redirects the browser
+    // to the new URL with only a query string and hash fragment.
+    // This is a workaround for GitHub Pages not supporting SPAs with client-side routing.
+    
+    var pathSegmentsToKeep = 0;
+    
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
+  </script>
+</head>
+<body>
+</body>
+</html>
+
