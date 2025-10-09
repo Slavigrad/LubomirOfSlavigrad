@@ -6,6 +6,7 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
 import { ReadingProgressComponent } from '../../shared/components/reading-progress/reading-progress.component';
 import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scroll-to-top.component';
 import { ChapterNavigationComponent, NavigationChapter } from '../../shared/components/chapter-navigation/chapter-navigation.component';
+import { SocialShareComponent, ShareConfig } from '../../shared/components/social-share/social-share.component';
 
 @Component({
   selector: 'app-egypt-story',
@@ -17,7 +18,8 @@ import { ChapterNavigationComponent, NavigationChapter } from '../../shared/comp
     InteractiveAnimateDirective,
     ReadingProgressComponent,
     ScrollToTopComponent,
-    ChapterNavigationComponent
+    ChapterNavigationComponent,
+    SocialShareComponent
   ],
   template: `
     <!-- Reading Progress Bar -->
@@ -103,8 +105,40 @@ import { ChapterNavigationComponent, NavigationChapter } from '../../shared/comp
               </div>
             </div>
 
+            <!-- Featured Image - Desert Galabeya -->
+            <div class="featured-image-container my-12 animate-fade-in-up" style="animation-delay: 0.6s">
+              <div class="featured-image-wrapper">
+                <!-- Decorative frame corners -->
+                <div class="image-frame-corner top-left"></div>
+                <div class="image-frame-corner top-right"></div>
+                <div class="image-frame-corner bottom-left"></div>
+                <div class="image-frame-corner bottom-right"></div>
+
+                <!-- Image with effects -->
+                <div class="image-inner">
+                  <img
+                    src="assets/images/slavigrad_galabeya.jpg"
+                    alt="Lubomir in traditional galabeya in the desert"
+                    class="featured-image"
+                    loading="eager">
+
+                  <!-- Gradient overlay for depth -->
+                  <div class="image-overlay"></div>
+                </div>
+
+                <!-- Caption -->
+                <p class="image-caption">
+                  <svg class="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  </svg>
+                  Wadi Rum, Jordan — Wearing the traditional galabeya
+                </p>
+              </div>
+            </div>
+
             <div class="flex flex-wrap items-center justify-center gap-4 text-muted-foreground text-sm animate-fade-in-up"
-                 style="animation-delay: 0.6s">
+                 style="animation-delay: 0.8s">
               <ng-container *ngFor="let meta of story.metadata; let i = index">
                 <span *ngIf="i > 0" class="text-border">•</span>
                 <span class="flex items-center gap-2 hover:text-primary transition-colors">
@@ -300,6 +334,9 @@ import { ChapterNavigationComponent, NavigationChapter } from '../../shared/comp
             </div>
           </div>
 
+          <!-- Social Share -->
+          <app-social-share [config]="getShareConfig()"></app-social-share>
+
           <!-- Navigation Footer -->
           <div class="mt-16 text-center">
             <a
@@ -445,6 +482,8 @@ import { ChapterNavigationComponent, NavigationChapter } from '../../shared/comp
     /* Chapter Container Enhancements */
     .chapter-container {
       position: relative;
+      /* Account for fixed navbar (72px) + reading progress (4px) + breathing room (120px) */
+      scroll-margin-top: 196px;
     }
 
     .chapter-header {
@@ -506,6 +545,265 @@ import { ChapterNavigationComponent, NavigationChapter } from '../../shared/comp
       transform: translateX(4px);
     }
 
+    /* Hero Image Section */
+    .hero-image-section {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-image-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-glow-effect {
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(
+        circle at center,
+        hsl(var(--primary) / 0.3) 0%,
+        hsl(var(--secondary) / 0.2) 40%,
+        transparent 70%
+      );
+      filter: blur(40px);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-image-container:hover .hero-glow-effect {
+      opacity: 1;
+    }
+
+    .hero-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      display: block;
+    }
+
+    .hero-image-container:hover .hero-image {
+      transform: scale(1.05);
+    }
+
+    .hero-gradient-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.1) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(0, 0, 0, 0.3) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-border-accent {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border: 2px solid;
+      border-color: hsl(var(--primary) / 0.6);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2;
+    }
+
+    .hero-border-accent.top-left {
+      top: -2px;
+      left: -2px;
+      border-right: none;
+      border-bottom: none;
+      border-top-left-radius: 24px;
+    }
+
+    .hero-border-accent.top-right {
+      top: -2px;
+      right: -2px;
+      border-left: none;
+      border-bottom: none;
+      border-top-right-radius: 24px;
+    }
+
+    .hero-border-accent.bottom-left {
+      bottom: -2px;
+      left: -2px;
+      border-right: none;
+      border-top: none;
+      border-bottom-left-radius: 24px;
+    }
+
+    .hero-border-accent.bottom-right {
+      bottom: -2px;
+      right: -2px;
+      border-left: none;
+      border-top: none;
+      border-bottom-right-radius: 24px;
+    }
+
+    .hero-image-container:hover .hero-border-accent {
+      border-color: hsl(var(--primary));
+      width: 80px;
+      height: 80px;
+    }
+
+    .hero-image-container:hover .hero-border-accent.top-left {
+      top: -4px;
+      left: -4px;
+    }
+
+    .hero-image-container:hover .hero-border-accent.top-right {
+      top: -4px;
+      right: -4px;
+    }
+
+    .hero-image-container:hover .hero-border-accent.bottom-left {
+      bottom: -4px;
+      left: -4px;
+    }
+
+    .hero-image-container:hover .hero-border-accent.bottom-right {
+      bottom: -4px;
+      right: -4px;
+    }
+
+    /* Featured Image Styles (for the existing featured image section) */
+    .featured-image-container {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .featured-image-wrapper {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    .image-frame-corner {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 1.5px solid hsl(var(--primary) / 0.5);
+      z-index: 2;
+      transition: all 0.4s ease;
+    }
+
+    .image-frame-corner.top-left {
+      top: 8px;
+      left: 8px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .image-frame-corner.top-right {
+      top: 8px;
+      right: 8px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .image-frame-corner.bottom-left {
+      bottom: 8px;
+      left: 8px;
+      border-right: none;
+      border-top: none;
+    }
+
+    .image-frame-corner.bottom-right {
+      bottom: 8px;
+      right: 8px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .featured-image-wrapper:hover .image-frame-corner {
+      border-color: hsl(var(--primary));
+      width: 50px;
+      height: 50px;
+    }
+
+    .image-inner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    .featured-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .featured-image-wrapper:hover .featured-image {
+      transform: scale(1.03);
+    }
+
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        transparent 60%,
+        rgba(0, 0, 0, 0.2) 100%
+      );
+      pointer-events: none;
+    }
+
+    .image-caption {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.875rem;
+      color: hsl(var(--muted-foreground));
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       .gradient-text-enhanced {
@@ -518,6 +816,46 @@ import { ChapterNavigationComponent, NavigationChapter } from '../../shared/comp
 
       .glass-card-enhanced {
         padding: 1.5rem;
+      }
+
+      .hero-image-container {
+        border-radius: 16px;
+      }
+
+      .hero-border-accent {
+        width: 40px;
+        height: 40px;
+      }
+
+      .hero-image-container:hover .hero-border-accent {
+        width: 50px;
+        height: 50px;
+      }
+
+      .hero-border-accent.top-left,
+      .hero-border-accent.top-right {
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+      }
+
+      .hero-border-accent.bottom-left,
+      .hero-border-accent.bottom-right {
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+      }
+
+      .featured-image-wrapper {
+        border-radius: 12px;
+      }
+
+      .image-frame-corner {
+        width: 30px;
+        height: 30px;
+      }
+
+      .featured-image-wrapper:hover .image-frame-corner {
+        width: 35px;
+        height: 35px;
       }
     }
 
@@ -632,6 +970,22 @@ export class EgyptStoryComponent {
       title: chapter.title,
       number: index + 1
     }));
+  }
+
+  /**
+   * Get social share configuration
+   */
+  protected getShareConfig(): ShareConfig {
+    // Get the current page URL
+    const currentUrl = typeof window !== 'undefined'
+      ? window.location.href
+      : 'https://lubomirofslavigrad.com/egypt-story';
+
+    return {
+      url: currentUrl,
+      title: this.story.title,
+      description: this.story.subtitle || 'A personal memoir of my journey through Egypt'
+    };
   }
 
 }

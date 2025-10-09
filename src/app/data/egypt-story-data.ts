@@ -74,7 +74,7 @@ export interface Story {
 export const EGYPT_STORY: Story = {
   title: 'I Wandered Through Egypt',
 
-  subtitle: 'Alone. 16 days. 10 days without belongings, ID, or money. Wearing only a galabija and sandals. 3 days crossing the desert - 2 without a drop of water.',
+  subtitle: 'Alone. 16 days. 10 days without belongings, ID, or money. Wearing only a galabeya and sandals. 3 days crossing the desert - 2 without a drop of water.',
 
   metadata: [
     {

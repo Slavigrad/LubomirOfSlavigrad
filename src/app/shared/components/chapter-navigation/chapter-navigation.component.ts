@@ -1,12 +1,12 @@
-import { Component, Input, HostListener, signal, effect } from '@angular/core';
+import { Component, Input, HostListener, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
  * Chapter Navigation Component
- * 
+ *
  * A sticky sidebar that shows all chapters and highlights the current one
  * as the user scrolls through the content.
- * 
+ *
  * Features:
  * - Sticky positioning
  * - Auto-highlights current chapter
@@ -25,16 +25,17 @@ export interface NavigationChapter {
   selector: 'app-chapter-navigation',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="chapter-nav hidden lg:block">
       <div class="chapter-nav-container">
         <h3 class="chapter-nav-title">Chapters</h3>
-        
+
         <ul class="chapter-nav-list">
-          <li *ngFor="let chapter of chapters" class="chapter-nav-item">
+          <li *ngFor="let chapter of chapters; trackBy: trackById" class="chapter-nav-item">
             <a
-              [href]="'#' + chapter.id"
-              (click)="scrollToChapter($event, chapter.id)"
+              [attr.href]="hrefFor(chapter.id)"
+              (click)="onNavClick($event, chapter.id)"
               [class.active]="activeChapterId() === chapter.id"
               class="chapter-nav-link">
               <span class="chapter-number">{{ chapter.number }}</span>
@@ -54,6 +55,8 @@ export interface NavigationChapter {
       z-index: 100;
       max-height: 80vh;
       overflow-y: auto;
+      scrollbar-gutter: stable both-edges;
+      overscroll-behavior: contain;
     }
 
     .chapter-nav-container {
@@ -94,12 +97,13 @@ export interface NavigationChapter {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      padding: 0.5rem;
+      width: 100%; /* stable hit area */
+      padding: 0.5rem 0.75rem 0.5rem 0.75rem; /* constant padding to avoid layout shift */
       border-radius: 6px;
       text-decoration: none;
       color: rgba(255, 255, 255, 0.6);
       font-size: 0.875rem;
-      transition: all 0.2s ease;
+      transition: color 0.15s ease, background 0.15s ease; /* no transform transition */
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -115,12 +119,12 @@ export interface NavigationChapter {
       background: linear-gradient(180deg, #8b5cf6, #ec4899);
       transform: scaleY(0);
       transition: transform 0.2s ease;
+      pointer-events: none; /* ensure bar never blocks clicks */
     }
 
     .chapter-nav-link:hover {
       background: rgba(255, 255, 255, 0.05);
       color: rgba(255, 255, 255, 0.9);
-      padding-left: 0.75rem;
     }
 
     .chapter-nav-link:hover::before {
@@ -130,7 +134,6 @@ export interface NavigationChapter {
     .chapter-nav-link.active {
       background: rgba(139, 92, 246, 0.15);
       color: #fff;
-      padding-left: 0.75rem;
     }
 
     .chapter-nav-link.active::before {
@@ -197,46 +200,93 @@ export class ChapterNavigationComponent {
    * Currently active chapter ID
    */
   activeChapterId = signal<string>('');
+  private lastActiveId: string = '';
+  private scrollTicking = false;
+  private readonly HYSTERESIS_PX = 40;
+
+  /**
+   * Scroll offset for active chapter detection
+   * Navbar (72px) + Reading progress bar (4px) + Breathing room (120px) = 196px
+   */
+  private readonly SCROLL_OFFSET = 196;
 
   /**
    * Scroll listener to detect which chapter is currently visible
+   * Uses the same visual offset as the scroll alignment to avoid flicker
    */
   @HostListener('window:scroll')
   onScroll(): void {
-    // Find which chapter is currently in view
-    const scrollPosition = window.scrollY + 200; // Offset for better UX
+    if (this.scrollTicking) return;
+    this.scrollTicking = true;
+    requestAnimationFrame(() => {
+      this.updateActiveChapter();
+      this.scrollTicking = false;
+    });
+  }
 
-    for (let i = this.chapters.length - 1; i >= 0; i--) {
+  private updateActiveChapter(): void {
+    const offset = this.SCROLL_OFFSET;
+    let candidateId = this.chapters[0]?.id ?? '';
+
+    for (let i = 0; i < this.chapters.length; i++) {
       const chapter = this.chapters[i];
-      const element = document.getElementById(chapter.id);
-      
-      if (element) {
-        const elementTop = element.offsetTop;
-        
-        if (scrollPosition >= elementTop) {
-          this.activeChapterId.set(chapter.id);
-          break;
+      const el = document.getElementById(chapter.id);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top;
+      if (top - offset <= 0) {
+        candidateId = chapter.id;
+      } else {
+        break;
+      }
+    }
+
+    // Hysteresis: avoid switching if we are too close to the threshold
+    if (candidateId !== this.lastActiveId) {
+      const el = document.getElementById(candidateId);
+      if (el) {
+        const distance = Math.abs(el.getBoundingClientRect().top - offset);
+        if (distance < this.HYSTERESIS_PX) {
+          candidateId = this.lastActiveId || candidateId;
         }
       }
     }
+
+    if (candidateId && candidateId !== this.activeChapterId()) {
+      this.activeChapterId.set(candidateId);
+      this.lastActiveId = candidateId;
+    }
+  }
+  /**
+   * Stable trackBy to prevent re-creation of list items during change detection
+   */
+  trackById(index: number, item: NavigationChapter): string { return item.id; }
+
+
+  /**
+   * Compute a stable href that preserves the current route path, e.g.
+   * /egypt-story#chapter-3 (so hover shows the correct URL)
+   */
+  hrefFor(chapterId: string): string {
+    const path = (typeof window !== 'undefined' ? window.location.pathname : '') || '';
+    return `${path}#${chapterId}`;
   }
 
   /**
-   * Smooth scroll to a specific chapter
+   * Handle navigation click: prevent default jump, smooth scroll, and update URL
+   * Keeps the current route (e.g. /egypt-story#chapter-3) to avoid router resets
    */
-  scrollToChapter(event: Event, chapterId: string): void {
+  onNavClick(event: Event, chapterId: string): void {
     event.preventDefault();
-    
-    const element = document.getElementById(chapterId);
-    if (element) {
-      const offset = 100; // Account for fixed header
-      const elementPosition = element.offsetTop - offset;
-      
-      window.scrollTo({
-        top: elementPosition,
-        behavior: 'smooth'
-      });
-    }
+    const el = document.getElementById(chapterId);
+    if (!el) return;
+
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Update the URL to include current path + fragment (no navigation)
+    try {
+      const path = (typeof window !== 'undefined' ? window.location.pathname : '') || '';
+      window.history.replaceState(null, '', `${path}#${chapterId}`);
+    } catch {}
   }
 }
 
