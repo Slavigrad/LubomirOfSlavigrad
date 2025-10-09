@@ -1,4 +1,4 @@
-import { Component, Input, HostListener, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, HostListener, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -202,7 +202,10 @@ export class ChapterNavigationComponent {
   activeChapterId = signal<string>('');
   private lastActiveId: string = '';
   private scrollTicking = false;
-  private readonly HYSTERESIS_PX = 40;
+  private readonly HYSTERESIS_PX = 16;
+  private isProgrammaticScroll = false;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   /**
    * Scroll offset for active chapter detection
@@ -216,6 +219,9 @@ export class ChapterNavigationComponent {
    */
   @HostListener('window:scroll')
   onScroll(): void {
+    // Ignore scroll events during programmatic navigation to prevent race conditions
+    if (this.isProgrammaticScroll) return;
+
     if (this.scrollTicking) return;
     this.scrollTicking = true;
     requestAnimationFrame(() => {
@@ -233,7 +239,7 @@ export class ChapterNavigationComponent {
       const el = document.getElementById(chapter.id);
       if (!el) continue;
       const top = el.getBoundingClientRect().top;
-      if (top - offset <= 0) {
+      if (top - offset <= 10) {
         candidateId = chapter.id;
       } else {
         break;
@@ -280,7 +286,25 @@ export class ChapterNavigationComponent {
     const el = document.getElementById(chapterId);
     if (!el) return;
 
+    // Update the active highlight immediately to the clicked chapter
+    this.activeChapterId.set(chapterId);
+    this.lastActiveId = chapterId;
+
+    // Manually trigger change detection to update the UI immediately
+    // This is necessary because we use OnPush change detection strategy
+    this.cdr.markForCheck();
+
+    // Disable scroll listener during programmatic navigation to prevent race conditions
+    // where the scroll listener might detect an intermediate chapter during smooth scrolling
+    this.isProgrammaticScroll = true;
+
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Re-enable scroll listener after smooth scroll completes
+    // Smooth scroll typically takes 300-500ms, we wait a bit longer to be safe
+    setTimeout(() => {
+      this.isProgrammaticScroll = false;
+    }, 1000);
 
     // Update the URL to include current path + fragment (no navigation)
     try {
