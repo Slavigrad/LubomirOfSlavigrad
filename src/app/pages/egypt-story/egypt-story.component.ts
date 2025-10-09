@@ -3,12 +3,27 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EGYPT_STORY, Story } from '../../data/egypt-story-data';
 import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../shared/utils/animations';
+import { ReadingProgressComponent } from '../../shared/components/reading-progress/reading-progress.component';
+import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scroll-to-top.component';
 
 @Component({
   selector: 'app-egypt-story',
   standalone: true,
-  imports: [CommonModule, RouterLink, ScrollAnimateDirective, InteractiveAnimateDirective],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ScrollAnimateDirective,
+    InteractiveAnimateDirective,
+    ReadingProgressComponent,
+    ScrollToTopComponent
+  ],
   template: `
+    <!-- Reading Progress Bar -->
+    <app-reading-progress></app-reading-progress>
+
+    <!-- Scroll to Top Button -->
+    <app-scroll-to-top></app-scroll-to-top>
+
     <div class="min-h-screen relative overflow-hidden">
       <!-- Ambient Background Effects -->
       <div class="fixed inset-0 pointer-events-none overflow-hidden">
