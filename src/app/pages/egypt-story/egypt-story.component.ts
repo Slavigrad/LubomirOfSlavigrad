@@ -45,7 +45,7 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
 
           <!-- Title -->
           <div class="text-center mb-16 animate-fade-in-up">
-            <h1 class="text-5xl md:text-7xl font-bold mb-8 gradient-text-enhanced tracking-tight">
+            <h1 class="text-5xl md:text-7xl font-bold mb-8 gradient-text-enhanced tracking-tight py-2">
               {{ story.title }}
             </h1>
 
@@ -314,6 +314,9 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
       background-clip: text;
       background-size: 200% 200%;
       animation: gradient-shift 8s ease infinite;
+      line-height: 1.2;
+      padding: 0.1em 0;
+      display: inline-block;
     }
 
     @keyframes gradient-shift {
