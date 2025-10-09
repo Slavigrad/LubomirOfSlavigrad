@@ -27,6 +27,11 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'egypt-story',
+    loadComponent: () => import('./pages/egypt-story/egypt-story.component').then(m => m.EgyptStoryComponent),
+    title: 'I Wandered Through Egypt - Lubomir of Slavigrad Chronicles'
+  },
+  {
     path: 'demo',
     loadComponent: () => import('./shared/components/ui/collapse-demo.component').then(m => m.CollapseDemoComponent),
     title: 'Collapse Components Demo - Lubomir of Slavigrad Chronicles'

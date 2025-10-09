@@ -22,8 +22,33 @@
   <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border/20">
     <div class="container mx-auto px-6 py-4">
       <div class="flex items-center justify-between">
-        <div class="text-xl font-bold gradient-text">
-          Lubomir of Slavigrad
+        <div class="flex items-center gap-6">
+          <div class="text-xl font-bold gradient-text">
+            Lubomir of Slavigrad
+          </div>
+          <!-- Egypt Story Button -->
+          <a
+            routerLink="/egypt-story"
+            class="group relative px-6 py-2.5 rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            <!-- Animated gradient background -->
+            <div class="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-accent via-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity animate-gradient-x"></div>
+
+            <!-- Glass overlay -->
+            <div class="absolute inset-0 backdrop-blur-sm bg-white/5"></div>
+
+            <!-- Border glow effect -->
+            <div class="absolute inset-0 rounded-lg border border-white/20 group-hover:border-white/40 transition-colors"></div>
+
+            <!-- Button text -->
+            <span class="relative z-10 text-sm font-semibold text-white drop-shadow-lg flex items-center gap-2">
+              <svg class="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+              I Wandered Through Egypt
+            </span>
+          </a>
         </div>
         <div class="hidden md:flex space-x-6 text-sm">
           <a href="#hero" class="text-muted-foreground hover:text-primary transition-colors">The Citadel</a>
