@@ -758,3 +758,126 @@ h1.text-4xl.md\:text-5xl.lg\:text-6xl.font-bold.mb-4.gradient-text.leading-tight
   line-height: 1.5; /* Provides more vertical space so letters like 'y' aren't cut off */
 }
 
+
+/* ========================================
+   PHASE 4: Advanced Hover States & Interactions
+   ======================================== */
+
+/* Aurora Glass: Advanced hover lift with glow */
+.hover-lift-advanced {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift-advanced:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow:
+    0 12px 50px rgba(0, 0, 0, 0.5),
+    0 20px 80px rgba(74, 144, 255, 0.2),
+    0 0 40px rgba(74, 144, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Aurora Glass: Glow pulse animation */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(74, 144, 255, 0.4),
+      0 0 40px rgba(74, 144, 255, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(74, 144, 255, 0.6),
+      0 0 60px rgba(74, 144, 255, 0.3);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Aurora Glass: Interactive card with advanced hover */
+.interactive-card {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.interactive-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg,
+    rgba(74, 144, 255, 0.1),
+    rgba(138, 43, 226, 0.1));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.interactive-card:hover::after {
+  opacity: 1;
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.5),
+    0 12px 80px rgba(74, 144, 255, 0.2),
+    0 0 40px rgba(74, 144, 255, 0.25);
+}
+
+/* Aurora Glass: Shimmer effect on hover */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+.shimmer-on-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-on-hover::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  transition: transform 0.6s ease;
+}
+
+.shimmer-on-hover:hover::before {
+  animation: shimmer 1.5s ease-in-out;
+}
+
+/* Aurora Glass: Glow border on focus */
+.focus-glow:focus {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(74, 144, 255, 0.3),
+    0 0 20px rgba(74, 144, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Aurora Glass: Smooth scale on active */
+.active-scale:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+

@@ -441,48 +441,96 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
     </section>
   `,
   styles: [`
+    /* Aurora Glass: Enhanced grid pattern with glow */
     .bg-grid-pattern {
       background-image:
-        linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+        linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
       background-size: 60px 60px;
+      /* Subtle glow on grid lines */
+      filter: drop-shadow(0 0 2px rgba(59, 130, 246, 0.1));
     }
 
+    /* Aurora Glass: Enhanced floating animations with rotation */
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
+      0%, 100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translateY(-15px) translateX(10px) rotate(5deg);
+        opacity: 0.7;
+      }
     }
 
     @keyframes float-delayed {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
+      0%, 100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translateY(-12px) translateX(-8px) rotate(-5deg);
+        opacity: 0.7;
+      }
     }
 
     @keyframes float-slow {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
+      0%, 100% {
+        transform: translateY(0px) translateX(0px) scale(1);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translateY(-10px) translateX(5px) scale(1.1);
+        opacity: 0.7;
+      }
     }
 
     .animate-float {
-      animation: float 8s ease-in-out infinite;
+      animation: float 10s ease-in-out infinite;
     }
 
     .animate-float-delayed {
-      animation: float-delayed 10s ease-in-out infinite;
+      animation: float-delayed 12s ease-in-out infinite;
     }
 
     .animate-float-slow {
-      animation: float-slow 12s ease-in-out infinite;
+      animation: float-slow 15s ease-in-out infinite;
     }
 
-    /* Clean button styles */
+    /* Aurora Glass: Enhanced button styles with glow */
     .btn-primary {
       background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+      /* Aurora Glass: Layered shadows with glow */
+      box-shadow:
+        0 4px 15px rgba(59, 130, 246, 0.4),
+        0 8px 30px rgba(59, 130, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
     }
 
     .btn-primary:hover {
-      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      box-shadow:
+        0 6px 20px rgba(59, 130, 246, 0.5),
+        0 12px 40px rgba(59, 130, 246, 0.3),
+        0 0 30px rgba(59, 130, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px) scale(1.02);
     }
 
     /* Enhanced PDF Generation Styles */
