@@ -201,36 +201,28 @@ interface StatItem {
       color: hsl(var(--orange));
     }
 
-    /* Aurora Glass: Enhanced stat values with micro-glow */
+    /* Option 3: Very Subtle Glow - No Eye Strain */
     .value-primary {
       color: hsl(var(--primary));
-      text-shadow:
-        0 0 8px hsl(var(--primary) / 0.5),
-        0 0 20px hsl(var(--primary) / 0.3);
+      text-shadow: 0 0 4px hsl(var(--primary) / 0.15);
       letter-spacing: 0.5px;
     }
 
     .value-secondary {
       color: hsl(var(--secondary));
-      text-shadow:
-        0 0 8px hsl(var(--secondary) / 0.5),
-        0 0 20px hsl(var(--secondary) / 0.3);
+      text-shadow: 0 0 4px hsl(var(--secondary) / 0.15);
       letter-spacing: 0.5px;
     }
 
     .value-accent {
       color: hsl(var(--accent));
-      text-shadow:
-        0 0 8px hsl(var(--accent) / 0.5),
-        0 0 20px hsl(var(--accent) / 0.3);
+      text-shadow: 0 0 4px hsl(var(--accent) / 0.15);
       letter-spacing: 0.5px;
     }
 
     .value-orange {
       color: hsl(var(--orange));
-      text-shadow:
-        0 0 8px hsl(var(--orange) / 0.5),
-        0 0 20px hsl(var(--orange) / 0.35);
+      text-shadow: 0 0 4px hsl(var(--orange) / 0.15);
       letter-spacing: 0.5px;
     }
   `]

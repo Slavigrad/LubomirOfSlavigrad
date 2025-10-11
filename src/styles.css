@@ -136,33 +136,30 @@
 
 @layer components {
   /* ========================================
-     AURORA GLASS CARD - Premium Glassmorphism
+     AURORA GLASS CARD - Premium Glassmorphism (Option 3)
+     Ocean Blue Glass with Very Subtle Glow
      ======================================== */
   .glass-card {
     /* Tailwind utilities for base structure */
     @apply rounded-xl transition-all duration-300 ease-out;
 
-    /* Aurora Glass: Multi-layer gradient background with enhanced opacity for readability */
+    /* Option 3: Ocean Blue Glass - Subtle blue gradient background */
     background: linear-gradient(135deg,
-      rgba(15, 15, 25, 0.75),
-      rgba(10, 10, 20, 0.65));
+      rgba(74, 144, 255, 0.1),
+      rgba(138, 43, 226, 0.05));
 
-    /* Aurora Glass: Enhanced backdrop blur with saturation boost */
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    /* Enhanced backdrop blur with saturation boost and brightness */
+    backdrop-filter: blur(20px) saturate(180%) brightness(1.15);
+    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.15);
 
-    /* Aurora Glass: Luminous gradient borders for depth */
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-top-color: rgba(255, 255, 255, 0.18);
-    border-left-color: rgba(255, 255, 255, 0.18);
-    border-bottom-color: rgba(0, 0, 0, 0.2);
-    border-right-color: rgba(0, 0, 0, 0.15);
+    /* Luminous borders with subtle blue tint */
+    border: 1px solid rgba(255, 255, 255, 0.18);
 
-    /* Aurora Glass: Layered shadows for 3D depth */
+    /* Layered shadows for 3D depth with subtle blue glow */
     box-shadow:
-      0 4px 30px rgba(0, 0, 0, 0.4),
-      0 8px 60px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(74, 144, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
     /* Prepare for animated gradient overlay */
     position: relative;
@@ -198,13 +195,13 @@
     100% { background-position: 0% 50%; }
   }
 
-  /* Aurora Glass: Enhanced hover state with glow intensification */
+  /* Option 3: Enhanced hover state with subtle blue glow */
   .glass-card:hover {
-    transform: translateY(-4px) scale(1.02);
+    transform: translateY(-4px);
     box-shadow:
-      0 8px 40px rgba(0, 0, 0, 0.5),
-      0 12px 80px rgba(74, 144, 255, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      0 12px 48px rgba(0, 0, 0, 0.4),
+      0 0 24px rgba(74, 144, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
   }
 
   /* Glow effects - Enhanced for Aurora Glass */
