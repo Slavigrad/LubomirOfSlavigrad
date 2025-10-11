@@ -384,21 +384,42 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
     </section>
   `,
   styles: [`
+    /* Aurora Glass: Timeline Enhancements */
     .timeline-dot-current {
       background: hsl(var(--primary));
-      box-shadow: 0 0 20px hsl(var(--primary) / 0.6);
+      box-shadow:
+        0 0 20px hsl(var(--primary) / 0.6),
+        0 0 40px hsl(var(--primary) / 0.3);
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow:
+          0 0 20px hsl(var(--primary) / 0.6),
+          0 0 40px hsl(var(--primary) / 0.3);
+      }
+      50% {
+        box-shadow:
+          0 0 30px hsl(var(--primary) / 0.8),
+          0 0 60px hsl(var(--primary) / 0.4);
+      }
     }
 
     .timeline-dot-past {
       background: hsl(var(--muted));
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
-    /* Technology Badge Styles */
+    /* Aurora Glass: Technology Badge Styles */
     .tech-badge {
       @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full;
       @apply transition-all duration-300 ease-out cursor-default;
-      @apply border border-transparent backdrop-blur-sm;
-      @apply hover:scale-105 hover:shadow-lg;
+      @apply border border-transparent;
+      /* Aurora Glass effect */
+      backdrop-filter: blur(8px) saturate(180%);
+      -webkit-backdrop-filter: blur(8px) saturate(180%);
+      @apply hover:scale-105;
     }
 
     .tech-icon {
@@ -409,31 +430,53 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
       @apply font-semibold tracking-wide;
     }
 
-    /* Technology Category Colors */
+    /* Aurora Glass: Technology Category Colors */
     .tech-badge-primary {
       @apply bg-gradient-to-r from-primary/20 to-primary/30;
       @apply text-primary border-primary/40;
       @apply hover:from-primary/30 hover:to-primary/40;
       @apply hover:border-primary/60 hover:text-primary;
-      box-shadow: 0 2px 8px hsl(var(--primary) / 0.2);
+      box-shadow:
+        0 2px 8px hsl(var(--primary) / 0.3),
+        0 4px 16px hsl(var(--primary) / 0.15);
     }
 
+    .tech-badge-primary:hover {
+      box-shadow:
+        0 4px 12px hsl(var(--primary) / 0.4),
+        0 8px 24px hsl(var(--primary) / 0.2);
+    }
 
     .tech-badge-secondary {
       @apply bg-gradient-to-r from-secondary/20 to-secondary/30;
       @apply text-secondary border-secondary/40;
       @apply hover:from-secondary/30 hover:to-secondary/40;
       @apply hover:border-secondary/60 hover:text-secondary;
-      box-shadow: 0 2px 8px hsl(var(--secondary) / 0.2);
+      box-shadow:
+        0 2px 8px hsl(var(--secondary) / 0.3),
+        0 4px 16px hsl(var(--secondary) / 0.15);
     }
 
+    .tech-badge-secondary:hover {
+      box-shadow:
+        0 4px 12px hsl(var(--secondary) / 0.4),
+        0 8px 24px hsl(var(--secondary) / 0.2);
+    }
 
     .tech-badge-accent {
       @apply bg-gradient-to-r from-accent/20 to-accent/30;
       @apply text-accent border-accent/40;
       @apply hover:from-accent/30 hover:to-accent/40;
       @apply hover:border-accent/60 hover:text-accent;
-      box-shadow: 0 2px 8px hsl(var(--accent) / 0.2);
+      box-shadow:
+        0 2px 8px hsl(var(--accent) / 0.3),
+        0 4px 16px hsl(var(--accent) / 0.15);
+    }
+
+    .tech-badge-accent:hover {
+      box-shadow:
+        0 4px 12px hsl(var(--accent) / 0.4),
+        0 8px 24px hsl(var(--accent) / 0.2);
     }
 
 
@@ -460,15 +503,17 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
     }
 
 
-    /* Company Name Styles */
+    /* Aurora Glass: Company Name Styles with Micro-Glow */
     .company-name {
       @apply inline-flex items-center gap-2 text-lg font-bold;
       @apply transition-all duration-300 ease-out;
       @apply hover:scale-105 cursor-default;
+      letter-spacing: 0.5px;
     }
 
     .company-icon {
       @apply text-lg;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
     }
 
     .company-text {
@@ -477,34 +522,43 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
 
     .company-primary .company-text {
       background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-
-
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
+      /* Aurora Glass: Micro-glow */
+      text-shadow: 0 0 6px rgba(74, 144, 255, 0.4);
     }
 
     .company-secondary .company-text {
       background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-glow)));
-
-
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
+      /* Aurora Glass: Micro-glow */
+      text-shadow: 0 0 6px rgba(184, 79, 255, 0.4);
     }
 
     .company-accent .company-text {
       background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
-
-
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       background-clip: text;
+      /* Aurora Glass: Micro-glow */
+      text-shadow: 0 0 6px rgba(0, 212, 170, 0.4);
     }
 
 
 
 
-    /* Location Badge Styles */
+    /* Aurora Glass: Location Badge Styles */
     .location-badge {
       @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full;
       @apply transition-all duration-300 ease-out cursor-default;
-      @apply border backdrop-blur-sm;
-      @apply hover:scale-105 hover:shadow-lg;
+      @apply border;
+      /* Aurora Glass effect */
+      backdrop-filter: blur(8px) saturate(180%);
+      -webkit-backdrop-filter: blur(8px) saturate(180%);
+      @apply hover:scale-105;
     }
 
     .location-icon {
@@ -518,18 +572,31 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
     .location-primary {
       @apply bg-gradient-to-r from-primary/15 to-primary/25;
       @apply text-primary border-primary/30;
+      box-shadow: 0 2px 8px hsl(var(--primary) / 0.2);
     }
 
+    .location-primary:hover {
+      box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+    }
 
     .location-secondary {
       @apply bg-gradient-to-r from-secondary/15 to-secondary/25;
       @apply text-secondary border-secondary/30;
+      box-shadow: 0 2px 8px hsl(var(--secondary) / 0.2);
     }
 
+    .location-secondary:hover {
+      box-shadow: 0 4px 12px hsl(var(--secondary) / 0.3);
+    }
 
     .location-accent {
       @apply bg-gradient-to-r from-accent/15 to-accent/25;
       @apply text-accent border-accent/30;
+      box-shadow: 0 2px 8px hsl(var(--accent) / 0.2);
+    }
+
+    .location-accent:hover {
+      box-shadow: 0 4px 12px hsl(var(--accent) / 0.3);
     }
 
 

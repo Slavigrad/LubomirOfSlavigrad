@@ -178,60 +178,102 @@ import { CollapseComponent } from '../../shared/components/ui/collapse.component
     </section>
   `,
   styles: [`
+    /* Aurora Glass: Category Icon Styles with Micro-Glow */
     .category-frontend {
-      background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--primary) / 0.2));
+      background: linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25));
       color: hsl(var(--primary));
+      box-shadow: 0 0 12px hsl(var(--primary) / 0.3);
+      /* Aurora Glass: Micro-glow on text */
+      text-shadow: 0 0 4px hsl(var(--primary) / 0.4);
     }
 
     .category-backend {
-      background: linear-gradient(135deg, hsl(var(--secondary) / 0.1), hsl(var(--secondary) / 0.2));
+      background: linear-gradient(135deg, hsl(var(--secondary) / 0.15), hsl(var(--secondary) / 0.25));
       color: hsl(var(--secondary));
+      box-shadow: 0 0 12px hsl(var(--secondary) / 0.3);
+      text-shadow: 0 0 4px hsl(var(--secondary) / 0.4);
     }
 
     .category-database {
-      background: linear-gradient(135deg, hsl(var(--accent) / 0.1), hsl(var(--accent) / 0.2));
+      background: linear-gradient(135deg, hsl(var(--accent) / 0.15), hsl(var(--accent) / 0.25));
       color: hsl(var(--accent));
+      box-shadow: 0 0 12px hsl(var(--accent) / 0.3);
+      text-shadow: 0 0 4px hsl(var(--accent) / 0.4);
     }
 
     .category-cloud, .category-devops, .category-tools, .category-methodology {
-      background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--primary) / 0.2));
+      background: linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--primary) / 0.25));
       color: hsl(var(--primary));
+      box-shadow: 0 0 12px hsl(var(--primary) / 0.3);
+      text-shadow: 0 0 4px hsl(var(--primary) / 0.4);
     }
 
+    /* Aurora Glass: Premium Progress Bar Glass Treatment */
     .skill-expert {
       background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
-      box-shadow: 0 0 15px hsl(var(--primary) / 0.4);
+      /* Aurora Glass: Enhanced glow with layered shadows */
+      box-shadow:
+        0 0 15px hsl(var(--primary) / 0.5),
+        0 0 30px hsl(var(--primary) / 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      /* Semi-transparent for glass effect */
+      backdrop-filter: blur(4px) saturate(180%);
+      -webkit-backdrop-filter: blur(4px) saturate(180%);
     }
 
     .skill-advanced {
       background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary) / 0.8));
-      box-shadow: 0 0 15px hsl(var(--secondary) / 0.4);
+      box-shadow:
+        0 0 15px hsl(var(--secondary) / 0.5),
+        0 0 30px hsl(var(--secondary) / 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(4px) saturate(180%);
+      -webkit-backdrop-filter: blur(4px) saturate(180%);
     }
 
     .skill-intermediate {
       background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent) / 0.8));
-      box-shadow: 0 0 15px hsl(var(--accent) / 0.4);
+      box-shadow:
+        0 0 15px hsl(var(--accent) / 0.5),
+        0 0 30px hsl(var(--accent) / 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(4px) saturate(180%);
+      -webkit-backdrop-filter: blur(4px) saturate(180%);
     }
 
     .skill-beginner {
       background: linear-gradient(135deg, hsl(var(--orange) / 0.9), hsl(var(--orange)));
-      box-shadow: 0 0 15px hsl(var(--orange) / 0.4);
+      box-shadow:
+        0 0 15px hsl(var(--orange) / 0.5),
+        0 0 30px hsl(var(--orange) / 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(4px) saturate(180%);
+      -webkit-backdrop-filter: blur(4px) saturate(180%);
     }
 
+    /* Aurora Glass: Enhanced glow effects on hover */
     .glow-expert {
-      box-shadow: 0 0 20px hsl(var(--primary) / 0.6);
+      box-shadow:
+        0 0 25px hsl(var(--primary) / 0.7),
+        0 0 50px hsl(var(--primary) / 0.4);
     }
 
     .glow-advanced {
-      box-shadow: 0 0 20px hsl(var(--secondary) / 0.6);
+      box-shadow:
+        0 0 25px hsl(var(--secondary) / 0.7),
+        0 0 50px hsl(var(--secondary) / 0.4);
     }
 
     .glow-intermediate {
-      box-shadow: 0 0 20px hsl(var(--accent) / 0.6);
+      box-shadow:
+        0 0 25px hsl(var(--accent) / 0.7),
+        0 0 50px hsl(var(--accent) / 0.4);
     }
 
     .glow-beginner {
-      box-shadow: 0 0 20px hsl(var(--orange) / 0.6);
+      box-shadow:
+        0 0 25px hsl(var(--orange) / 0.7),
+        0 0 50px hsl(var(--orange) / 0.4);
     }
 
     .level-expert { @apply bg-primary text-white; }

@@ -5,15 +5,24 @@
   min-height: 100vh;
 }
 
-/* Navigation enhancements */
+/* Aurora Glass: Navigation enhancements */
 nav {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Aurora Glass effect with saturation boost */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  /* Subtle shadow for depth */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 nav a {
   position: relative;
   transition: all 0.3s ease;
+  /* Micro-glow on hover */
+  text-shadow: 0 0 0 transparent;
+}
+
+nav a:hover {
+  text-shadow: 0 0 6px hsl(var(--primary) / 0.4);
 }
 
 nav a::after {
@@ -24,6 +33,8 @@ nav a::after {
   width: 0;
   height: 2px;
   background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+  /* Aurora Glass: Enhanced glow on underline */
+  box-shadow: 0 0 8px hsl(var(--primary) / 0.5);
   transition: width 0.3s ease;
 }
 
@@ -46,10 +57,11 @@ nav a:hover::after {
   }
 }
 
-/* Footer styling */
+/* Aurora Glass: Footer styling */
 footer {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Smooth scrolling for anchor links */
@@ -57,20 +69,24 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Aurora Glass: Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary));
-  border-radius: 4px;
+  background: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+  border-radius: 5px;
+  /* Aurora Glass: Glow effect */
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary-glow));
+  background: linear-gradient(180deg, hsl(var(--primary-glow)), hsl(var(--primary)));
+  box-shadow: 0 0 15px hsl(var(--primary) / 0.7);
 }
