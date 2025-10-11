@@ -33,8 +33,10 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
 
       <!-- Hero Content Container -->
       <div class="relative z-10 max-w-6xl mx-auto px-6 py-20">
-        <!-- Main Content Layout -->
-        <div class="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20">
+        <!-- Glass Card Wrapper -->
+        <div class="glass-card-hero p-8 md:p-12 lg:p-16">
+          <!-- Main Content Layout -->
+          <div class="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-20">
 
           <!-- Profile Image Section -->
           <div class="flex-shrink-0 order-1 lg:order-1">
@@ -422,6 +424,8 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
             </a>
           }
         </div>
+        </div>
+        <!-- End Glass Card Wrapper -->
 
         <!-- Clean Scroll Indicator -->
         @if (FEATURES.scrollIndicator) {
@@ -441,6 +445,40 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
     </section>
   `,
   styles: [`
+    /* Hero Glass Card - Premium Glassmorphism Effect */
+    .glass-card-hero {
+      /* Multi-layer gradient background with enhanced opacity for readability */
+      background: linear-gradient(135deg,
+        rgba(15, 15, 25, 0.75),
+        rgba(10, 10, 20, 0.65));
+
+      /* Backdrop blur for glassmorphism effect */
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+
+      /* Border with subtle gradient */
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+
+      /* Premium shadow with depth */
+      box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(59, 130, 246, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+      /* Smooth transitions */
+      transition: all 0.3s ease-out;
+    }
+
+    .glass-card-hero:hover {
+      /* Subtle lift on hover */
+      box-shadow:
+        0 12px 50px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(59, 130, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
     /* Aurora Glass: Enhanced grid pattern with glow */
     .bg-grid-pattern {
       background-image:
@@ -578,6 +616,11 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
+      .glass-card-hero {
+        padding: 2rem 1.5rem !important;
+        border-radius: 1rem;
+      }
+
       .hero-content {
         padding: 1.5rem 1rem;
       }
@@ -588,6 +631,14 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
     }
 
     @media (max-width: 640px) {
+      .glass-card-hero {
+        padding: 1.5rem 1rem !important;
+        border-radius: 0.75rem;
+        /* Reduce blur on mobile for better performance */
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+      }
+
       .hero-content {
         padding: 1rem 0.5rem;
       }
