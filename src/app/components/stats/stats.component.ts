@@ -23,7 +23,7 @@ interface StatItem {
     <!-- Stats Section -->
     <section id="stats" class="py-20 relative overflow-hidden">
       <!-- Background Elements -->
-      <div class="absolute inset-0 bg-gradient-to-b from-background/50 to-background"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-background/30 to-background/50"></div>
 
       <div class="relative z-10 max-w-6xl mx-auto px-6">
         <!-- Section Header -->

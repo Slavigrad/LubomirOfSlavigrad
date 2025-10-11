@@ -12,7 +12,7 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
     <!-- Projects Section -->
     <section id="projects" class="py-20 relative overflow-hidden">
       <!-- Background Elements -->
-      <div class="absolute inset-0 bg-gradient-to-b from-background to-background/95"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-background/50 to-background/40"></div>
 
       <div class="relative z-10 max-w-6xl mx-auto px-6">
         <!-- Section Header -->

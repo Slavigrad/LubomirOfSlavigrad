@@ -21,7 +21,7 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
     <!-- Hero Section -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden" [style.background]="'url(/assets/images/slavigrad.png) center/cover no-repeat fixed'">
       <!-- Clean Animated Background -->
-      <div class="absolute inset-0 bg-gradient-to-br from-background/90 via-background/85 to-background/80">
+      <div class="absolute inset-0 bg-gradient-to-br from-background/60 via-background/50 to-background/40">
         <!-- Subtle Floating Elements -->
         <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-float-slow"></div>
         <div class="absolute bottom-1/4 right-1/4 w-48 h-48 bg-secondary/5 rounded-full blur-3xl animate-float-delayed"></div>

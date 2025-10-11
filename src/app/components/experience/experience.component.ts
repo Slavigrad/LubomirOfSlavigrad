@@ -20,7 +20,7 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
     <!-- Experience Section -->
     <section id="experience" class="py-20 relative overflow-hidden">
       <!-- Background Elements -->
-      <div class="absolute inset-0 bg-gradient-to-b from-background/95 to-background"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-background/40 to-background/50"></div>
 
       <div class="relative z-10 max-w-6xl mx-auto px-6">
         <!-- Section Header -->
