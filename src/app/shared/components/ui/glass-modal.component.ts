@@ -35,9 +35,9 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
   styles: [`
     /* Option 3: Ocean Blue Glass Modal - Premium Glassmorphism */
     .aurora-modal-backdrop {
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(24px) saturate(180%);
-      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(24px) brightness(0.7);
+      -webkit-backdrop-filter: blur(24px) brightness(0.7);
       animation: fadeIn 0.3s ease-out;
     }
 
