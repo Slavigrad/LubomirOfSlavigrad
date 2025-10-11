@@ -81,6 +81,40 @@
     scroll-behavior: smooth;
   }
 
+  /* Aurora Glass: Premium Typography Refinements */
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: 0.5px;
+  }
+
+  h1 {
+    font-weight: 700;
+  }
+
+  h2, h3 {
+    font-weight: 600;
+  }
+
+  /* Subtitle and muted text with lighter weight */
+  .text-muted-foreground {
+    font-weight: 300;
+  }
+
+  /* Premium heading with micro-glow */
+  .heading-glow {
+    text-shadow: 0 0 6px rgba(138, 43, 226, 0.4);
+    letter-spacing: 0.5px;
+  }
+
+  .heading-glow-primary {
+    text-shadow: 0 0 6px rgba(74, 144, 255, 0.4);
+    letter-spacing: 0.5px;
+  }
+
+  .heading-glow-accent {
+    text-shadow: 0 0 6px rgba(0, 212, 170, 0.4);
+    letter-spacing: 0.5px;
+  }
+
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
@@ -101,22 +135,89 @@
 }
 
 @layer components {
-  /* Glass card effect */
+  /* ========================================
+     AURORA GLASS CARD - Premium Glassmorphism
+     ======================================== */
   .glass-card {
-    @apply backdrop-blur-xl bg-gradient-to-br from-card-glass to-card;
-    @apply border border-border/20;
+    /* Tailwind utilities for base structure */
+    @apply rounded-xl transition-all duration-300 ease-out;
+
+    /* Aurora Glass: Multi-layer gradient background */
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.02));
+
+    /* Aurora Glass: Enhanced backdrop blur with saturation boost */
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+
+    /* Aurora Glass: Luminous gradient borders for depth */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top-color: rgba(255, 255, 255, 0.18);
+    border-left-color: rgba(255, 255, 255, 0.18);
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    border-right-color: rgba(0, 0, 0, 0.15);
+
+    /* Aurora Glass: Layered shadows for 3D depth */
     box-shadow:
-      0 8px 32px hsl(220 20% 2% / 0.3),
-      inset 0 1px 0 hsl(var(--border) / 0.1);
+      0 4px 30px rgba(0, 0, 0, 0.4),
+      0 8px 60px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+    /* Prepare for animated gradient overlay */
+    position: relative;
+    overflow: hidden;
   }
 
-  /* Glow effects */
+  /* Aurora Glass: Animated gradient overlay on hover */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.03));
+    background-size: 200% 200%;
+    animation: moveGradient 15s ease infinite;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    border-radius: inherit;
+  }
+
+  .glass-card:hover::before {
+    opacity: 1;
+  }
+
+  @keyframes moveGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Aurora Glass: Enhanced hover state with glow intensification */
+  .glass-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:
+      0 8px 40px rgba(0, 0, 0, 0.5),
+      0 12px 80px rgba(74, 144, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* Glow effects - Enhanced for Aurora Glass */
   .glow-primary {
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.3);
+    box-shadow:
+      0 0 30px hsl(var(--primary) / 0.4),
+      0 0 60px hsl(var(--primary) / 0.2);
   }
 
   .glow-primary-lg {
-    box-shadow: 0 0 60px hsl(var(--primary) / 0.4);
+    box-shadow:
+      0 0 60px hsl(var(--primary) / 0.5),
+      0 0 100px hsl(var(--primary) / 0.3);
   }
 
   /* Interactive button with glow */
@@ -125,12 +226,16 @@
     @apply hover:shadow-glow-lg hover:scale-105;
   }
 
-  /* Animated gradient text */
+  /* Animated gradient text with micro-glow */
   .gradient-text {
     background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* Aurora Glass: Micro-glow for premium feel */
+    text-shadow: 0 0 6px rgba(138, 43, 226, 0.4);
+    /* Improved letter spacing for premium typography */
+    letter-spacing: 0.5px;
     /*!* Improve legibility (esp. descenders like “g”) on dark/complex backgrounds *!*/
     /*text-shadow:*/
     /*  0 0 2px rgba(0, 0, 0, 0.45),*/
@@ -144,43 +249,136 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* Aurora Glass: Micro-glow */
+    text-shadow: 0 0 6px rgba(0, 212, 170, 0.4);
+    letter-spacing: 0.5px;
   }
 
-  /* Hover animations */
+  /* Hover animations - Enhanced */
   .hover-lift {
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
   .hover-lift:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
   }
 
   .hover-glow {
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
 
   .hover-glow:hover {
-    box-shadow: 0 0 30px hsl(var(--primary) / 0.4);
+    box-shadow:
+      0 0 30px hsl(var(--primary) / 0.5),
+      0 0 60px hsl(var(--primary) / 0.3);
+    transform: scale(1.02);
   }
 
   /* Enhanced Glass Components */
   .glass-nav {
-    @apply backdrop-blur-md bg-background/80 border-b border-border/20;
-    background: hsl(var(--glass-bg));
-    backdrop-filter: blur(15px);
+    @apply border-b border-border/20;
+    /* Aurora Glass effect for navigation */
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.02));
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .glass-button {
-    @apply backdrop-blur-sm bg-primary/10 border border-primary/30;
-    @apply hover:bg-primary/20 hover:border-primary/50 transition-all duration-300;
-    backdrop-filter: blur(10px);
+    @apply border border-primary/30 transition-all duration-300;
+    /* Aurora Glass effect for buttons */
+    background: linear-gradient(135deg,
+      rgba(74, 144, 255, 0.1),
+      rgba(74, 144, 255, 0.05));
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .glass-button:hover {
+    background: linear-gradient(135deg,
+      rgba(74, 144, 255, 0.2),
+      rgba(74, 144, 255, 0.1));
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow:
+      0 6px 30px rgba(0, 0, 0, 0.4),
+      0 0 40px rgba(74, 144, 255, 0.3);
+    transform: translateY(-2px);
   }
 
   .glass-card-glow {
     @apply glass-card;
     box-shadow:
-      0 8px 32px hsl(var(--glass-shadow)),
-      0 0 20px hsl(var(--primary) / 0.2);
+      0 8px 40px rgba(0, 0, 0, 0.5),
+      0 0 40px hsl(var(--primary) / 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  /* ========================================
+     AURORA BACKGROUND - Global Blurred Orbs
+     ======================================== */
+  .aurora-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .aurora-orb-1 {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 0, 150, 0.15), transparent 60%);
+    filter: blur(100px);
+    animation: float-aurora-1 20s ease-in-out infinite;
+  }
+
+  .aurora-orb-2 {
+    position: absolute;
+    top: 60%;
+    right: 20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 200, 255, 0.15), transparent 60%);
+    filter: blur(100px);
+    animation: float-aurora-2 25s ease-in-out infinite;
+  }
+
+  .aurora-orb-3 {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.12), transparent 60%);
+    filter: blur(100px);
+    animation: float-aurora-3 30s ease-in-out infinite;
+  }
+
+  @keyframes float-aurora-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, -30px) scale(1.1); }
+  }
+
+  @keyframes float-aurora-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-40px, 40px) scale(1.15); }
+  }
+
+  @keyframes float-aurora-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -50px) scale(1.08); }
   }
 
   /* Skill Level Indicators */
