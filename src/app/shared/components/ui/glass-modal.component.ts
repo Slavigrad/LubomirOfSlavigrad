@@ -11,14 +11,14 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
   template: `
     @if (open) {
       <div
-        class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center p-4"
+        class="fixed inset-0 flex items-center justify-center p-4 aurora-modal-backdrop"
         [style.zIndex]="Z.overlay"
         [ngClass]="backdropClass"
         (click)="onBackdropClick()"
       >
         <div
           #container
-          class="bg-background/95 backdrop-blur-2xl border border-white/10 rounded-2xl w-full max-h-[85vh] overflow-y-auto p-6 md:p-8 shadow-2xl"
+          class="aurora-modal-container w-full max-h-[85vh] overflow-y-auto p-6 md:p-8"
           [ngClass]="containerClasses"
           tabindex="-1"
           role="dialog"
@@ -26,13 +26,113 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
           [attr.aria-label]="ariaLabel || 'Modal dialog'"
           (click)="$event.stopPropagation()"
           (keydown)="onContainerKeydown($event)"
-
         >
           <ng-content></ng-content>
         </div>
       </div>
     }
   `,
+  styles: [`
+    /* Aurora Glass Modal - Premium Glassmorphism */
+    .aurora-modal-backdrop {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .aurora-modal-container {
+      /* Aurora Glass: Multi-layer gradient background */
+      background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.02));
+
+      /* Aurora Glass: Enhanced backdrop blur with saturation boost */
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+
+      /* Aurora Glass: Luminous gradient borders for depth */
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-top-color: rgba(255, 255, 255, 0.18);
+      border-left-color: rgba(255, 255, 255, 0.18);
+      border-bottom-color: rgba(0, 0, 0, 0.2);
+      border-right-color: rgba(0, 0, 0, 0.15);
+      border-radius: 1rem;
+
+      /* Aurora Glass: Layered shadows for 3D depth */
+      box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 16px 80px rgba(0, 0, 0, 0.3),
+        0 0 60px rgba(74, 144, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+      /* Smooth entrance animation */
+      animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Prepare for animated gradient overlay */
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Aurora Glass: Animated gradient overlay */
+    .aurora-modal-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(120deg,
+        rgba(255, 255, 255, 0.07),
+        rgba(255, 255, 255, 0.03));
+      background-size: 200% 200%;
+      animation: moveGradient 15s ease infinite;
+      pointer-events: none;
+      opacity: 0.5;
+      border-radius: inherit;
+    }
+
+    @keyframes moveGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Custom scrollbar for modal content */
+    .aurora-modal-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .aurora-modal-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+
+    .aurora-modal-container::-webkit-scrollbar-thumb {
+      background: rgba(74, 144, 255, 0.5);
+      border-radius: 4px;
+    }
+
+    .aurora-modal-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(74, 144, 255, 0.7);
+    }
+  `],
 })
 export class GlassModalComponent implements OnChanges, OnInit, OnDestroy {
   @Input() open = false;

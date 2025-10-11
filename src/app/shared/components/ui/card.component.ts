@@ -79,16 +79,64 @@ export type CardHoverable = CardVariants['hoverable'];
       @apply shadow-sm hover:shadow-md;
     }
 
+    /* Aurora Glass Card - Premium Glassmorphism */
     .card-glass {
-      @apply bg-white/10 text-white border-white/20;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      @apply text-white transition-all duration-300;
+      position: relative;
+      overflow: hidden;
+
+      /* Aurora Glass: Multi-layer gradient background */
+      background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.02));
+
+      /* Aurora Glass: Enhanced backdrop blur with saturation boost */
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+
+      /* Aurora Glass: Luminous gradient borders */
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-top-color: rgba(255, 255, 255, 0.18);
+      border-left-color: rgba(255, 255, 255, 0.18);
+      border-bottom-color: rgba(0, 0, 0, 0.2);
+      border-right-color: rgba(0, 0, 0, 0.15);
+
+      /* Aurora Glass: Layered shadows */
+      box-shadow:
+        0 4px 30px rgba(0, 0, 0, 0.4),
+        0 8px 60px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    /* Aurora Glass: Animated gradient overlay */
+    .card-glass::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(120deg,
+        rgba(255, 255, 255, 0.07),
+        rgba(255, 255, 255, 0.03));
+      background-size: 200% 200%;
+      animation: moveGradient 15s ease infinite;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      border-radius: inherit;
+    }
+
+    .card-glass:hover::before {
+      opacity: 1;
     }
 
     .card-glass:hover {
-      @apply bg-white/15 border-white/30;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-      transform: translateY(-2px);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 12px 80px rgba(74, 144, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     }
 
     .card-elevated {
