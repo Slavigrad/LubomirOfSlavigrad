@@ -33,11 +33,11 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
     }
   `,
   styles: [`
-    /* Aurora Glass Modal - Premium Glassmorphism */
+    /* Option 3: Ocean Blue Glass Modal - Premium Glassmorphism */
     .aurora-modal-backdrop {
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
       animation: fadeIn 0.3s ease-out;
     }
 
@@ -47,29 +47,26 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
     }
 
     .aurora-modal-container {
-      /* Aurora Glass: Multi-layer gradient background with enhanced opacity for readability */
+      /* Option 3: Ocean Blue Glass - Subtle blue gradient background */
       background: linear-gradient(135deg,
-        rgba(15, 15, 25, 0.85),
-        rgba(10, 10, 20, 0.80));
+        rgba(74, 144, 255, 0.15),
+        rgba(138, 43, 226, 0.10));
 
-      /* Aurora Glass: Enhanced backdrop blur with saturation boost */
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      /* Enhanced backdrop blur with saturation boost and brightness */
+      backdrop-filter: blur(24px) saturate(180%) brightness(1.15);
+      -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.15);
 
-      /* Aurora Glass: Luminous gradient borders for depth */
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-top-color: rgba(255, 255, 255, 0.18);
-      border-left-color: rgba(255, 255, 255, 0.18);
-      border-bottom-color: rgba(0, 0, 0, 0.2);
-      border-right-color: rgba(0, 0, 0, 0.15);
+      /* Luminous border with subtle blue tint */
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 1rem;
 
-      /* Aurora Glass: Layered shadows for 3D depth */
+      /* Layered shadows for 3D depth with subtle blue glow */
       box-shadow:
         0 8px 40px rgba(0, 0, 0, 0.5),
         0 16px 80px rgba(0, 0, 0, 0.3),
-        0 0 60px rgba(74, 144, 255, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 0 0 1px rgba(74, 144, 255, 0.15),
+        0 0 60px rgba(74, 144, 255, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
 
       /* Smooth entrance animation */
       animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -90,7 +87,7 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
       }
     }
 
-    /* Aurora Glass: Animated gradient overlay */
+    /* Option 3: Very Subtle Animated Gradient Overlay */
     .aurora-modal-container::before {
       content: '';
       position: absolute;
@@ -99,12 +96,12 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
       right: 0;
       bottom: 0;
       background: linear-gradient(120deg,
-        rgba(255, 255, 255, 0.07),
-        rgba(255, 255, 255, 0.03));
+        rgba(74, 144, 255, 0.05),
+        rgba(138, 43, 226, 0.03));
       background-size: 200% 200%;
       animation: moveGradient 15s ease infinite;
       pointer-events: none;
-      opacity: 0.5;
+      opacity: 0.6;
       border-radius: inherit;
       z-index: 0;
     }
