@@ -47,10 +47,10 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
     }
 
     .aurora-modal-container {
-      /* Aurora Glass: Multi-layer gradient background */
+      /* Aurora Glass: Multi-layer gradient background with enhanced opacity for readability */
       background: linear-gradient(135deg,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.02));
+        rgba(15, 15, 25, 0.85),
+        rgba(10, 10, 20, 0.80));
 
       /* Aurora Glass: Enhanced backdrop blur with saturation boost */
       backdrop-filter: blur(20px) saturate(180%);
@@ -76,7 +76,7 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
       /* Prepare for animated gradient overlay */
       position: relative;
-      overflow: hidden;
+      /* Removed overflow: hidden to allow scrolling - the overflow-y-auto class in template handles this */
     }
 
     @keyframes modalSlideIn {
@@ -106,6 +106,13 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
       pointer-events: none;
       opacity: 0.5;
       border-radius: inherit;
+      z-index: 0;
+    }
+
+    /* Ensure content is above the gradient overlay */
+    .aurora-modal-container > * {
+      position: relative;
+      z-index: 1;
     }
 
     @keyframes moveGradient {
