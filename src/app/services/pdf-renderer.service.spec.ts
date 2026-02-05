@@ -159,6 +159,8 @@ describe('PDFRendererService', () => {
         primaryTechnologies: ['React', 'Node.js', 'AWS', 'Docker'],
         impactMetrics: ['40% improvement in performance', '60% faster deployment'],
         priority: 9,
+        priorityScore: 85,
+        elevation: 3,
         estimatedHeight: 120,
         contentDensity: 'medium'
       }
@@ -174,6 +176,8 @@ describe('PDFRendererService', () => {
         technologies: ['React', 'Node.js', 'MongoDB'],
         primaryMetrics: { duration: '6 months', status: 'Completed successfully' },
         priority: 9,
+        priorityScore: 80,
+        elevation: 3,
         estimatedHeight: 100,
         url: 'https://github.com/johndoe/ecommerce',
         startDate: new Date('2023-01-01'),

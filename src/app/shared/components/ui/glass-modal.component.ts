@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Z_INDEX } from '../../styles/z-index';
 
@@ -6,20 +5,18 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 @Component({
   selector: 'app-glass-modal',
-  standalone: true,
-  imports: [CommonModule],
   template: `
     @if (open) {
       <div
         class="fixed inset-0 flex items-center justify-center p-4 aurora-modal-backdrop"
         [style.zIndex]="Z.overlay"
-        [ngClass]="backdropClass"
+        [class]="backdropClass"
         (click)="onBackdropClick()"
       >
         <div
           #container
           class="aurora-modal-container w-full max-h-[85vh] overflow-y-auto p-6 md:p-8"
-          [ngClass]="containerClasses"
+          [class]="containerClasses"
           tabindex="-1"
           role="dialog"
           [attr.aria-modal]="true"
