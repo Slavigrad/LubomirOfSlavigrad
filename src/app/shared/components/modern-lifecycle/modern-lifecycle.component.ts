@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 
 /**
  * Modern Angular component demonstrating latest lifecycle hooks
- * and signal-based patterns in Angular 20+
+ * and signal-based patterns in Angular 21+
  */
 @Component({
   selector: 'app-modern-lifecycle',
@@ -34,7 +34,7 @@ import { CommonModule } from '@angular/common';
       <!-- Header Section -->
       <header class="lifecycle-header">
         <h2>Modern Angular Lifecycle Demo</h2>
-        <p>Demonstrating Angular 20+ features and lifecycle hooks</p>
+        <p>Demonstrating Angular 21+ features and lifecycle hooks</p>
 
         <div class="lifecycle-stats">
           <div class="stat-item">

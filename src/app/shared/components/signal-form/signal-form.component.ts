@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 
 /**
  * Modern signal-based form component
- * Demonstrates Angular 20+ signal-based forms without reactive forms
+ * Demonstrates Angular 21+ signal-based forms without reactive forms
  */
 
 export interface FormField {
