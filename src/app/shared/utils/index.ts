@@ -264,6 +264,27 @@ export { isLocalhost, createFeatureConfig } from './feature-toggle';
 export { loadSignalConfig, saveSignalConfig } from './local-storage-config';
 
 // ============================================================================
+// CANVAS NOISE
+// ============================================================================
+
+export {
+  createNoisePattern,
+  clearNoisePatternCache,
+  type NoiseType,
+  type NoisePatternOptions,
+} from './canvas-noise';
+
+// ============================================================================
+// GLASS CARD RENDERER
+// ============================================================================
+
+export {
+  renderGlassCardBackground,
+  type GlassCardRenderOptions,
+  type GlassCardRenderResult,
+} from './glass-card-renderer';
+
+// ============================================================================
 // TYPE EXPORTS
 // ============================================================================
 

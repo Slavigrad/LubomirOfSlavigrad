@@ -1,5 +1,6 @@
 import jsPDF from 'jspdf';
 import { ColorManager } from './color-manager.service';
+import { createNoisePattern } from '../shared/utils/canvas-noise';
 // Dynamic import type for optional DOM rasterization
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import type html2canvasType from 'html2canvas';
@@ -184,38 +185,14 @@ export class GlassEffectsRenderer {
 
   /**
    * Subtle micro-noise overlay to sell frosted glass texture.
+   * Uses the shared createNoisePattern utility from canvas-noise.ts.
    */
-  private _noisePatternCache = new Map<string, CanvasPattern | null>();
-  private _createNoisePattern(ctx: CanvasRenderingContext2D, amount: number, scale = 1, type: 'mono' | 'rgb' = 'mono'): CanvasPattern | null {
-    const key = `${amount}|${scale}|${type}`;
-    if (this._noisePatternCache.has(key)) return this._noisePatternCache.get(key) || null;
-    const size = Math.max(16, Math.floor(48 * scale));
-    const c = document.createElement('canvas');
-    c.width = size; c.height = size;
-    const g = c.getContext('2d');
-    if (!g) return null;
-    const img = g.createImageData(size, size);
-    for (let i = 0; i < img.data.length; i += 4) {
-      const v = 255 * Math.random();
-      if (type === 'rgb') {
-        img.data[i] = v; img.data[i + 1] = v; img.data[i + 2] = v;
-      } else {
-        img.data[i] = v; img.data[i + 1] = v; img.data[i + 2] = v;
-      }
-      img.data[i + 3] = Math.floor(255 * Math.min(0.1, Math.max(0, amount))); // clamp
-    }
-    g.putImageData(img, 0, 0);
-    const pattern = ctx.createPattern(c, 'repeat');
-    this._noisePatternCache.set(key, pattern);
-    return pattern;
-  }
-
   drawMicroNoise(
     ctx: CanvasRenderingContext2D,
     x: number, y: number, width: number, height: number, radius: number,
     amount = 0.02, scale = 1, type: 'mono' | 'rgb' = 'mono'
   ): void {
-    const pattern = this._createNoisePattern(ctx, amount, scale, type);
+    const pattern = createNoisePattern(ctx, { amount, scale, type });
     if (!pattern) return;
     ctx.save();
     try {

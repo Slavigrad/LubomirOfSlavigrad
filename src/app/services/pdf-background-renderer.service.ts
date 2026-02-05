@@ -4,6 +4,7 @@ import { PDFTemplate } from './pdf-template.service';
 import { LayoutManager } from './layout-manager.service';
 import { ColorManager } from './color-manager.service';
 import { GlassEffectsRenderer } from './glass-effects-renderer.service';
+import { createNoisePattern } from '../shared/utils/canvas-noise';
 
 export interface BackgroundRenderConfig {
   enablePattern?: boolean;
@@ -133,6 +134,7 @@ export class PDFBackgroundRendererService {
   /**
    * PDF-safe approximation of backdrop blur for rectangular areas.
    * Strategy: layered translucent fills + subtle noise to suggest diffusion.
+   * Uses the shared createNoisePattern utility from canvas-noise.ts.
    */
   simulateBackdropBlur(
     ctx: CanvasRenderingContext2D,
@@ -150,20 +152,15 @@ export class PDFBackgroundRendererService {
       ctx.fillRect(x, y, w, h); ops++;
     }
 
-    // Tiny noise overlay to reduce banding
-    const off = document.createElement('canvas');
-    off.width = Math.max(8, Math.floor(w / 8));
-    off.height = Math.max(8, Math.floor(h / 8));
-    const c = off.getContext('2d');
-    if (c) {
-      const img = c.createImageData(off.width, off.height);
-      for (let i = 0; i < img.data.length; i += 4) {
-        const n = Math.random() * 10; // 0..10
-        img.data[i] = 255; img.data[i + 1] = 255; img.data[i + 2] = 255; img.data[i + 3] = n; // alpha noise
-      }
-      c.putImageData(img, 0, 0);
-      const p = ctx.createPattern(off, 'repeat');
-      if (p) { ctx.globalAlpha = 0.15; ctx.fillStyle = p; ctx.fillRect(x, y, w, h); ctx.globalAlpha = 1; ops += 2; }
+    // Tiny noise overlay to reduce banding (using shared utility)
+    // Note: The shared utility uses a different alpha approach, but produces similar visual effect
+    const noisePattern = createNoisePattern(ctx, { amount: 0.04, scale: 0.5, type: 'mono' });
+    if (noisePattern) {
+      ctx.globalAlpha = 0.15;
+      ctx.fillStyle = noisePattern;
+      ctx.fillRect(x, y, w, h);
+      ctx.globalAlpha = 1;
+      ops += 2;
     }
 
     return ops;
