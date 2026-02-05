@@ -1,6 +1,4 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { BehaviorSubject, Observable, interval } from 'rxjs';
-import { map, filter, debounceTime } from 'rxjs/operators';
 import { PDFPerformanceService, PerformanceMetrics } from './pdf-performance.service';
 import { PDFCacheManagerService, CacheAnalytics } from './pdf-cache-manager.service';
 import { IntervalManager } from '../shared/utils/interval-manager';

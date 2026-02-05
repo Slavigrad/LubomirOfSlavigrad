@@ -1,6 +1,4 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
-import { BehaviorSubject, Observable, fromEvent } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { Injectable, signal, computed } from '@angular/core';
 import { generateId } from '../shared/utils/id-generator';
 import { IntervalManager } from '../shared/utils/interval-manager';
 
