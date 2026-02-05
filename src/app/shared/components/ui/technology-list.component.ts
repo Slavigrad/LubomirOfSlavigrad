@@ -5,7 +5,7 @@ import {
   signal,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export interface TechnologyCategory {
   name: string;
@@ -17,7 +17,7 @@ export interface TechnologyCategory {
 @Component({
   selector: 'app-technology-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="technology-list">

@@ -13,7 +13,7 @@ import {
   OnDestroy,
   AfterViewInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { trigger, state, style, transition, animate, AnimationEvent } from '@angular/animations';
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -52,7 +52,7 @@ export interface CollapseConfig {
 @Component({
   selector: 'app-collapse',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     // Slide animation

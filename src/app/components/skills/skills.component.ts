@@ -1,6 +1,6 @@
 import { Component, inject, computed, signal, ViewChildren, QueryList } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+
 import { CvDataService } from '../../services/cv-data.service';
 import { Skill } from '../../models/cv-data.interface';
 import { ThemeService } from '../../services/theme.service';
@@ -10,7 +10,7 @@ import { CollapseComponent } from '../../shared/components/ui/collapse.component
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule, ScrollAnimateDirective, InteractiveAnimateDirective, CollapseComponent],
+  imports: [ScrollAnimateDirective, InteractiveAnimateDirective, CollapseComponent],
   template: `
     <!-- Skills Section -->
     <section id="skills" class="py-20 relative overflow-hidden">

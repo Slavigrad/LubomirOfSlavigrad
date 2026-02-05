@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CvDataService } from '../../services/cv-data.service';
 import { ThemeService } from '../../services/theme.service';
 import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../shared/utils/animations';
@@ -15,7 +15,7 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
 @Component({
   selector: 'app-experience',
   standalone: true,
-  imports: [CommonModule, ScrollAnimateDirective, InteractiveAnimateDirective, TechnologyListComponent, GlassModalComponent],
+  imports: [ScrollAnimateDirective, InteractiveAnimateDirective, TechnologyListComponent, GlassModalComponent],
   template: `
     <!-- Experience Section -->
     <section id="experience" class="py-20 relative overflow-hidden">

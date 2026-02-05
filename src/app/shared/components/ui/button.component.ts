@@ -1,5 +1,5 @@
 import { Component, Input, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
 import { createButtonVariants, buttonCompoundVariants, combineVariants } from '../../utils';
@@ -18,7 +18,7 @@ export type ButtonSize = ButtonVariants['size'];
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <button
       [class]="buttonClasses()"

@@ -1,5 +1,5 @@
 import { Component, Input, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
 import { createBadgeVariants, badgeCompoundVariants, combineVariants } from '../../utils';
@@ -19,7 +19,7 @@ export type BadgeRemovable = BadgeVariants['removable'];
 @Component({
   selector: 'app-badge',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <span [class]="badgeClasses()">
       @if (icon) {

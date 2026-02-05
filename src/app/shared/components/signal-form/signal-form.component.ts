@@ -9,7 +9,7 @@ import {
   ChangeDetectionStrategy,
   OnInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 /**
@@ -44,7 +44,7 @@ export interface FormErrors {
 @Component({
   selector: 'app-signal-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <form

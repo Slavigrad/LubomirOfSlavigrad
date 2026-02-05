@@ -7,7 +7,7 @@ import {
   computed,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CollapseComponent, CollapseVariant, CollapseSize, CollapseAnimation } from './collapse.component';
 import { CardComponent } from './card.component';
 
@@ -25,7 +25,7 @@ export interface CollapsibleCardConfig {
 @Component({
   selector: 'app-collapsible-card',
   standalone: true,
-  imports: [CommonModule, CollapseComponent, CardComponent],
+  imports: [CollapseComponent, CardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

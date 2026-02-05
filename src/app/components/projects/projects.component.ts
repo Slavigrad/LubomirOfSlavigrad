@@ -1,5 +1,5 @@
 import { Component, inject, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CvDataService } from '../../services/cv-data.service';
 import { ThemeService } from '../../services/theme.service';
 import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../shared/utils/animations';
@@ -7,7 +7,7 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, ScrollAnimateDirective, InteractiveAnimateDirective],
+  imports: [ScrollAnimateDirective, InteractiveAnimateDirective],
   template: `
     <!-- Projects Section -->
     <section id="projects" class="py-20 relative overflow-hidden">

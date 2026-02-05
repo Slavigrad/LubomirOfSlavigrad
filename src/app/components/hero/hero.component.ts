@@ -1,5 +1,5 @@
 import { Component, inject, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CvDataService } from '../../services/cv-data.service';
 import { ThemeService } from '../../services/theme.service';
 import { PdfGeneratorService } from '../../services/pdf-generator.service';
@@ -16,7 +16,7 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule, LazyImageDirective, PDFConfigurationComponent, GlassModalComponent],
+  imports: [LazyImageDirective, PDFConfigurationComponent, GlassModalComponent],
   template: `
     <!-- Hero Section -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden" [style.background]="'url(/assets/images/slavigrad.png) center/cover no-repeat fixed'">

@@ -10,7 +10,7 @@ import {
   ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Modern Angular component using signal-based inputs/outputs
@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-modern-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

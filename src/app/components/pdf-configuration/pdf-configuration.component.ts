@@ -1,5 +1,5 @@
 import { Component, signal, computed, inject, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { PDFProcessingOptions } from '../../services/pdf-data-processor.service';
 import { PDFRenderingOptions } from '../../services/pdf-renderer.service';
@@ -49,7 +49,7 @@ export interface PDFConfigurationState {
 @Component({
   selector: 'app-pdf-configuration',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   template: `
     <div class="pdf-configuration-panel">
       <!-- Header -->

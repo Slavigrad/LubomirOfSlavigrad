@@ -1,5 +1,5 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CollapseComponent,
   AccordionComponent,
@@ -16,13 +16,12 @@ import {
   selector: 'app-collapse-demo',
   standalone: true,
   imports: [
-    CommonModule,
     CollapseComponent,
     AccordionComponent,
     CollapsibleCardComponent,
     CollapseGroupComponent,
     ButtonComponent
-  ],
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="collapse-demo p-6 space-y-8 max-w-4xl mx-auto">

@@ -1,5 +1,5 @@
 import { Component, inject, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CvDataService } from '../../services/cv-data.service';
 import { ThemeService } from '../../services/theme.service';
 import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../shared/utils/animations';
@@ -18,7 +18,7 @@ interface StatItem {
 @Component({
   selector: 'app-stats',
   standalone: true,
-  imports: [CommonModule, ScrollAnimateDirective, InteractiveAnimateDirective, GlassModalComponent, GlassListCardComponent],
+  imports: [ScrollAnimateDirective, InteractiveAnimateDirective, GlassModalComponent, GlassListCardComponent],
   template: `
     <!-- Stats Section -->
     <section id="stats" class="py-20 relative overflow-hidden">

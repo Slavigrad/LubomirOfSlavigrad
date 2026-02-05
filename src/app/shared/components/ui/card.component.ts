@@ -1,5 +1,5 @@
 import { Component, Input, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
 import { createCardVariants, cardCompoundVariants, combineVariants } from '../../utils';
@@ -18,7 +18,7 @@ export type CardHoverable = CardVariants['hoverable'];
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div [class]="cardClasses()">
       @if (title || subtitle) {

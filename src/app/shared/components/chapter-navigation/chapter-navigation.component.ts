@@ -1,5 +1,5 @@
 import { Component, Input, HostListener, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Chapter Navigation Component
@@ -24,28 +24,30 @@ export interface NavigationChapter {
 @Component({
   selector: 'app-chapter-navigation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="chapter-nav hidden lg:block">
       <div class="chapter-nav-container">
         <h3 class="chapter-nav-title">Chapters</h3>
-
+    
         <ul class="chapter-nav-list">
-          <li *ngFor="let chapter of chapters; trackBy: trackById" class="chapter-nav-item">
-            <a
-              [attr.href]="hrefFor(chapter.id)"
-              (click)="onNavClick($event, chapter.id)"
-              [class.active]="activeChapterId() === chapter.id"
-              class="chapter-nav-link">
-              <span class="chapter-number">{{ chapter.number }}</span>
-              <span class="chapter-title">{{ chapter.title }}</span>
-            </a>
-          </li>
+          @for (chapter of chapters; track trackById($index, chapter)) {
+            <li class="chapter-nav-item">
+              <a
+                [attr.href]="hrefFor(chapter.id)"
+                (click)="onNavClick($event, chapter.id)"
+                [class.active]="activeChapterId() === chapter.id"
+                class="chapter-nav-link">
+                <span class="chapter-number">{{ chapter.number }}</span>
+                <span class="chapter-title">{{ chapter.title }}</span>
+              </a>
+            </li>
+          }
         </ul>
       </div>
     </nav>
-  `,
+    `,
   styles: [`
     .chapter-nav {
       position: fixed;

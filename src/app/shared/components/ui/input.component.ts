@@ -1,5 +1,5 @@
 import { Component, Input, signal, computed, forwardRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -21,7 +21,7 @@ export type InputSize = InputVariants['size'];
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

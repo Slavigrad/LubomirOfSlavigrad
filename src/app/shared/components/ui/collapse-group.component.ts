@@ -12,7 +12,7 @@ import {
   AfterContentInit,
   OnDestroy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CollapseComponent, CollapseVariant, CollapseSize, CollapseAnimation } from './collapse.component';
 import { CollapsibleCardComponent } from './collapsible-card.component';
 
@@ -36,7 +36,7 @@ export interface CollapseGroupItem {
 @Component({
   selector: 'app-collapse-group',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

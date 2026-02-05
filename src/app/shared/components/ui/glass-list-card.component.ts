@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-glass-list-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="p-4 md:p-5 rounded-xl border border-border/20 bg-background/60 glass-card">
       <h4 class="text-base md:text-lg font-semibold mb-1 text-foreground">{{ title }}</h4>

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Social Share Component
@@ -25,11 +25,11 @@ export interface ShareConfig {
 @Component({
   selector: 'app-social-share',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div class="social-share-container">
       <h3 class="share-title">Share this story</h3>
-      
+    
       <div class="share-buttons">
         <!-- Twitter/X -->
         <button
@@ -42,7 +42,7 @@ export interface ShareConfig {
           </svg>
           <span>Twitter</span>
         </button>
-
+    
         <!-- LinkedIn -->
         <button
           (click)="shareOnLinkedIn()"
@@ -54,7 +54,7 @@ export interface ShareConfig {
           </svg>
           <span>LinkedIn</span>
         </button>
-
+    
         <!-- Facebook -->
         <button
           (click)="shareOnFacebook()"
@@ -66,7 +66,7 @@ export interface ShareConfig {
           </svg>
           <span>Facebook</span>
         </button>
-
+    
         <!-- Copy Link -->
         <button
           (click)="copyLink()"
@@ -79,13 +79,15 @@ export interface ShareConfig {
           <span>{{ copyButtonText }}</span>
         </button>
       </div>
-
+    
       <!-- Toast notification -->
-      <div *ngIf="showToast" class="toast">
-        ✓ Link copied to clipboard!
-      </div>
+      @if (showToast) {
+        <div class="toast">
+          ✓ Link copied to clipboard!
+        </div>
+      }
     </div>
-  `,
+    `,
   styles: [`
     .social-share-container {
       position: relative;

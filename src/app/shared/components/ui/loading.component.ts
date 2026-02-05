@@ -1,5 +1,5 @@
 import { Component, Input, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export type LoadingVariant = 'spinner' | 'dots' | 'pulse' | 'skeleton';
 export type LoadingSize = 'sm' | 'md' | 'lg' | 'xl';
@@ -7,7 +7,7 @@ export type LoadingSize = 'sm' | 'md' | 'lg' | 'xl';
 @Component({
   selector: 'app-loading',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <div [class]="containerClasses()">
       @switch (variant()) {
