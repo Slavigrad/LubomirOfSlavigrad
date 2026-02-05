@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, HostListener, input, output, OnChanges, OnDestroy, OnInit, SimpleChanges, viewChild, ElementRef, Renderer2, effect, inject } from '@angular/core';
 import { Z_INDEX } from '../../styles/z-index';
 
 export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -6,11 +6,11 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 @Component({
   selector: 'app-glass-modal',
   template: `
-    @if (open) {
+    @if (open()) {
       <div
         class="fixed inset-0 flex items-center justify-center p-4 aurora-modal-backdrop"
         [style.zIndex]="Z.overlay"
-        [class]="backdropClass"
+        [class]="backdropClass()"
         (click)="onBackdropClick()"
       >
         <div
@@ -20,7 +20,7 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
           tabindex="-1"
           role="dialog"
           [attr.aria-modal]="true"
-          [attr.aria-label]="ariaLabel || 'Modal dialog'"
+          [attr.aria-label]="ariaLabel() || 'Modal dialog'"
           (click)="$event.stopPropagation()"
           (keydown)="onContainerKeydown($event)"
         >
@@ -135,17 +135,17 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
     }
   `],
 })
-export class GlassModalComponent implements OnChanges, OnInit, OnDestroy {
-  @Input() open = false;
-  @Input() size: GlassModalSize = 'xl';
-  @Input() closeOnBackdrop = true;
-  @Input() backdropClass?: string | string[] | Record<string, boolean>;
-  @Input() containerClass?: string | string[] | Record<string, boolean>;
-  @Input() ariaLabel?: string;
+export class GlassModalComponent implements OnInit, OnDestroy {
+  readonly open = input<boolean>(false);
+  readonly size = input<GlassModalSize>('xl');
+  readonly closeOnBackdrop = input<boolean>(true);
+  readonly backdropClass = input<string | string[] | Record<string, boolean> | undefined>();
+  readonly containerClass = input<string | string[] | Record<string, boolean> | undefined>();
+  readonly ariaLabel = input<string | undefined>();
 
-  @Output() closed = new EventEmitter<void>();
+  readonly closed = output<void>();
 
-  @ViewChild('container') containerRef?: ElementRef<HTMLDivElement>;
+  readonly containerRef = viewChild<ElementRef<HTMLDivElement>>('container');
 
   // Expose z-index constants to template
   readonly Z = Z_INDEX;
@@ -162,7 +162,26 @@ export class GlassModalComponent implements OnChanges, OnInit, OnDestroy {
 
   private static openCount = 0;
 
-  constructor(private elRef: ElementRef<HTMLElement>, private renderer: Renderer2) {}
+  private readonly elRef = inject(ElementRef<HTMLElement>);
+  private readonly renderer = inject(Renderer2);
+
+  constructor() {
+    // Use effect to track open state changes (replaces ngOnChanges)
+    effect(() => {
+      const isOpen = this.open();
+      if (isOpen) {
+        // Capture the previously focused element and lock body scroll
+        this.previouslyFocused = document.activeElement as HTMLElement | null;
+        this.lockBodyScroll();
+        // Focus container when modal opens
+        queueMicrotask(() => this.containerRef()?.nativeElement.focus());
+      } else {
+        // Unlock body scroll and return focus to the previously focused element
+        this.unlockBodyScroll();
+        queueMicrotask(() => this.previouslyFocused?.focus?.());
+      }
+    });
+  }
 
   ngOnInit(): void {
     // Move host to global modal root to escape any stacking contexts in parent components
@@ -190,25 +209,9 @@ export class GlassModalComponent implements OnChanges, OnInit, OnDestroy {
     this.movedToBody = true;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['open']) {
-      if (this.open) {
-        // Capture the previously focused element and lock body scroll
-        this.previouslyFocused = document.activeElement as HTMLElement | null;
-        this.lockBodyScroll();
-        // Focus container when modal opens
-        queueMicrotask(() => this.containerRef?.nativeElement.focus());
-      } else {
-        // Unlock body scroll and return focus to the previously focused element
-        this.unlockBodyScroll();
-        queueMicrotask(() => this.previouslyFocused?.focus?.());
-      }
-    }
-  }
-
   @HostListener('document:keydown', ['$event'])
   onKeydown(ev: KeyboardEvent) {
-    if (!this.open) return;
+    if (!this.open()) return;
     if (ev.key === 'Escape' || ev.key === 'Esc') {
       ev.preventDefault();
       this.requestClose();
@@ -216,8 +219,8 @@ export class GlassModalComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   onBackdropClick() {
-    if (!this.open) return;
-    if (this.closeOnBackdrop) this.requestClose();
+    if (!this.open()) return;
+    if (this.closeOnBackdrop()) this.requestClose();
   }
 
   requestClose() {
@@ -225,19 +228,20 @@ export class GlassModalComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   get containerClasses() {
-    const sizeClass = this.size === 'sm' ? 'max-w-md' :
-      this.size === 'md' ? 'max-w-2xl' :
-      this.size === 'lg' ? 'max-w-4xl' :
-      this.size === 'xl' ? 'max-w-6xl' :
+    const sizeValue = this.size();
+    const sizeClass = sizeValue === 'sm' ? 'max-w-md' :
+      sizeValue === 'md' ? 'max-w-2xl' :
+      sizeValue === 'lg' ? 'max-w-4xl' :
+      sizeValue === 'xl' ? 'max-w-6xl' :
       'max-w-none';
-    return [sizeClass, this.containerClass].filter(Boolean);
+    return [sizeClass, this.containerClass()].filter(Boolean);
   }
 
   onContainerKeydown(e: KeyboardEvent) {
-    if (!this.open) return;
+    if (!this.open()) return;
     if (e.key !== 'Tab') return;
 
-    const container = this.containerRef?.nativeElement;
+    const container = this.containerRef()?.nativeElement;
     if (!container) return;
 
     const focusables = this.getFocusableElements(container);

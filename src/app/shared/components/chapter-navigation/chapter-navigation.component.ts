@@ -1,4 +1,4 @@
-import { Component, Input, HostListener, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, input, HostListener, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 
 /**
@@ -31,7 +31,7 @@ export interface NavigationChapter {
         <h3 class="chapter-nav-title">Chapters</h3>
     
         <ul class="chapter-nav-list">
-          @for (chapter of chapters; track trackById($index, chapter)) {
+          @for (chapter of chapters(); track trackById($index, chapter)) {
             <li class="chapter-nav-item">
               <a
                 [attr.href]="hrefFor(chapter.id)"
@@ -195,7 +195,7 @@ export interface NavigationChapter {
   `]
 })
 export class ChapterNavigationComponent {
-  @Input() chapters: NavigationChapter[] = [];
+  readonly chapters = input<NavigationChapter[]>([]);
 
   /**
    * Currently active chapter ID
@@ -233,10 +233,11 @@ export class ChapterNavigationComponent {
 
   private updateActiveChapter(): void {
     const offset = this.SCROLL_OFFSET;
-    let candidateId = this.chapters[0]?.id ?? '';
+    const chaptersValue = this.chapters();
+    let candidateId = chaptersValue[0]?.id ?? '';
 
-    for (let i = 0; i < this.chapters.length; i++) {
-      const chapter = this.chapters[i];
+    for (let i = 0; i < chaptersValue.length; i++) {
+      const chapter = chaptersValue[i];
       const el = document.getElementById(chapter.id);
       if (!el) continue;
       const top = el.getBoundingClientRect().top;

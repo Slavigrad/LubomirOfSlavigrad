@@ -1,12 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 
 /**
  * Social Share Component
- * 
+ *
  * Provides buttons to share content on various social media platforms
  * and copy link to clipboard.
- * 
+ *
  * Features:
  * - Share on Twitter/X
  * - Share on LinkedIn
@@ -212,11 +212,11 @@ export interface ShareConfig {
   `]
 })
 export class SocialShareComponent {
-  @Input() config: ShareConfig = {
+  readonly config = input<ShareConfig>({
     url: '',
     title: '',
     description: ''
-  };
+  });
 
   copyButtonText = 'Copy Link';
   showToast = false;
@@ -225,8 +225,8 @@ export class SocialShareComponent {
    * Share on Twitter/X
    */
   shareOnTwitter(): void {
-    const text = encodeURIComponent(this.config.title);
-    const url = encodeURIComponent(this.config.url);
+    const text = encodeURIComponent(this.config().title);
+    const url = encodeURIComponent(this.config().url);
     const twitterUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
     window.open(twitterUrl, '_blank', 'width=600,height=400');
   }
@@ -235,7 +235,7 @@ export class SocialShareComponent {
    * Share on LinkedIn
    */
   shareOnLinkedIn(): void {
-    const url = encodeURIComponent(this.config.url);
+    const url = encodeURIComponent(this.config().url);
     const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
     window.open(linkedInUrl, '_blank', 'width=600,height=400');
   }
@@ -244,7 +244,7 @@ export class SocialShareComponent {
    * Share on Facebook
    */
   shareOnFacebook(): void {
-    const url = encodeURIComponent(this.config.url);
+    const url = encodeURIComponent(this.config().url);
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
     window.open(facebookUrl, '_blank', 'width=600,height=400');
   }
@@ -254,7 +254,7 @@ export class SocialShareComponent {
    */
   async copyLink(): Promise<void> {
     try {
-      await navigator.clipboard.writeText(this.config.url);
+      await navigator.clipboard.writeText(this.config().url);
       this.copyButtonText = 'Copied!';
       this.showToast = true;
 
@@ -275,17 +275,17 @@ export class SocialShareComponent {
    */
   private fallbackCopyLink(): void {
     const textArea = document.createElement('textarea');
-    textArea.value = this.config.url;
+    textArea.value = this.config().url;
     textArea.style.position = 'fixed';
     textArea.style.left = '-999999px';
     document.body.appendChild(textArea);
     textArea.select();
-    
+
     try {
       document.execCommand('copy');
       this.copyButtonText = 'Copied!';
       this.showToast = true;
-      
+
       setTimeout(() => {
         this.copyButtonText = 'Copy Link';
         this.showToast = false;
@@ -293,7 +293,7 @@ export class SocialShareComponent {
     } catch (err) {
       console.error('Fallback copy failed:', err);
     }
-    
+
     document.body.removeChild(textArea);
   }
 }

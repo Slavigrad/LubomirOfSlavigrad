@@ -1,4 +1,4 @@
-import { Component, Input, signal, computed } from '@angular/core';
+import { Component, input, computed } from '@angular/core';
 
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -20,11 +20,11 @@ export type BadgeRemovable = BadgeVariants['removable'];
   selector: 'app-badge',
   template: `
     <span [class]="badgeClasses()">
-      @if (icon) {
-        <span class="badge-icon" [innerHTML]="icon"></span>
+      @if (icon()) {
+        <span class="badge-icon" [innerHTML]="icon()"></span>
       }
       <ng-content />
-      @if (removable) {
+      @if (removable()) {
         <button
           class="badge-remove"
           (click)="onRemove()"
@@ -148,17 +148,17 @@ export type BadgeRemovable = BadgeVariants['removable'];
   `]
 })
 export class BadgeComponent {
-  @Input() variant: BadgeVariant = 'default';
-  @Input() size: BadgeSize = 'md';
-  @Input() icon: string = '';
-  @Input() removable: boolean = false;
+  readonly variant = input<BadgeVariant>('default');
+  readonly size = input<BadgeSize>('md');
+  readonly icon = input<string>('');
+  readonly removable = input<boolean>(false);
 
   readonly badgeClasses = computed(() =>
     clsx(
       badgeVariants({
-        variant: this.variant,
-        size: this.size,
-        removable: this.removable
+        variant: this.variant(),
+        size: this.size(),
+        removable: this.removable()
       })
     )
   );

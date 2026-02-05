@@ -1,12 +1,13 @@
-import { 
-  Directive, 
-  ElementRef, 
-  Input, 
-  OnInit, 
-  OnDestroy, 
+import {
+  Directive,
+  ElementRef,
+  input,
+  OnInit,
+  OnDestroy,
   Renderer2,
   signal,
-  effect
+  effect,
+  inject
 } from '@angular/core';
 
 export interface LazyImageConfig {
@@ -23,24 +24,24 @@ export interface LazyImageConfig {
   selector: '[appLazyImage]'
 })
 export class LazyImageDirective implements OnInit, OnDestroy {
-  @Input() appLazyImage!: string; // Image source URL
-  @Input() lazyPlaceholder?: string;
-  @Input() lazyErrorImage?: string;
-  @Input() lazyThreshold: number = 0.1;
-  @Input() lazyRootMargin: string = '50px';
-  @Input() lazyEnableBlur: boolean = true;
-  @Input() lazyEnableFadeIn: boolean = true;
-  @Input() lazyRetryAttempts: number = 3;
+  readonly appLazyImage = input.required<string>(); // Image source URL
+  readonly lazyPlaceholder = input<string | undefined>();
+  readonly lazyErrorImage = input<string | undefined>();
+  readonly lazyThreshold = input<number>(0.1);
+  readonly lazyRootMargin = input<string>('50px');
+  readonly lazyEnableBlur = input<boolean>(true);
+  readonly lazyEnableFadeIn = input<boolean>(true);
+  readonly lazyRetryAttempts = input<number>(3);
 
   private observer?: IntersectionObserver;
   private isLoaded = signal(false);
   private isError = signal(false);
   private retryCount = 0;
 
-  constructor(
-    private elementRef: ElementRef<HTMLImageElement>,
-    private renderer: Renderer2
-  ) {
+  private readonly elementRef = inject(ElementRef<HTMLImageElement>);
+  private readonly renderer = inject(Renderer2);
+
+  constructor() {
     // Apply loading effects
     effect(() => {
       if (this.isLoaded()) {
@@ -67,12 +68,12 @@ export class LazyImageDirective implements OnInit, OnDestroy {
 
   private setupLazyLoading(): void {
     const img = this.elementRef.nativeElement;
-    
+
     // Set initial placeholder
     this.setPlaceholder();
-    
+
     // Apply initial blur effect
-    if (this.lazyEnableBlur) {
+    if (this.lazyEnableBlur()) {
       this.renderer.setStyle(img, 'filter', 'blur(5px)');
       this.renderer.setStyle(img, 'transition', 'filter 0.3s ease, opacity 0.3s ease');
     }
@@ -88,8 +89,8 @@ export class LazyImageDirective implements OnInit, OnDestroy {
         });
       },
       {
-        threshold: this.lazyThreshold,
-        rootMargin: this.lazyRootMargin
+        threshold: this.lazyThreshold(),
+        rootMargin: this.lazyRootMargin()
       }
     );
 
@@ -98,9 +99,10 @@ export class LazyImageDirective implements OnInit, OnDestroy {
 
   private setPlaceholder(): void {
     const img = this.elementRef.nativeElement;
-    
-    if (this.lazyPlaceholder) {
-      this.renderer.setAttribute(img, 'src', this.lazyPlaceholder);
+    const placeholderValue = this.lazyPlaceholder();
+
+    if (placeholderValue) {
+      this.renderer.setAttribute(img, 'src', placeholderValue);
     } else {
       // Generate a simple placeholder
       const placeholder = this.generatePlaceholder();
@@ -131,10 +133,11 @@ export class LazyImageDirective implements OnInit, OnDestroy {
   private loadImage(): void {
     const img = this.elementRef.nativeElement;
     const actualImage = new Image();
+    const imageUrl = this.appLazyImage();
 
     // Set up load handlers
     actualImage.onload = () => {
-      this.renderer.setAttribute(img, 'src', this.appLazyImage);
+      this.renderer.setAttribute(img, 'src', imageUrl);
       this.isLoaded.set(true);
     };
 
@@ -143,11 +146,11 @@ export class LazyImageDirective implements OnInit, OnDestroy {
     };
 
     // Start loading
-    actualImage.src = this.appLazyImage;
+    actualImage.src = imageUrl;
   }
 
   private handleImageError(): void {
-    if (this.retryCount < this.lazyRetryAttempts) {
+    if (this.retryCount < this.lazyRetryAttempts()) {
       this.retryCount++;
       setTimeout(() => {
         this.loadImage();
@@ -159,14 +162,14 @@ export class LazyImageDirective implements OnInit, OnDestroy {
 
   private applyLoadedState(): void {
     const img = this.elementRef.nativeElement;
-    
+
     // Remove blur effect
-    if (this.lazyEnableBlur) {
+    if (this.lazyEnableBlur()) {
       this.renderer.setStyle(img, 'filter', 'none');
     }
 
     // Apply fade-in effect
-    if (this.lazyEnableFadeIn) {
+    if (this.lazyEnableFadeIn()) {
       this.renderer.setStyle(img, 'opacity', '0');
       setTimeout(() => {
         this.renderer.setStyle(img, 'opacity', '1');
@@ -180,9 +183,10 @@ export class LazyImageDirective implements OnInit, OnDestroy {
 
   private applyErrorState(): void {
     const img = this.elementRef.nativeElement;
-    
-    if (this.lazyErrorImage) {
-      this.renderer.setAttribute(img, 'src', this.lazyErrorImage);
+    const errorImageValue = this.lazyErrorImage();
+
+    if (errorImageValue) {
+      this.renderer.setAttribute(img, 'src', errorImageValue);
     } else {
       // Generate error placeholder
       const errorPlaceholder = this.generateErrorPlaceholder();
@@ -218,16 +222,14 @@ export class LazyImageDirective implements OnInit, OnDestroy {
   selector: '[appLazyBackground]'
 })
 export class LazyBackgroundDirective implements OnInit, OnDestroy {
-  @Input() appLazyBackground!: string;
-  @Input() lazyThreshold: number = 0.1;
-  @Input() lazyRootMargin: string = '50px';
+  readonly appLazyBackground = input.required<string>();
+  readonly lazyThreshold = input<number>(0.1);
+  readonly lazyRootMargin = input<string>('50px');
 
   private observer?: IntersectionObserver;
 
-  constructor(
-    private elementRef: ElementRef,
-    private renderer: Renderer2
-  ) {}
+  private readonly elementRef = inject(ElementRef);
+  private readonly renderer = inject(Renderer2);
 
   ngOnInit(): void {
     this.setupLazyLoading();
@@ -241,7 +243,7 @@ export class LazyBackgroundDirective implements OnInit, OnDestroy {
 
   private setupLazyLoading(): void {
     const element = this.elementRef.nativeElement;
-    
+
     this.observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
@@ -252,8 +254,8 @@ export class LazyBackgroundDirective implements OnInit, OnDestroy {
         });
       },
       {
-        threshold: this.lazyThreshold,
-        rootMargin: this.lazyRootMargin
+        threshold: this.lazyThreshold(),
+        rootMargin: this.lazyRootMargin()
       }
     );
 
@@ -263,16 +265,17 @@ export class LazyBackgroundDirective implements OnInit, OnDestroy {
   private loadBackgroundImage(): void {
     const element = this.elementRef.nativeElement;
     const img = new Image();
+    const bgUrl = this.appLazyBackground();
 
     img.onload = () => {
       this.renderer.setStyle(
-        element, 
-        'background-image', 
-        `url(${this.appLazyBackground})`
+        element,
+        'background-image',
+        `url(${bgUrl})`
       );
       this.renderer.addClass(element, 'lazy-bg-loaded');
     };
 
-    img.src = this.appLazyBackground;
+    img.src = bgUrl;
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, signal, computed, forwardRef, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, input, signal, computed, forwardRef, ElementRef, viewChild, AfterViewInit } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { type VariantProps } from 'class-variance-authority';
@@ -29,10 +29,10 @@ export type TextareaSize = TextareaVariants['size'];
   ],
   template: `
     <div [class]="containerClasses()">
-      @if (label) {
+      @if (label()) {
         <label [for]="textareaId()" class="textarea-label">
-          {{ label }}
-          @if (required) {
+          {{ label() }}
+          @if (required()) {
             <span class="text-red-500 ml-1">*</span>
           }
         </label>
@@ -42,11 +42,11 @@ export type TextareaSize = TextareaVariants['size'];
         <textarea
           #textareaRef
           [id]="textareaId()"
-          [placeholder]="placeholder"
-          [disabled]="disabled"
-          [readonly]="readonly"
-          [rows]="rows"
-          [attr.maxlength]="maxLength || null"
+          [placeholder]="placeholder()"
+          [disabled]="disabledState()"
+          [readonly]="readonly()"
+          [rows]="rows()"
+          [attr.maxlength]="maxLength() || null"
           [class]="textareaClasses()"
           [value]="value()"
           (input)="onInput($event)"
@@ -54,7 +54,7 @@ export type TextareaSize = TextareaVariants['size'];
           (focus)="onFocus()"
         ></textarea>
 
-        @if (clearable && value()) {
+        @if (clearable() && value()) {
           <button
             type="button"
             class="textarea-clear"
@@ -67,19 +67,19 @@ export type TextareaSize = TextareaVariants['size'];
           </button>
         }
 
-        @if (maxLength) {
+        @if (maxLength()) {
           <div class="textarea-counter">
-            {{ value().length }}/{{ maxLength }}
+            {{ value().length }}/{{ maxLength() }}
           </div>
         }
       </div>
 
-      @if (error) {
-        <p class="textarea-error">{{ error }}</p>
+      @if (error()) {
+        <p class="textarea-error">{{ error() }}</p>
       }
 
-      @if (hint && !error) {
-        <p class="textarea-hint">{{ hint }}</p>
+      @if (hint() && !error()) {
+        <p class="textarea-hint">{{ hint() }}</p>
       }
     </div>
   `,
@@ -184,22 +184,23 @@ export type TextareaSize = TextareaVariants['size'];
   `]
 })
 export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
-  @ViewChild('textareaRef') textareaRef!: ElementRef<HTMLTextAreaElement>;
+  readonly textareaRef = viewChild<ElementRef<HTMLTextAreaElement>>('textareaRef');
 
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() variant: TextareaVariant = 'default';
-  @Input() size: TextareaSize = 'md';
-  @Input() disabled: boolean = false;
-  @Input() readonly: boolean = false;
-  @Input() required: boolean = false;
-  @Input() clearable: boolean = false;
-  @Input() autoResize: boolean = true;
-  @Input() rows: number = 4;
-  @Input() maxLength: number | null = null;
-  @Input() error: string = '';
-  @Input() hint: string = '';
+  readonly label = input<string>('');
+  readonly placeholder = input<string>('');
+  readonly variant = input<TextareaVariant>('default');
+  readonly size = input<TextareaSize>('md');
+  readonly readonly = input<boolean>(false);
+  readonly required = input<boolean>(false);
+  readonly clearable = input<boolean>(false);
+  readonly autoResize = input<boolean>(true);
+  readonly rows = input<number>(4);
+  readonly maxLength = input<number | null>(null);
+  readonly error = input<string>('');
+  readonly hint = input<string>('');
 
+  // disabledState is a writable signal to support ControlValueAccessor's setDisabledState
+  readonly disabledState = signal<boolean>(false);
   readonly value = signal<string>('');
   readonly textareaId = signal(`textarea-${Math.random().toString(36).substr(2, 9)}`);
 
@@ -207,7 +208,7 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
   private onTouched = () => {};
 
   ngAfterViewInit() {
-    if (this.autoResize) {
+    if (this.autoResize()) {
       this.adjustHeight();
     }
   }
@@ -221,10 +222,10 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
   readonly textareaClasses = computed(() =>
     clsx(
       textareaFieldVariants({
-        variant: this.variant,
-        size: this.size,
-        hasError: !!this.error,
-        autoResize: this.autoResize
+        variant: this.variant(),
+        size: this.size(),
+        hasError: !!this.error(),
+        autoResize: this.autoResize()
       })
     )
   );
@@ -234,7 +235,7 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
     this.value.set(target.value);
     this.onChange(target.value);
 
-    if (this.autoResize) {
+    if (this.autoResize()) {
       this.adjustHeight();
     }
   }
@@ -251,14 +252,15 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
     this.value.set('');
     this.onChange('');
 
-    if (this.autoResize) {
+    if (this.autoResize()) {
       this.adjustHeight();
     }
   }
 
   private adjustHeight() {
-    if (this.textareaRef?.nativeElement) {
-      const textarea = this.textareaRef.nativeElement;
+    const ref = this.textareaRef();
+    if (ref?.nativeElement) {
+      const textarea = ref.nativeElement;
       textarea.style.height = 'auto';
       textarea.style.height = `${textarea.scrollHeight}px`;
     }
@@ -270,7 +272,7 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
 
     // Adjust height after value is set
     setTimeout(() => {
-      if (this.autoResize) {
+      if (this.autoResize()) {
         this.adjustHeight();
       }
     });
@@ -285,6 +287,6 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.disabledState.set(isDisabled);
   }
 }

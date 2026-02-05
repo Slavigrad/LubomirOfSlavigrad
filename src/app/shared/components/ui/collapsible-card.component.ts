@@ -1,8 +1,7 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   signal,
   computed,
   ChangeDetectionStrategy
@@ -31,43 +30,43 @@ export interface CollapsibleCardConfig {
       class="collapsible-card"
       [class]="containerClasses()"
     >
-      @if (collapsible) {
+      @if (collapsible()) {
         <!-- Collapsible Card -->
         <app-collapse
-          [variant]="variant"
-          [size]="size"
-          [animation]="animation"
-          [duration]="duration"
-          [expanded]="expanded"
-          [showIcon]="showIcon"
-          [customIcon]="customIcon"
-          [headerText]="title"
-          [disabled]="disabled"
+          [variant]="variant()"
+          [size]="size()"
+          [animation]="animation()"
+          [duration]="duration()"
+          [expanded]="expanded()"
+          [showIcon]="showIcon()"
+          [customIcon]="customIcon()"
+          [headerText]="title()"
+          [disabled]="disabled()"
           (expandedChange)="onExpandedChange($event)"
           (toggleEvent)="onToggle($event)"
         >
           <!-- Header Content -->
           <div slot="header" class="card-header-content">
-            @if (icon) {
-              <div class="card-icon" [innerHTML]="icon"></div>
+            @if (icon()) {
+              <div class="card-icon" [innerHTML]="icon()"></div>
             }
             <div class="card-title-section">
-              <h3 class="card-title">{{ title }}</h3>
-              @if (subtitle) {
-                <p class="card-subtitle">{{ subtitle }}</p>
+              <h3 class="card-title">{{ title() }}</h3>
+              @if (subtitle()) {
+                <p class="card-subtitle">{{ subtitle() }}</p>
               }
             </div>
-            @if (badge) {
+            @if (badge()) {
               <div class="card-badge">
-                <span class="badge" [class]="badgeClass()">{{ badge }}</span>
+                <span class="badge" [class]="badgeClass()">{{ badge() }}</span>
               </div>
             }
           </div>
 
           <!-- Card Content -->
           <div class="card-content">
-            @if (description) {
-              <p class="card-description">{{ description }}</p>
+            @if (description()) {
+              <p class="card-description">{{ description() }}</p>
             }
 
             <!-- Main Content -->
@@ -79,9 +78,9 @@ export interface CollapsibleCardConfig {
             @if (hasFooterContent()) {
               <div class="card-footer">
                 <ng-content select="[slot=footer]" />
-                @if (actions.length > 0) {
+                @if (actions().length > 0) {
                   <div class="card-actions">
-                    @for (action of actions; track action.id) {
+                    @for (action of actions(); track action.id) {
                       <button
                         type="button"
                         [class]="getActionClass(action)"
@@ -106,9 +105,9 @@ export interface CollapsibleCardConfig {
           <ng-content />
           <div slot="footer">
             <ng-content select="[slot=footer]" />
-            @if (actions.length > 0) {
+            @if (actions().length > 0) {
               <div class="card-actions">
-                @for (action of actions; track action.id) {
+                @for (action of actions(); track action.id) {
                   <button
                     type="button"
                     [class]="getActionClass(action)"
@@ -291,31 +290,31 @@ export interface CollapsibleCardConfig {
 })
 export class CollapsibleCardComponent {
   // Configuration inputs
-  @Input() variant: CollapseVariant = 'card';
-  @Input() size: CollapseSize = 'md';
-  @Input() animation: CollapseAnimation = 'slide';
-  @Input() duration: number = 300;
-  @Input() collapsible: boolean = true;
-  @Input() expanded: boolean = false;
-  @Input() disabled: boolean = false;
-  @Input() showIcon: boolean = true;
-  @Input() customIcon: string = '';
+  readonly variant = input<CollapseVariant>('card');
+  readonly size = input<CollapseSize>('md');
+  readonly animation = input<CollapseAnimation>('slide');
+  readonly duration = input<number>(300);
+  readonly collapsible = input<boolean>(true);
+  readonly expanded = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly showIcon = input<boolean>(true);
+  readonly customIcon = input<string>('');
 
   // Content inputs
-  @Input() title: string = 'Card Title';
-  @Input() subtitle: string = '';
-  @Input() description: string = '';
-  @Input() icon: string = '';
-  @Input() badge: string = '';
-  @Input() badgeVariant: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' = 'default';
+  readonly title = input<string>('Card Title');
+  readonly subtitle = input<string>('');
+  readonly description = input<string>('');
+  readonly icon = input<string>('');
+  readonly badge = input<string>('');
+  readonly badgeVariant = input<'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error'>('default');
 
   // Action inputs
-  @Input() actions: CardAction[] = [];
+  readonly actions = input<CardAction[]>([]);
 
   // Events
-  @Output() expandedChange = new EventEmitter<boolean>();
-  @Output() toggle = new EventEmitter<boolean>();
-  @Output() actionClick = new EventEmitter<CardAction>();
+  readonly expandedChange = output<boolean>();
+  readonly toggle = output<boolean>();
+  readonly actionClick = output<CardAction>();
 
   // Internal state
   private readonly hasFooterSlot = signal(false);
@@ -323,23 +322,23 @@ export class CollapsibleCardComponent {
 
   // Computed properties
   readonly containerClasses = computed(() => {
-    const variant = this.variant;
-    const size = this.size;
+    const variantValue = this.variant();
+    const sizeValue = this.size();
 
     return [
       'collapsible-card-container',
-      `variant-${variant}`,
-      `size-${size}`,
-      this.disabled ? 'disabled' : ''
+      `variant-${variantValue}`,
+      `size-${sizeValue}`,
+      this.disabled() ? 'disabled' : ''
     ].filter(Boolean).join(' ');
   });
 
   readonly badgeClass = computed(() => {
-    return `badge badge-${this.badgeVariant}`;
+    return `badge badge-${this.badgeVariant()}`;
   });
 
   readonly hasFooterContent = computed(() => {
-    return this.hasFooterSlot() || this.actions.length > 0;
+    return this.hasFooterSlot() || this.actions().length > 0;
   });
 
   onExpandedChange(expanded: boolean): void {
@@ -365,21 +364,21 @@ export class CollapsibleCardComponent {
 
   // Public API methods
   expand(): void {
-    if (this.collapsible && !this.expandedSignal()) {
+    if (this.collapsible() && !this.expandedSignal()) {
       this.expandedSignal.set(true);
       this.expandedChange.emit(true);
     }
   }
 
   collapse(): void {
-    if (this.collapsible && this.expandedSignal()) {
+    if (this.collapsible() && this.expandedSignal()) {
       this.expandedSignal.set(false);
       this.expandedChange.emit(false);
     }
   }
 
   toggleExpansion(): void {
-    if (this.collapsible) {
+    if (this.collapsible()) {
       const newState = !this.expandedSignal();
       this.expandedSignal.set(newState);
       this.expandedChange.emit(newState);

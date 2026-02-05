@@ -1,4 +1,4 @@
-import { Component, Input, signal, computed } from '@angular/core';
+import { Component, input, signal, computed } from '@angular/core';
 
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -19,13 +19,13 @@ export type CardHoverable = CardVariants['hoverable'];
   selector: 'app-card',
   template: `
     <div [class]="cardClasses()">
-      @if (title || subtitle) {
+      @if (title() || subtitle()) {
         <div class="card-header">
-          @if (title) {
-            <h3 class="card-title">{{ title }}</h3>
+          @if (title()) {
+            <h3 class="card-title">{{ title() }}</h3>
           }
-          @if (subtitle) {
-            <p class="card-subtitle">{{ subtitle }}</p>
+          @if (subtitle()) {
+            <p class="card-subtitle">{{ subtitle() }}</p>
           }
         </div>
       }
@@ -186,18 +186,18 @@ export type CardHoverable = CardVariants['hoverable'];
   `]
 })
 export class CardComponent {
-  @Input() variant: CardVariant = 'default';
-  @Input() title: string = '';
-  @Input() subtitle: string = '';
-  @Input() hoverable: boolean = true;
+  readonly variant = input<CardVariant>('default');
+  readonly title = input<string>('');
+  readonly subtitle = input<string>('');
+  readonly hoverable = input<boolean>(true);
 
   readonly hasFooter = signal(false);
 
   readonly cardClasses = computed(() =>
     clsx(
       cardVariants({
-        variant: this.variant,
-        hoverable: this.hoverable
+        variant: this.variant(),
+        hoverable: this.hoverable()
       })
     )
   );

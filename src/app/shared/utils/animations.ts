@@ -1,4 +1,4 @@
-import { Injectable, ElementRef, signal, Directive, Input, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Injectable, ElementRef, signal, Directive, input, OnInit, OnDestroy, AfterViewInit, inject } from '@angular/core';
 
 export interface AnimationOptions {
   threshold?: number;
@@ -289,23 +289,22 @@ export function useScrollAnimation(
   selector: '[appScrollAnimate]'
 })
 export class ScrollAnimateDirective implements OnInit, OnDestroy {
-  @Input() appScrollAnimate: string = 'fadeInUp';
-  @Input() animationDelay: number = 0;
-  @Input() animationThreshold: number = 0.1;
-  @Input() animationOnce: boolean = true;
+  readonly appScrollAnimate = input<string>('fadeInUp');
+  readonly animationDelay = input<number>(0);
+  readonly animationThreshold = input<number>(0.1);
+  readonly animationOnce = input<boolean>(true);
 
   private animationService = new AnimationService();
-
-  constructor(private elementRef: ElementRef) {}
+  private readonly elementRef = inject(ElementRef);
 
   ngOnInit() {
     this.animationService.animateOnScroll({
       element: this.elementRef,
-      animation: this.appScrollAnimate,
+      animation: this.appScrollAnimate(),
       options: {
-        delay: this.animationDelay,
-        threshold: this.animationThreshold,
-        once: this.animationOnce
+        delay: this.animationDelay(),
+        threshold: this.animationThreshold(),
+        once: this.animationOnce()
       }
     });
   }
@@ -322,21 +321,20 @@ export class ScrollAnimateDirective implements OnInit, OnDestroy {
   selector: '[appInteractiveAnimate]'
 })
 export class InteractiveAnimateDirective implements OnInit, OnDestroy {
-  @Input() appInteractiveAnimate: string = 'lift';
-  @Input() animationTrigger: 'hover' | 'click' | 'focus' = 'hover';
-  @Input() animationDuration: number = 300;
+  readonly appInteractiveAnimate = input<string>('lift');
+  readonly animationTrigger = input<'hover' | 'click' | 'focus'>('hover');
+  readonly animationDuration = input<number>(300);
 
   private animationService = new AnimationService();
-
-  constructor(private elementRef: ElementRef) {}
+  private readonly elementRef = inject(ElementRef);
 
   ngOnInit() {
     this.animationService.addInteractiveAnimation({
       element: this.elementRef,
-      trigger: this.animationTrigger,
-      animation: this.appInteractiveAnimate,
+      trigger: this.animationTrigger(),
+      animation: this.appInteractiveAnimate(),
       options: {
-        duration: this.animationDuration
+        duration: this.animationDuration()
       }
     });
   }
