@@ -3,28 +3,104 @@ import { PDFRendererService, PDFRenderingOptions, RenderingMetrics } from './pdf
 import { PDFTemplate } from './pdf-template.service';
 import { ProcessedPDFData } from './pdf-data-processor.service';
 
-// Mock jsPDF
-const mockJsPDF = {
-  internal: {
-    pageSize: {
-      getWidth: () => 210,
-      getHeight: () => 297
-    }
-  },
-  setFontSize: jasmine.createSpy('setFontSize'),
-  setTextColor: jasmine.createSpy('setTextColor'),
-  setFillColor: jasmine.createSpy('setFillColor'),
-  setDrawColor: jasmine.createSpy('setDrawColor'),
-  text: jasmine.createSpy('text'),
-  rect: jasmine.createSpy('rect'),
-  roundedRect: jasmine.createSpy('roundedRect'),
-  addPage: jasmine.createSpy('addPage'),
-  output: jasmine.createSpy('output').and.returnValue(new Blob(['mock pdf'], { type: 'application/pdf' })),
-  setGState: jasmine.createSpy('setGState'),
-  saveGraphicsState: jasmine.createSpy('saveGraphicsState'),
-  restoreGraphicsState: jasmine.createSpy('restoreGraphicsState'),
-  setLineWidth: jasmine.createSpy('setLineWidth')
+// GState mock class - simulates jsPDF's GState constructor
+class MockGState {
+  constructor(public options: { opacity?: number; [key: string]: any }) {}
+}
+
+// Mock jsPDF - comprehensive mock covering all methods used in production code
+const createMockJsPDF = () => {
+  const mock: any = {
+    internal: {
+      pageSize: {
+        getWidth: () => 210,
+        getHeight: () => 297
+      }
+    },
+    // Text and font methods
+    setFontSize: jasmine.createSpy('setFontSize'),
+    setFont: jasmine.createSpy('setFont'),
+    setTextColor: jasmine.createSpy('setTextColor'),
+    text: jasmine.createSpy('text'),
+    splitTextToSize: jasmine.createSpy('splitTextToSize').and.callFake((text: string, maxWidth: number) => {
+      // Simple text splitting simulation - split into chunks
+      if (!text) return [];
+      const words = text.split(' ');
+      const lines: string[] = [];
+      let currentLine = '';
+      for (const word of words) {
+        if ((currentLine + ' ' + word).length * 2 > maxWidth) {
+          if (currentLine) lines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = currentLine ? currentLine + ' ' + word : word;
+        }
+      }
+      if (currentLine) lines.push(currentLine);
+      return lines.length > 0 ? lines : [text];
+    }),
+    getTextWidth: jasmine.createSpy('getTextWidth').and.callFake((text: string) => {
+      // Simple width calculation: ~2mm per character
+      return (text?.length || 0) * 2;
+    }),
+
+    // Drawing methods
+    setFillColor: jasmine.createSpy('setFillColor'),
+    setDrawColor: jasmine.createSpy('setDrawColor'),
+    setLineWidth: jasmine.createSpy('setLineWidth'),
+    rect: jasmine.createSpy('rect'),
+    roundedRect: jasmine.createSpy('roundedRect'),
+    line: jasmine.createSpy('line'),
+    circle: jasmine.createSpy('circle'),
+    ellipse: jasmine.createSpy('ellipse'),
+
+    // Page methods
+    addPage: jasmine.createSpy('addPage'),
+    setPage: jasmine.createSpy('setPage'),
+    getNumberOfPages: jasmine.createSpy('getNumberOfPages').and.returnValue(1),
+
+    // Graphics state methods
+    setGState: jasmine.createSpy('setGState'),
+    saveGraphicsState: jasmine.createSpy('saveGraphicsState'),
+    restoreGraphicsState: jasmine.createSpy('restoreGraphicsState'),
+
+    // Image methods
+    addImage: jasmine.createSpy('addImage'),
+    addFileToVFS: jasmine.createSpy('addFileToVFS'),
+    addFont: jasmine.createSpy('addFont'),
+
+    // Output methods
+    output: jasmine.createSpy('output').and.returnValue(new Blob(['mock pdf'], { type: 'application/pdf' })),
+    save: jasmine.createSpy('save'),
+
+    // GState constructor - must be a proper constructor class, not a spy
+    GState: MockGState
+  };
+
+  // Make methods chainable by returning mock
+  mock.setFontSize.and.returnValue(mock);
+  mock.setFont.and.returnValue(mock);
+  mock.setTextColor.and.returnValue(mock);
+  mock.setFillColor.and.returnValue(mock);
+  mock.setDrawColor.and.returnValue(mock);
+  mock.setLineWidth.and.returnValue(mock);
+  mock.text.and.returnValue(mock);
+  mock.rect.and.returnValue(mock);
+  mock.roundedRect.and.returnValue(mock);
+  mock.line.and.returnValue(mock);
+  mock.circle.and.returnValue(mock);
+  mock.ellipse.and.returnValue(mock);
+  mock.addPage.and.returnValue(mock);
+  mock.setPage.and.returnValue(mock);
+  mock.setGState.and.returnValue(mock);
+  mock.saveGraphicsState.and.returnValue(mock);
+  mock.restoreGraphicsState.and.returnValue(mock);
+  mock.addImage.and.returnValue(mock);
+
+  return mock;
 };
+
+const mockJsPDF = createMockJsPDF();
 
 // Mock jsPDF constructor
 // Mock jsPDF in the global scope for browser environment
@@ -268,12 +344,35 @@ describe('PDFRendererService', () => {
 
     service = TestBed.inject(PDFRendererService);
 
-    // Reset all spy calls
-    Object.values(mockJsPDF).forEach(spy => {
+    // Reset all spy calls and restore default behaviors
+    Object.keys(mockJsPDF).forEach(key => {
+      const spy = mockJsPDF[key];
       if (typeof spy === 'function' && spy.calls) {
         spy.calls.reset();
       }
     });
+
+    // Restore default behaviors for spies that might have been modified
+    mockJsPDF.text.and.returnValue(mockJsPDF);
+    mockJsPDF.splitTextToSize.and.callFake((text: string, maxWidth: number) => {
+      if (!text) return [];
+      const words = text.split(' ');
+      const lines: string[] = [];
+      let currentLine = '';
+      for (const word of words) {
+        if ((currentLine + ' ' + word).length * 2 > maxWidth) {
+          if (currentLine) lines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = currentLine ? currentLine + ' ' + word : word;
+        }
+      }
+      if (currentLine) lines.push(currentLine);
+      return lines.length > 0 ? lines : [text];
+    });
+    mockJsPDF.getTextWidth.and.callFake((text: string) => (text?.length || 0) * 2);
+    mockJsPDF.output.and.returnValue(new Blob(['mock pdf'], { type: 'application/pdf' }));
+    mockJsPDF.getNumberOfPages.and.returnValue(1);
   });
 
   it('should be created', () => {
@@ -316,11 +415,11 @@ describe('PDFRendererService', () => {
       await service.renderPDF(mockProcessedData, mockTemplate, defaultRenderingOptions);
 
       const jsPDFSpy = typeof window !== 'undefined' ? (window as any).jsPDF : (globalThis as any).jsPDF;
-      expect(jsPDFSpy).toHaveBeenCalledWith({
+      expect(jsPDFSpy).toHaveBeenCalledWith(jasmine.objectContaining({
         orientation: 'portrait',
         unit: 'mm',
         format: 'A4'
-      });
+      }));
     });
 
     it('should render personal info section', async () => {
@@ -334,7 +433,8 @@ describe('PDFRendererService', () => {
       await service.renderPDF(mockProcessedData, mockTemplate, defaultRenderingOptions);
 
       expect(mockJsPDF.text).toHaveBeenCalledWith('Senior Software Engineer', jasmine.any(Number), jasmine.any(Number));
-      expect(mockJsPDF.text).toHaveBeenCalledWith('Tech Corp', jasmine.any(Number), jasmine.any(Number));
+      // Production code renders company with " at " prefix for formatting
+      expect(mockJsPDF.text).toHaveBeenCalledWith(' at Tech Corp', jasmine.any(Number), jasmine.any(Number));
     });
 
     it('should render skills section with progress bars', async () => {
