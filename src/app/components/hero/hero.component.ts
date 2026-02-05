@@ -15,7 +15,6 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
 
 @Component({
   selector: 'app-hero',
-  standalone: true,
   imports: [LazyImageDirective, PDFConfigurationComponent, GlassModalComponent],
   template: `
     <!-- Hero Section -->

@@ -9,7 +9,6 @@ import { CONTACT_CONFIG } from './contact.configuration';
 
 @Component({
   selector: 'app-contact',
-  standalone: true,
   imports: [ReactiveFormsModule, ScrollAnimateDirective, InteractiveAnimateDirective],
   template: `
     <!-- Contact Section -->

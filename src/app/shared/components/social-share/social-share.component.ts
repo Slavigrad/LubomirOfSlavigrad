@@ -24,8 +24,6 @@ export interface ShareConfig {
 
 @Component({
   selector: 'app-social-share',
-  standalone: true,
-  imports: [],
   template: `
     <div class="social-share-container">
       <h3 class="share-title">Share this story</h3>

@@ -24,7 +24,6 @@ export interface CollapsibleCardConfig {
 
 @Component({
   selector: 'app-collapsible-card',
-  standalone: true,
   imports: [CollapseComponent, CardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

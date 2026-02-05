@@ -6,8 +6,6 @@ export type LoadingSize = 'sm' | 'md' | 'lg' | 'xl';
 
 @Component({
   selector: 'app-loading',
-  standalone: true,
-  imports: [],
   template: `
     <div [class]="containerClasses()">
       @switch (variant()) {

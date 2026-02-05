@@ -36,7 +36,6 @@ export interface AccordionConfig {
 
 @Component({
   selector: 'app-accordion',
-  standalone: true,
   imports: [NgTemplateOutlet, CollapseComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

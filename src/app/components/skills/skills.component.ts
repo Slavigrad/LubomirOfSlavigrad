@@ -9,7 +9,6 @@ import { CollapseComponent } from '../../shared/components/ui/collapse.component
 
 @Component({
   selector: 'app-skills',
-  standalone: true,
   imports: [ScrollAnimateDirective, InteractiveAnimateDirective],
   template: `
     <!-- Skills Section -->

@@ -51,7 +51,6 @@ export interface CollapseConfig {
 
 @Component({
   selector: 'app-collapse',
-  standalone: true,
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [

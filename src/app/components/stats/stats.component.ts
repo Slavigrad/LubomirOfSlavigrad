@@ -17,7 +17,6 @@ interface StatItem {
 
 @Component({
   selector: 'app-stats',
-  standalone: true,
   imports: [ScrollAnimateDirective, InteractiveAnimateDirective, GlassModalComponent, GlassListCardComponent],
   template: `
     <!-- Stats Section -->

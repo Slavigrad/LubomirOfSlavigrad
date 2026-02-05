@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
-  standalone: true,
   imports: [RouterModule],
   template: `
     <div class="min-h-screen flex items-center justify-center relative overflow-hidden">

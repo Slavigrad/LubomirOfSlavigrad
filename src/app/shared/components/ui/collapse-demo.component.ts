@@ -14,7 +14,6 @@ import {
 
 @Component({
   selector: 'app-collapse-demo',
-  standalone: true,
   imports: [
     CollapseComponent,
     AccordionComponent,

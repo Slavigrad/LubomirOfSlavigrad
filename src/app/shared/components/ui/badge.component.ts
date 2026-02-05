@@ -18,8 +18,6 @@ export type BadgeRemovable = BadgeVariants['removable'];
 
 @Component({
   selector: 'app-badge',
-  standalone: true,
-  imports: [],
   template: `
     <span [class]="badgeClasses()">
       @if (icon) {

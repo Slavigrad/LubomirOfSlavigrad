@@ -15,8 +15,6 @@ import { Component, HostListener, signal } from '@angular/core';
  */
 @Component({
   selector: 'app-reading-progress',
-  standalone: true,
-  imports: [],
   template: `
     <div class="reading-progress-container">
       <div 

@@ -286,8 +286,7 @@ export function useScrollAnimation(
  * Scroll Animation Directive
  */
 @Directive({
-  selector: '[appScrollAnimate]',
-  standalone: true
+  selector: '[appScrollAnimate]'
 })
 export class ScrollAnimateDirective implements OnInit, OnDestroy {
   @Input() appScrollAnimate: string = 'fadeInUp';
@@ -320,8 +319,7 @@ export class ScrollAnimateDirective implements OnInit, OnDestroy {
  * Interactive Animation Directive
  */
 @Directive({
-  selector: '[appInteractiveAnimate]',
-  standalone: true
+  selector: '[appInteractiveAnimate]'
 })
 export class InteractiveAnimateDirective implements OnInit, OnDestroy {
   @Input() appInteractiveAnimate: string = 'lift';

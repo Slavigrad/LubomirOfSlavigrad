@@ -15,7 +15,6 @@ import { Component, HostListener, signal } from '@angular/core';
  */
 @Component({
   selector: 'app-scroll-to-top',
-  standalone: true,
   imports: [],
   template: `
     @if (isVisible()) {

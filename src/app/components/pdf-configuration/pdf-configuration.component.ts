@@ -48,7 +48,6 @@ export interface PDFConfigurationState {
 
 @Component({
   selector: 'app-pdf-configuration',
-  standalone: true,
   imports: [FormsModule],
   template: `
     <div class="pdf-configuration-panel">

@@ -33,7 +33,6 @@ export interface TemplateComparison {
  */
 @Component({
   selector: 'app-pdf-template-gallery',
-  standalone: true,
   imports: [TitleCasePipe, FormsModule, ModernCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

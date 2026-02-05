@@ -17,8 +17,6 @@ export type ButtonSize = ButtonVariants['size'];
 
 @Component({
   selector: 'app-button',
-  standalone: true,
-  imports: [],
   template: `
     <button
       [class]="buttonClasses()"

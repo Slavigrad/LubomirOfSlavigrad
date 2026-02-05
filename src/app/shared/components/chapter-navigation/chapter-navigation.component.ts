@@ -23,7 +23,6 @@ export interface NavigationChapter {
 
 @Component({
   selector: 'app-chapter-navigation',
-  standalone: true,
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

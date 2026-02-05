@@ -16,7 +16,6 @@ export interface TechnologyCategory {
 
 @Component({
   selector: 'app-technology-list',
-  standalone: true,
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

@@ -14,7 +14,6 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
 
 @Component({
   selector: 'app-experience',
-  standalone: true,
   imports: [ScrollAnimateDirective, InteractiveAnimateDirective, TechnologyListComponent, GlassModalComponent],
   template: `
     <!-- Experience Section -->

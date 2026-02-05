@@ -22,7 +22,6 @@ import { DatePipe } from '@angular/common';
  */
 @Component({
   selector: 'app-modern-lifecycle',
-  standalone: true,
   imports: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

@@ -10,7 +10,6 @@ import { SocialShareComponent, ShareConfig } from '../../shared/components/socia
 
 @Component({
   selector: 'app-egypt-story',
-  standalone: true,
   imports: [
     RouterLink,
     InteractiveAnimateDirective,

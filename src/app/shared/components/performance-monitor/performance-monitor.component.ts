@@ -6,8 +6,6 @@ import { CacheService } from '../../services/cache.service';
 
 @Component({
   selector: 'app-performance-monitor',
-  standalone: true,
-  imports: [],
   template: `
     <div class="performance-monitor glass-card p-6">
       <!-- Header -->

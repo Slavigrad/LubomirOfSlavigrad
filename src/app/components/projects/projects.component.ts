@@ -6,7 +6,6 @@ import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../share
 
 @Component({
   selector: 'app-projects',
-  standalone: true,
   imports: [ScrollAnimateDirective, InteractiveAnimateDirective],
   template: `
     <!-- Projects Section -->

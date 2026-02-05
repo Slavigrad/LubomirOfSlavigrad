@@ -4,7 +4,6 @@ import { PDFTemplateGalleryComponent } from '../../components/pdf/pdf-template-g
 
 @Component({
   selector: 'app-pdf-test',
-  standalone: true,
   imports: [PDFTemplateGalleryComponent],
   template: `
     <div class="min-h-screen bg-background p-8">

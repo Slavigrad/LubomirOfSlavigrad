@@ -35,7 +35,6 @@ export interface CollapseGroupItem {
 
 @Component({
   selector: 'app-collapse-group',
-  standalone: true,
   imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

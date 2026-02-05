@@ -43,7 +43,6 @@ export interface FormErrors {
 
 @Component({
   selector: 'app-signal-form',
-  standalone: true,
   imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

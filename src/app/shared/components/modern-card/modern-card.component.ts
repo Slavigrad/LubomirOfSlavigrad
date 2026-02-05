@@ -18,8 +18,6 @@ import {
  */
 @Component({
   selector: 'app-modern-card',
-  standalone: true,
-  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

@@ -12,7 +12,6 @@ import {
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [
     HeroComponent,
     StatsComponent,

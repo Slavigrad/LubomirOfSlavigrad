@@ -20,8 +20,7 @@ export interface LazyImageConfig {
 }
 
 @Directive({
-  selector: '[appLazyImage]',
-  standalone: true
+  selector: '[appLazyImage]'
 })
 export class LazyImageDirective implements OnInit, OnDestroy {
   @Input() appLazyImage!: string; // Image source URL
@@ -216,8 +215,7 @@ export class LazyImageDirective implements OnInit, OnDestroy {
  * Lazy loading directive for background images
  */
 @Directive({
-  selector: '[appLazyBackground]',
-  standalone: true
+  selector: '[appLazyBackground]'
 })
 export class LazyBackgroundDirective implements OnInit, OnDestroy {
   @Input() appLazyBackground!: string;

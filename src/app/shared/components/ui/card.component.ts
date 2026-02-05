@@ -17,8 +17,6 @@ export type CardHoverable = CardVariants['hoverable'];
 
 @Component({
   selector: 'app-card',
-  standalone: true,
-  imports: [],
   template: `
     <div [class]="cardClasses()">
       @if (title || subtitle) {
