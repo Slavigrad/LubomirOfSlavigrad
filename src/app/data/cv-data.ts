@@ -20,13 +20,18 @@ const personalInfo: PersonalInfo = {
   name: 'Lubomir Dobrovodsky',
   firstName: 'Lubomir',
   lastName: 'Dobrovodsky',
-  title: 'Senior Software Engineer & Full Stack Developer',
-  subtitle: 'Lord of the Digital Realm of Slavigrad',
+  title: 'Senior Fullstack Engineer & AI Enthusiast',
+  subtitle: 'Architect of the Digital Realm of Slavigrad',
 
   // Professional Summary with Slavigrad theme
   bio: 'Welcome to Slavigrad — the digital city where code and myth intertwine. As the sovereign of this realm, I have spent 20+ years forging enterprise solutions with Java, Spring Boot, and modern web technologies.',
-  summary: 'Experienced software engineer with 18+ years in enterprise development, specializing in Java/Kotlin, Spring Boot, EAI and modern web technologies. Proven track record in developing robust backend systems mostly for telecommunications operators but also for various European enterprises.',
-  elevator_pitch: 'I transform complex business challenges into elegant technical solutions, leading teams to build scalable systems that serve millions of users.',
+  summary:
+    'Experienced software engineer with 20 years in enterprise development, specializing in Java/Kotlin, Spring Boot, EAI and modern web technologies. Proven track record in developing robust backend systems mostly for telecommunications operators but also for various European enterprises.\n\n' +
+    'Expertise in designing and implementing software solutions based on Onion and\n' +
+    'Hexagonal architectures, applying SOLID principles, Domain-Driven Design, Clean\n' +
+    'Code, and Test-Driven Development.\n',
+  elevator_pitch:
+    'I transform complex business challenges into elegant technical solutions, leading teams to build scalable systems that serve millions of users.',
 
   // Contact Information
   email: 'notavailable@slavigrad.net',
