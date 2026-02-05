@@ -12,7 +12,7 @@ import {
   AfterContentInit,
   OnDestroy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { CollapseComponent, CollapseVariant, CollapseSize, CollapseAnimation } from './collapse.component';
 
 export interface AccordionItem {
@@ -37,7 +37,7 @@ export interface AccordionConfig {
 @Component({
   selector: 'app-accordion',
   standalone: true,
-  imports: [CommonModule, CollapseComponent],
+  imports: [NgTemplateOutlet, CollapseComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

@@ -14,7 +14,7 @@ import {
   AfterViewInit,
   AfterContentInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 /**
  * Modern Angular component demonstrating latest lifecycle hooks
@@ -23,7 +23,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-modern-lifecycle',
   standalone: true,
-  imports: [CommonModule],
+  imports: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div

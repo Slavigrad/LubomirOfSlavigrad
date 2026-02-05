@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed, OnInit, ChangeDetectionStrategy, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PDFTemplateService, PDFTemplate } from '../../services/pdf-template.service';
 import { PDFTemplatePreviewService, TemplatePreviewResult, TemplateFeature } from '../../services/pdf-template-preview.service';
@@ -34,7 +34,7 @@ export interface TemplateComparison {
 @Component({
   selector: 'app-pdf-template-gallery',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModernCardComponent],
+  imports: [TitleCasePipe, FormsModule, ModernCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="pdf-template-gallery">
