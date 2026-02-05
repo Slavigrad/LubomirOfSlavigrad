@@ -36,6 +36,7 @@ import {
   prepareDataForExport
 } from '../models/cv-data.utils';
 import { CV_DATA } from '../data/cv-data';
+import { generateId } from '../shared/utils/id-generator';
 
 @Injectable({
   providedIn: 'root'
@@ -328,7 +329,7 @@ export class CvDataService {
   addExperience(experience: Omit<Experience, 'id' | 'createdAt' | 'updatedAt'>): void {
     const newExperience: Experience = {
       ...experience,
-      id: this.generateId('exp'),
+      id: generateId('exp'),
       createdAt: new Date(),
       updatedAt: new Date()
     };
@@ -373,7 +374,7 @@ export class CvDataService {
   addProject(project: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>): void {
     const newProject: Project = {
       ...project,
-      id: this.generateId('proj'),
+      id: generateId('proj'),
       createdAt: new Date(),
       updatedAt: new Date()
     };
@@ -418,7 +419,7 @@ export class CvDataService {
   addSkill(skill: Omit<Skill, 'id' | 'createdAt' | 'updatedAt'>): void {
     const newSkill: Skill = {
       ...skill,
-      id: this.generateId('skill'),
+      id: generateId('skill'),
       createdAt: new Date(),
       updatedAt: new Date()
     };
@@ -569,10 +570,6 @@ export class CvDataService {
   // PRIVATE HELPER METHODS
   // ============================================================================
 
-  private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  }
-
   private notifyDataChange(
     action: 'create' | 'update' | 'delete' | 'bulk_update',
     entityType: string,
@@ -581,7 +578,7 @@ export class CvDataService {
   ): void {
     const notification: DataChangeNotification = {
       entity_type: entityType,
-      entity_id: newValue?.id || oldValue?.id || this.generateId('entity'),
+      entity_id: newValue?.id || oldValue?.id || generateId('entity'),
       change_type: action,
       old_value: oldValue,
       new_value: newValue,

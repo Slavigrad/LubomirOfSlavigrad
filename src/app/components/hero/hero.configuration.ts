@@ -3,6 +3,8 @@
 // - Defaults are production-safe (all false)
 // - Local developer overrides are applied automatically on localhost
 
+import { createFeatureConfig } from '../../shared/utils/feature-toggle';
+
 // Base feature flags (production defaults)
 const BASE_FEATURES = {
   // Primary CV/PDF generation button
@@ -37,14 +39,7 @@ export const HERO_LOCAL_OVERRIDES: Partial<typeof BASE_FEATURES> = {
   // scrollIndicator: true,
 };
 
-const isLocalhost = typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
-
-export const HERO_CONFIG = {
-  features: {
-    ...BASE_FEATURES,
-    ...(isLocalhost ? HERO_LOCAL_OVERRIDES : {}),
-  },
-} as const;
+export const HERO_CONFIG = createFeatureConfig(BASE_FEATURES, HERO_LOCAL_OVERRIDES);
 
 export type HeroFeatures = typeof BASE_FEATURES;
 export type HeroConfig = typeof HERO_CONFIG;

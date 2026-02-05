@@ -1,5 +1,6 @@
 import { Injectable, signal, computed, effect } from '@angular/core';
 import { fromEvent, merge, debounceTime, throttleTime } from 'rxjs';
+import { loadSignalConfig, saveSignalConfig } from '../utils/local-storage-config';
 
 export interface PerformanceMetrics {
   fcp: number; // First Contentful Paint
@@ -53,13 +54,13 @@ export class PerformanceService {
   constructor() {
     this.initializePerformanceMonitoring();
     this.setupPerformanceOptimizations();
-    
+
     // Load saved configuration
-    this.loadConfiguration();
-    
+    loadSignalConfig(this._config, 'performance-config', 'performance');
+
     // Auto-save configuration changes
     effect(() => {
-      this.saveConfiguration(this._config());
+      saveSignalConfig(this._config, 'performance-config');
     });
   }
 
@@ -219,26 +220,6 @@ export class PerformanceService {
   // Configuration methods
   updateConfig(config: Partial<PerformanceConfig>): void {
     this._config.update(current => ({ ...current, ...config }));
-  }
-
-  private loadConfiguration(): void {
-    if (typeof localStorage !== 'undefined') {
-      const saved = localStorage.getItem('performance-config');
-      if (saved) {
-        try {
-          const config = JSON.parse(saved);
-          this._config.set({ ...this._config(), ...config });
-        } catch (error) {
-          console.warn('Failed to load performance configuration:', error);
-        }
-      }
-    }
-  }
-
-  private saveConfiguration(config: PerformanceConfig): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('performance-config', JSON.stringify(config));
-    }
   }
 
   // Public API methods
