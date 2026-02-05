@@ -1,5 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { IntervalManager } from '../shared/utils/interval-manager';
 
 /**
  * Cache Storage Types
@@ -165,12 +166,8 @@ export class PDFCacheManagerService {
     return quota.percentage > 80;
   });
 
-  // Cleanup intervals
-  private cleanupIntervals: Record<CacheStorageType, number> = {
-    memory: 0,
-    sessionStorage: 0,
-    indexedDB: 0
-  };
+  // Interval management
+  private readonly intervals = new IntervalManager();
 
   // IndexedDB instance
   private indexedDB: IDBDatabase | null = null;
@@ -734,10 +731,10 @@ export class PDFCacheManagerService {
   }
 
   private startCleanupIntervals(): void {
-    Object.entries(this.cacheConfigs).forEach(([storageType, config]) => {
-      this.cleanupIntervals[storageType as CacheStorageType] = window.setInterval(() => {
+    Object.entries(this.cacheConfigs).forEach(([, config]) => {
+      this.intervals.register(window.setInterval(() => {
         this.cleanupExpiredEntries();
-      }, config.cleanupInterval);
+      }, config.cleanupInterval));
     });
   }
 
@@ -798,10 +795,8 @@ export class PDFCacheManagerService {
    * Destroy service and cleanup resources
    */
   destroy(): void {
-    // Clear cleanup intervals
-    Object.values(this.cleanupIntervals).forEach(interval => {
-      if (interval) clearInterval(interval);
-    });
+    // Clear all intervals
+    this.intervals.clearAll();
 
     // Close IndexedDB connection
     if (this.indexedDB) {
