@@ -20,8 +20,6 @@ export type InputSize = InputVariants['size'];
 
 @Component({
   selector: 'app-input',
-  standalone: true,
-  imports: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -20,8 +20,6 @@ export type TextareaSize = TextareaVariants['size'];
 
 @Component({
   selector: 'app-textarea',
-  standalone: true,
-  imports: [],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
