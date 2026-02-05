@@ -73,13 +73,13 @@ export interface CollapsibleCardConfig {
 
             <!-- Main Content -->
             <div class="card-body">
-              <ng-content></ng-content>
+              <ng-content />
             </div>
 
             <!-- Footer Actions -->
             @if (hasFooterContent()) {
               <div class="card-footer">
-                <ng-content select="[slot=footer]"></ng-content>
+                <ng-content select="[slot=footer]" />
                 @if (actions.length > 0) {
                   <div class="card-actions">
                     @for (action of actions; track action.id) {
@@ -104,9 +104,9 @@ export interface CollapsibleCardConfig {
       } @else {
         <!-- Static Card -->
         <app-card>
-          <ng-content></ng-content>
+          <ng-content />
           <div slot="footer">
-            <ng-content select="[slot=footer]"></ng-content>
+            <ng-content select="[slot=footer]" />
             @if (actions.length > 0) {
               <div class="card-actions">
                 @for (action of actions; track action.id) {

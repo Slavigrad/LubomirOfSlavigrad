@@ -58,7 +58,7 @@ import {
 
           @if (hasActions()) {
             <div class="card-actions">
-              <ng-content select="[slot=actions]"></ng-content>
+              <ng-content select="[slot=actions]" />
             </div>
           }
         </div>
@@ -66,13 +66,13 @@ import {
 
       <!-- Card Content -->
       <div class="card-content" [class]="contentClass()">
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       <!-- Card Footer -->
       @if (showFooter()) {
         <div class="card-footer" [class]="footerClass()">
-          <ng-content select="[slot=footer]"></ng-content>
+          <ng-content select="[slot=footer]" />
         </div>
       }
 

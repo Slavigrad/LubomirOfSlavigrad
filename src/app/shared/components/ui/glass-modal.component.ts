@@ -27,7 +27,7 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
           (click)="$event.stopPropagation()"
           (keydown)="onContainerKeydown($event)"
         >
-          <ng-content></ng-content>
+          <ng-content />
         </div>
       </div>
     }

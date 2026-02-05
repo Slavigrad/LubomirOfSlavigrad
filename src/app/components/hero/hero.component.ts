@@ -325,10 +325,9 @@ import { GlassModalComponent } from '../../shared/components/ui/glass-modal.comp
           size="xl"
           ariaLabel="PDF configuration"
         >
-          <app-pdf-configuration
-            (configurationChanged)="onConfigurationChanged($event)"
+          <app-pdf-configuration (configurationChanged)="onConfigurationChanged($event)"
             (pdfGenerated)="onPdfGenerated($event)"
-          ></app-pdf-configuration>
+           />
         </app-glass-modal>
 
         }

@@ -33,12 +33,12 @@ export type CardHoverable = CardVariants['hoverable'];
       }
 
       <div class="card-content">
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       @if (hasFooter()) {
         <div class="card-footer">
-          <ng-content select="[slot=footer]"></ng-content>
+          <ng-content select="[slot=footer]" />
         </div>
       }
     </div>

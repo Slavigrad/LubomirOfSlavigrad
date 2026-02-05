@@ -67,9 +67,8 @@ export interface AccordionConfig {
         >
           <!-- Header slot -->
           <div slot="header" class="accordion-item-header">
-            <ng-container
-              *ngTemplateOutlet="getHeaderTemplate(item); context: { $implicit: item, index: i }"
-            ></ng-container>
+            <ng-container *ngTemplateOutlet="getHeaderTemplate(item); context: { $implicit: item, index: i }"
+             />
           </div>
 
           <!-- Content -->
@@ -77,15 +76,14 @@ export interface AccordionConfig {
             @if (item.content) {
               <div [innerHTML]="item.content"></div>
             }
-            <ng-container
-              *ngTemplateOutlet="getContentTemplate(item); context: { $implicit: item, index: i }"
-            ></ng-container>
+            <ng-container *ngTemplateOutlet="getContentTemplate(item); context: { $implicit: item, index: i }"
+             />
           </div>
         </app-collapse>
       }
 
       <!-- Content projection for custom accordion items -->
-      <ng-content></ng-content>
+      <ng-content />
     </div>
   `,
   styles: [`

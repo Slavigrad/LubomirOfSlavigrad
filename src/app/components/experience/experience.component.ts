@@ -210,12 +210,10 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
                               @if (position.technologies?.length) {
                                 <div class="mt-4">
                                   <h5 class="text-sm font-semibold mb-2">{{ UI.HEADINGS.TECHNOLOGIES }}</h5>
-                                  <app-technology-list
-                                    [technologies]="position.technologies"
+                                  <app-technology-list [technologies]="position.technologies"
                                     [showPreview]="CONFIG.preview.showPreview"
                                     [previewCount]="CONFIG.preview.techListCard"
-                                    variant="default">
-                                  </app-technology-list>
+                                    variant="default" />
                                 </div>
                               }
 
@@ -329,7 +327,7 @@ import { EXPERIENCE_CONFIG as EXP_CONFIG } from './experience.configuration';
                 @if (position.technologies?.length) {
                   <div class="mt-4">
                     <h5 class="text-sm md:text-base font-semibold mb-2">{{ UI.HEADINGS.TECHNOLOGIES }}</h5>
-                    <app-technology-list [technologies]="position.technologies" [showPreview]="CONFIG.preview.showPreview" [previewCount]="CONFIG.preview.techListModal" variant="default"></app-technology-list>
+                    <app-technology-list [technologies]="position.technologies" [showPreview]="CONFIG.preview.showPreview" [previewCount]="CONFIG.preview.techListModal" variant="default" />
                   </div>
                 }
 

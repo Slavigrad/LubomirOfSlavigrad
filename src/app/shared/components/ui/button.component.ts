@@ -31,7 +31,7 @@ export type ButtonSize = ButtonVariants['size'];
       @if (icon && !loading) {
         <span class="mr-2" [innerHTML]="icon"></span>
       }
-      <ng-content></ng-content>
+      <ng-content />
     </button>
   `,
   styles: [`

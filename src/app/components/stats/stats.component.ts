@@ -106,17 +106,13 @@ interface StatItem {
               <div class="space-y-6">
                 <p class="text-sm text-muted-foreground">{{ STATS.LABELS.PROJECTS_DEDUPE_NOTE }}</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <app-glass-list-card
-                    [title]="STATS.LABELS.PORTFOLIO_PROJECTS"
-                    [items]="projectsBreakdown().portfolio">
-                  </app-glass-list-card>
+                  <app-glass-list-card [title]="STATS.LABELS.PORTFOLIO_PROJECTS"
+                    [items]="projectsBreakdown().portfolio" />
 
                   @for (group of companyProjects(); track group.company) {
-                    <app-glass-list-card
-                      [title]="group.company"
+                    <app-glass-list-card [title]="group.company"
                       [subtitle]="STATS.LABELS.EXPERIENCE_PROJECTS"
-                      [items]="group.projects">
-                    </app-glass-list-card>
+                      [items]="group.projects" />
                   }
                 </div>
               </div>
@@ -150,11 +146,9 @@ interface StatItem {
             @if (selectedStat() === 'Industries Covered') {
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @for (g of industriesBreakdown(); track g.industry) {
-                  <app-glass-list-card
-                    [title]="g.industry"
+                  <app-glass-list-card [title]="g.industry"
                     [subtitle]="'Companies: ' + g.companies.length + ', Experiences: ' + g.experiences + ' and Projects: ' + g.projectsCount"
-                    [items]="g.companies">
-                  </app-glass-list-card>
+                    [items]="g.companies" />
                 }
               </div>
             }

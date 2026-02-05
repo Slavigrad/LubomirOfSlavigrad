@@ -137,7 +137,7 @@ export interface CollapseConfig {
       >
         <!-- Header Content -->
         <div class="header-content">
-          <ng-content select="[slot=header]"></ng-content>
+          <ng-content select="[slot=header]" />
           @if (!hasHeaderSlot()) {
             <span class="default-header">{{ headerText }}</span>
           }
@@ -183,7 +183,7 @@ export interface CollapseConfig {
         role="region"
       >
         <div class="content-wrapper">
-          <ng-content></ng-content>
+          <ng-content />
         </div>
       </div>
     </div>

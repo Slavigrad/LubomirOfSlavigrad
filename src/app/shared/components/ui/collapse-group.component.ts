@@ -92,13 +92,13 @@ export interface CollapseGroupItem {
         [class]="contentClasses()"
         [style.--stagger-delay]="staggerDelay + 'ms'"
       >
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       <!-- Group Footer -->
       @if (hasFooterContent()) {
         <div class="group-footer">
-          <ng-content select="[slot=footer]"></ng-content>
+          <ng-content select="[slot=footer]" />
         </div>
       }
     </div>

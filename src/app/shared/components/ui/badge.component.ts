@@ -25,7 +25,7 @@ export type BadgeRemovable = BadgeVariants['removable'];
       @if (icon) {
         <span class="badge-icon" [innerHTML]="icon"></span>
       }
-      <ng-content></ng-content>
+      <ng-content />
       @if (removable) {
         <button
           class="badge-remove"

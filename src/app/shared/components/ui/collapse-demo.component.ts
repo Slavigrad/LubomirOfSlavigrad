@@ -180,24 +180,20 @@ import {
           <!-- Single Selection Accordion -->
           <div>
             <h3 class="text-lg font-medium mb-3">Single Selection Mode</h3>
-            <app-accordion
-              variant="glass"
+            <app-accordion variant="glass"
               [allowMultiple]="false"
               [items]="singleAccordionItems()"
-              (itemToggle)="onAccordionToggle($event)">
-            </app-accordion>
+              (itemToggle)="onAccordionToggle($event)" />
           </div>
 
           <!-- Multiple Selection Accordion -->
           <div>
             <h3 class="text-lg font-medium mb-3">Multiple Selection Mode</h3>
-            <app-accordion
-              variant="bordered"
+            <app-accordion variant="bordered"
               [allowMultiple]="true"
               [allowToggleAll]="true"
               [items]="multipleAccordionItems()"
-              [showIcons]="true">
-            </app-accordion>
+              [showIcons]="true" />
           </div>
         </div>
       </section>

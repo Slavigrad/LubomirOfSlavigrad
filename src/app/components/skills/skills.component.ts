@@ -10,7 +10,7 @@ import { CollapseComponent } from '../../shared/components/ui/collapse.component
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [ScrollAnimateDirective, InteractiveAnimateDirective, CollapseComponent],
+  imports: [ScrollAnimateDirective, InteractiveAnimateDirective],
   template: `
     <!-- Skills Section -->
     <section id="skills" class="py-20 relative overflow-hidden">

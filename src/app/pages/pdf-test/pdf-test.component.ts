@@ -15,7 +15,7 @@ import { PDFTemplateGalleryComponent } from '../../components/pdf/pdf-template-g
         </p>
         
         <!-- PDF Template Gallery Component -->
-        <app-pdf-template-gallery></app-pdf-template-gallery>
+        <app-pdf-template-gallery />
       </div>
     </div>
   `,

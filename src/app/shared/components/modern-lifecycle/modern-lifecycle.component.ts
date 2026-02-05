@@ -137,7 +137,7 @@ import { CommonModule } from '@angular/common';
       <section class="lifecycle-projection">
         <h3>Content Projection</h3>
         <div class="projected-content">
-          <ng-content></ng-content>
+          <ng-content />
         </div>
 
         @if (!hasProjectedContent()) {

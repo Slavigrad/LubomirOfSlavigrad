@@ -1,8 +1,8 @@
 import { Component, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { EGYPT_STORY, Story } from '../../data/egypt-story-data';
-import { ScrollAnimateDirective, InteractiveAnimateDirective } from '../../shared/utils/animations';
+import { InteractiveAnimateDirective } from '../../shared/utils/animations';
 import { ReadingProgressComponent } from '../../shared/components/reading-progress/reading-progress.component';
 import { ScrollToTopComponent } from '../../shared/components/scroll-to-top/scroll-to-top.component';
 import { ChapterNavigationComponent, NavigationChapter } from '../../shared/components/chapter-navigation/chapter-navigation.component';
@@ -12,24 +12,22 @@ import { SocialShareComponent, ShareConfig } from '../../shared/components/socia
   selector: 'app-egypt-story',
   standalone: true,
   imports: [
-    CommonModule,
     RouterLink,
-    ScrollAnimateDirective,
     InteractiveAnimateDirective,
     ReadingProgressComponent,
     ScrollToTopComponent,
     ChapterNavigationComponent,
     SocialShareComponent
-  ],
+],
   template: `
     <!-- Reading Progress Bar -->
-    <app-reading-progress></app-reading-progress>
+    <app-reading-progress />
     
     <!-- Scroll to Top Button -->
-    <app-scroll-to-top></app-scroll-to-top>
+    <app-scroll-to-top />
     
     <!-- Chapter Navigation -->
-    <app-chapter-navigation [chapters]="getNavigationChapters()"></app-chapter-navigation>
+    <app-chapter-navigation [chapters]="getNavigationChapters()" />
     
     <div class="min-h-screen relative overflow-hidden">
       <!-- Ambient Background Effects -->
@@ -170,7 +168,7 @@ import { SocialShareComponent, ShareConfig } from '../../shared/components/socia
                   @for (paragraph of getIntroductionParagraphs(); track paragraph; let i = $index) {
                     <p
                       class="text-lg md:text-xl text-foreground/90 leading-relaxed"
-                      [ngClass]="{'first-letter:text-7xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left first-letter:leading-none': i === 0}">
+                      [class]="{'first-letter:text-7xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left first-letter:leading-none': i === 0}">
                       {{ paragraph }}
                     </p>
                   }
@@ -196,7 +194,7 @@ import { SocialShareComponent, ShareConfig } from '../../shared/components/socia
                     <div class="chapter-header relative group">
                       <!-- Animated gradient border -->
                       <div class="absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                       [ngClass]="{
+                       [class]="{
                          'bg-gradient-to-r from-primary via-primary to-primary': chapter.theme === 'primary' || !chapter.theme,
                          'bg-gradient-to-r from-secondary via-secondary to-secondary': chapter.theme === 'secondary',
                          'bg-gradient-to-r from-accent via-accent to-accent': chapter.theme === 'accent'
@@ -204,14 +202,14 @@ import { SocialShareComponent, ShareConfig } from '../../shared/components/socia
                       <!-- Chapter Title -->
                       <div class="relative bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border/20">
                         <h2 class="text-3xl md:text-4xl font-bold flex items-center gap-4 group-hover:scale-[1.02] transition-transform duration-300"
-                        [ngClass]="{
+                        [class]="{
                           'text-primary': chapter.theme === 'primary' || !chapter.theme,
                           'text-secondary': chapter.theme === 'secondary',
                           'text-accent': chapter.theme === 'accent'
                         }">
                           <!-- Chapter number badge -->
                           <span class="chapter-number w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold shadow-lg text-white"
-                            [ngClass]="{
+                            [class]="{
                               'bg-gradient-to-br from-primary to-primary': chapter.theme === 'primary' || !chapter.theme,
                               'bg-gradient-to-br from-secondary to-secondary': chapter.theme === 'secondary',
                               'bg-gradient-to-br from-accent to-accent': chapter.theme === 'accent'
@@ -236,7 +234,7 @@ import { SocialShareComponent, ShareConfig } from '../../shared/components/socia
                             <h3
                               class="text-xl md:text-2xl font-semibold text-foreground/90 mt-8 mb-4 flex items-center gap-3">
                               <span class="w-1 h-6 rounded-full"
-                            [ngClass]="{
+                            [class]="{
                               'bg-primary': chapter.theme === 'primary' || !chapter.theme,
                               'bg-secondary': chapter.theme === 'secondary',
                               'bg-accent': chapter.theme === 'accent'
@@ -264,7 +262,7 @@ import { SocialShareComponent, ShareConfig } from '../../shared/components/socia
                           <div class="h-px flex-1 bg-gradient-to-r from-transparent via-border/50 to-transparent"></div>
                           <div class="flex gap-2">
                             <div class="w-1.5 h-1.5 rounded-full"
-                           [ngClass]="{
+                           [class]="{
                              'bg-primary': chapter.theme === 'primary' || !chapter.theme,
                              'bg-secondary': chapter.theme === 'secondary',
                              'bg-accent': chapter.theme === 'accent'
@@ -358,7 +356,7 @@ import { SocialShareComponent, ShareConfig } from '../../shared/components/socia
             </div>
     
             <!-- Social Share -->
-            <app-social-share [config]="getShareConfig()"></app-social-share>
+            <app-social-share [config]="getShareConfig()" />
     
             <!-- Navigation Footer -->
             <div class="mt-16 text-center">
