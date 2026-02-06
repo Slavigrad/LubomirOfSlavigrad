@@ -274,15 +274,7 @@ export {
   type NoisePatternOptions,
 } from './canvas-noise';
 
-// ============================================================================
-// GLASS CARD RENDERER
-// ============================================================================
 
-export {
-  renderGlassCardBackground,
-  type GlassCardRenderOptions,
-  type GlassCardRenderResult,
-} from './glass-card-renderer';
 
 // ============================================================================
 // TYPE EXPORTS

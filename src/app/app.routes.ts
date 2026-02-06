@@ -36,11 +36,7 @@ export const routes: Routes = [
     loadComponent: () => import('./shared/components/ui/collapse-demo.component').then(m => m.CollapseDemoComponent),
     title: 'Collapse Components Demo - Lubomir of Slavigrad Chronicles'
   },
-  {
-    path: 'pdf-test',
-    loadComponent: () => import('./pages/pdf-test/pdf-test.component').then(m => m.PDFTestComponent),
-    title: 'PDF Template Gallery Test - Lubomir of Slavigrad Chronicles'
-  },
+
   {
     path: '404',
     loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
