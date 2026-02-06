@@ -1,5 +1,5 @@
-import { Component, Input, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, computed } from '@angular/core';
+
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
 import { createButtonVariants, buttonCompoundVariants, combineVariants } from '../../utils';
@@ -17,21 +17,19 @@ export type ButtonSize = ButtonVariants['size'];
 
 @Component({
   selector: 'app-button',
-  standalone: true,
-  imports: [CommonModule],
   template: `
     <button
       [class]="buttonClasses()"
-      [disabled]="disabled"
-      [type]="type"
+      [disabled]="disabled()"
+      [type]="type()"
     >
-      @if (loading) {
+      @if (loading()) {
         <div class="animate-spin rounded-full h-4 w-4 border-2 border-current border-t-transparent mr-2"></div>
       }
-      @if (icon && !loading) {
-        <span class="mr-2" [innerHTML]="icon"></span>
+      @if (icon() && !loading()) {
+        <span class="mr-2" [innerHTML]="icon()"></span>
       }
-      <ng-content></ng-content>
+      <ng-content />
     </button>
   `,
   styles: [`
@@ -183,22 +181,22 @@ export type ButtonSize = ButtonVariants['size'];
   `]
 })
 export class ButtonComponent {
-  @Input() variant: ButtonVariant = 'primary';
-  @Input() size: ButtonSize = 'md';
-  @Input() disabled: boolean = false;
-  @Input() loading: boolean = false;
-  @Input() type: 'button' | 'submit' | 'reset' = 'button';
-  @Input() icon: string = '';
+  readonly variant = input<ButtonVariant>('primary');
+  readonly size = input<ButtonSize>('md');
+  readonly disabled = input<boolean>(false);
+  readonly loading = input<boolean>(false);
+  readonly type = input<'button' | 'submit' | 'reset'>('button');
+  readonly icon = input<string>('');
 
   readonly buttonClasses = computed(() =>
     clsx(
       buttonVariants({
-        variant: this.variant,
-        size: this.size
+        variant: this.variant(),
+        size: this.size()
       }),
       {
-        'cursor-wait': this.loading,
-        'opacity-50': this.disabled
+        'cursor-wait': this.loading(),
+        'opacity-50': this.disabled()
       }
     )
   );

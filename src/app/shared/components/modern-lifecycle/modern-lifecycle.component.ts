@@ -14,16 +14,15 @@ import {
   AfterViewInit,
   AfterContentInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 /**
  * Modern Angular component demonstrating latest lifecycle hooks
- * and signal-based patterns in Angular 20+
+ * and signal-based patterns in Angular 21+
  */
 @Component({
   selector: 'app-modern-lifecycle',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -34,7 +33,7 @@ import { CommonModule } from '@angular/common';
       <!-- Header Section -->
       <header class="lifecycle-header">
         <h2>Modern Angular Lifecycle Demo</h2>
-        <p>Demonstrating Angular 20+ features and lifecycle hooks</p>
+        <p>Demonstrating Angular 21+ features and lifecycle hooks</p>
 
         <div class="lifecycle-stats">
           <div class="stat-item">
@@ -137,7 +136,7 @@ import { CommonModule } from '@angular/common';
       <section class="lifecycle-projection">
         <h3>Content Projection</h3>
         <div class="projected-content">
-          <ng-content></ng-content>
+          <ng-content />
         </div>
 
         @if (!hasProjectedContent()) {

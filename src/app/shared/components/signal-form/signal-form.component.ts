@@ -9,12 +9,12 @@ import {
   ChangeDetectionStrategy,
   OnInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 
 /**
  * Modern signal-based form component
- * Demonstrates Angular 20+ signal-based forms without reactive forms
+ * Demonstrates Angular 21+ signal-based forms without reactive forms
  */
 
 export interface FormField {
@@ -43,8 +43,7 @@ export interface FormErrors {
 
 @Component({
   selector: 'app-signal-form',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <form

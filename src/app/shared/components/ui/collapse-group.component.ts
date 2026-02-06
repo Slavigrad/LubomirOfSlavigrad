@@ -1,18 +1,16 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   signal,
   computed,
   effect,
   ChangeDetectionStrategy,
-  ContentChildren,
-  QueryList,
+  contentChildren,
   AfterContentInit,
   OnDestroy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CollapseComponent, CollapseVariant, CollapseSize, CollapseAnimation } from './collapse.component';
 import { CollapsibleCardComponent } from './collapsible-card.component';
 
@@ -35,18 +33,17 @@ export interface CollapseGroupItem {
 
 @Component({
   selector: 'app-collapse-group',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
       class="collapse-group"
       [class]="containerClasses()"
       role="group"
-      [attr.aria-label]="groupLabel"
+      [attr.aria-label]="groupLabel()"
     >
       <!-- Group Controls -->
-      @if (allowToggleAll && showControls) {
+      @if (allowToggleAll() && showControls()) {
         <div class="group-controls">
           <div class="control-buttons">
             <button
@@ -76,7 +73,7 @@ export interface CollapseGroupItem {
             </button>
           </div>
 
-          @if (showStats) {
+          @if (showStats()) {
             <div class="group-stats">
               <span class="stats-text">
                 {{ expandedCount() }} of {{ totalCount() }} expanded
@@ -90,15 +87,15 @@ export interface CollapseGroupItem {
       <div
         class="group-content"
         [class]="contentClasses()"
-        [style.--stagger-delay]="staggerDelay + 'ms'"
+        [style.--stagger-delay]="staggerDelay() + 'ms'"
       >
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       <!-- Group Footer -->
       @if (hasFooterContent()) {
         <div class="group-footer">
-          <ng-content select="[slot=footer]"></ng-content>
+          <ng-content select="[slot=footer]" />
         </div>
       }
     </div>
@@ -256,28 +253,28 @@ export interface CollapseGroupItem {
   `]
 })
 export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
-  @ContentChildren(CollapseComponent, { descendants: true }) collapseItems!: QueryList<CollapseComponent>;
-  @ContentChildren(CollapsibleCardComponent, { descendants: true }) cardItems!: QueryList<CollapsibleCardComponent>;
+  readonly collapseItems = contentChildren(CollapseComponent, { descendants: true });
+  readonly cardItems = contentChildren(CollapsibleCardComponent, { descendants: true });
 
   // Configuration inputs
-  @Input() variant: CollapseVariant = 'default';
-  @Input() size: CollapseSize = 'md';
-  @Input() animation: CollapseAnimation = 'slide';
-  @Input() duration: number = 300;
-  @Input() allowMultiple: boolean = true;
-  @Input() allowToggleAll: boolean = true;
-  @Input() staggerDelay: number = 100;
-  @Input() orientation: 'vertical' | 'horizontal' = 'vertical';
-  @Input() groupLabel: string = 'Collapsible Group';
-  @Input() showControls: boolean = true;
-  @Input() showStats: boolean = true;
-  @Input() loading: boolean = false;
+  readonly variant = input<CollapseVariant>('default');
+  readonly size = input<CollapseSize>('md');
+  readonly animation = input<CollapseAnimation>('slide');
+  readonly duration = input<number>(300);
+  readonly allowMultiple = input<boolean>(true);
+  readonly allowToggleAll = input<boolean>(true);
+  readonly staggerDelay = input<number>(100);
+  readonly orientation = input<'vertical' | 'horizontal'>('vertical');
+  readonly groupLabel = input<string>('Collapsible Group');
+  readonly showControls = input<boolean>(true);
+  readonly showStats = input<boolean>(true);
+  readonly loading = input<boolean>(false);
 
   // Events
-  @Output() itemToggle = new EventEmitter<{ itemId: string; expanded: boolean }>();
-  @Output() expandedItemsChange = new EventEmitter<string[]>();
-  @Output() expandAllEvent = new EventEmitter<void>();
-  @Output() collapseAllEvent = new EventEmitter<void>();
+  readonly itemToggle = output<{ itemId: string; expanded: boolean }>();
+  readonly expandedItemsChange = output<string[]>();
+  readonly expandAllEvent = output<void>();
+  readonly collapseAllEvent = output<void>();
 
   // Internal state
   private readonly expandedItems = signal<Set<string>>(new Set());
@@ -285,18 +282,18 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
 
   // Computed properties
   readonly containerClasses = computed(() => {
-    const variant = this.variant;
-    const size = this.size;
-    const orientation = this.orientation;
-    const animation = this.animation;
+    const variantValue = this.variant();
+    const sizeValue = this.size();
+    const orientationValue = this.orientation();
+    const animationValue = this.animation();
 
     return [
       'collapse-group-container',
-      `variant-${variant}`,
-      `size-${size}`,
-      `orientation-${orientation}`,
-      `animation-${animation}`,
-      this.loading ? 'loading' : ''
+      `variant-${variantValue}`,
+      `size-${sizeValue}`,
+      `orientation-${orientationValue}`,
+      `animation-${animationValue}`,
+      this.loading() ? 'loading' : ''
     ].filter(Boolean).join(' ');
   });
 
@@ -308,9 +305,9 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
   });
 
   readonly allItems = computed(() => {
-    const collapseItems = this.collapseItems?.toArray() || [];
-    const cardItems = this.cardItems?.toArray() || [];
-    return [...collapseItems, ...cardItems];
+    const collapseItemsArr = this.collapseItems() || [];
+    const cardItemsArr = this.cardItems() || [];
+    return [...collapseItemsArr, ...cardItemsArr];
   });
 
   readonly totalCount = computed(() => this.allItems().length);
@@ -322,18 +319,17 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
     return false; // This would need to be implemented based on content projection
   });
 
+  constructor() {
+    // Use effect to set up subscriptions when content children change
+    effect(() => {
+      const collapseItemsArr = this.collapseItems();
+      const cardItemsArr = this.cardItems();
+      this.setupItemSubscriptions(collapseItemsArr, cardItemsArr);
+    });
+  }
+
   ngAfterContentInit() {
-    // Set up initial state and subscriptions
-    this.setupItemSubscriptions();
-
-    // Watch for changes in content children
-    this.collapseItems?.changes.subscribe(() => {
-      this.setupItemSubscriptions();
-    });
-
-    this.cardItems?.changes.subscribe(() => {
-      this.setupItemSubscriptions();
-    });
+    // Initial setup handled by effect in constructor
   }
 
   ngOnDestroy() {
@@ -346,7 +342,7 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
     this.itemSubscriptions.clear();
   }
 
-  private setupItemSubscriptions() {
+  private setupItemSubscriptions(collapseItemsArr: readonly CollapseComponent[], cardItemsArr: readonly CollapsibleCardComponent[]) {
     // Clear existing subscriptions
     this.itemSubscriptions.forEach(subscription => {
       if (subscription && subscription.unsubscribe) {
@@ -356,7 +352,7 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
     this.itemSubscriptions.clear();
 
     // Set up new subscriptions for collapse items
-    this.collapseItems?.forEach((item, index) => {
+    collapseItemsArr.forEach((item, index) => {
       const itemId = `collapse-${index}`;
       const subscription = item.expandedChange.subscribe((expanded: boolean) => {
         this.handleItemToggle(itemId, expanded);
@@ -365,7 +361,7 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
     });
 
     // Set up new subscriptions for card items
-    this.cardItems?.forEach((item, index) => {
+    cardItemsArr.forEach((item, index) => {
       const itemId = `card-${index}`;
       const subscription = item.expandedChange.subscribe((expanded: boolean) => {
         this.handleItemToggle(itemId, expanded);
@@ -378,7 +374,7 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
     const currentExpanded = new Set(this.expandedItems());
 
     if (expanded) {
-      if (!this.allowMultiple) {
+      if (!this.allowMultiple()) {
         // Close all other items if multiple not allowed
         currentExpanded.clear();
         this.collapseAllItemsInternal();
@@ -395,18 +391,18 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
 
   // Public API methods
   expandAllItems(): void {
-    if (!this.allowMultiple) {
+    if (!this.allowMultiple()) {
       return;
     }
 
-    this.collapseItems?.forEach(item => {
-      if (!item.disabled) {
+    this.collapseItems().forEach(item => {
+      if (!item.disabled()) {
         item.expand();
       }
     });
 
-    this.cardItems?.forEach(item => {
-      if (!item.disabled) {
+    this.cardItems().forEach(item => {
+      if (!item.disabled()) {
         item.expand();
       }
     });
@@ -420,46 +416,46 @@ export class CollapseGroupComponent implements AfterContentInit, OnDestroy {
   }
 
   private collapseAllItemsInternal(): void {
-    this.collapseItems?.forEach(item => {
-      if (!item.disabled) {
+    this.collapseItems().forEach(item => {
+      if (!item.disabled()) {
         item.collapse();
       }
     });
 
-    this.cardItems?.forEach(item => {
-      if (!item.disabled) {
+    this.cardItems().forEach(item => {
+      if (!item.disabled()) {
         item.collapse();
       }
     });
   }
 
   expandItem(index: number): void {
-    const allItems = this.allItems();
-    if (index >= 0 && index < allItems.length) {
-      const item = allItems[index];
-      if ('expand' in item && !item.disabled) {
+    const allItemsArr = this.allItems();
+    if (index >= 0 && index < allItemsArr.length) {
+      const item = allItemsArr[index];
+      if ('expand' in item && !item.disabled()) {
         item.expand();
       }
     }
   }
 
   collapseItem(index: number): void {
-    const allItems = this.allItems();
-    if (index >= 0 && index < allItems.length) {
-      const item = allItems[index];
-      if ('collapse' in item && !item.disabled) {
+    const allItemsArr = this.allItems();
+    if (index >= 0 && index < allItemsArr.length) {
+      const item = allItemsArr[index];
+      if ('collapse' in item && !item.disabled()) {
         item.collapse();
       }
     }
   }
 
   toggleItem(index: number): void {
-    const allItems = this.allItems();
-    if (index >= 0 && index < allItems.length) {
-      const item = allItems[index];
-      if ('toggleExpansion' in item && !item.disabled) {
+    const allItemsArr = this.allItems();
+    if (index >= 0 && index < allItemsArr.length) {
+      const item = allItemsArr[index];
+      if ('toggleExpansion' in item && !item.disabled()) {
         item.toggleExpansion();
-      } else if ('toggleCollapse' in item && !item.disabled) {
+      } else if ('toggleCollapse' in item && !item.disabled()) {
         item.toggleCollapse();
       }
     }

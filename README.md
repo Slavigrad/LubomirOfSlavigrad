@@ -13,7 +13,7 @@ A personal, recruiter‑focused profile site built with Angular. The MVP emphasi
 
 ## Tech stack
 
-- Angular 20 (standalone components)
+- Angular 21 (standalone components)
 - TypeScript, RxJS, Zone.js
 - Tailwind CSS + utilities
 

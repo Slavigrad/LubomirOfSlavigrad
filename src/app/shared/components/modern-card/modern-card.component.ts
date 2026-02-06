@@ -10,16 +10,14 @@ import {
   ElementRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Modern Angular component using signal-based inputs/outputs
- * Demonstrates latest Angular 20+ features
+ * Demonstrates latest Angular 21+ features
  */
 @Component({
   selector: 'app-modern-card',
-  standalone: true,
-  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div
@@ -58,7 +56,7 @@ import { CommonModule } from '@angular/common';
 
           @if (hasActions()) {
             <div class="card-actions">
-              <ng-content select="[slot=actions]"></ng-content>
+              <ng-content select="[slot=actions]" />
             </div>
           }
         </div>
@@ -66,13 +64,13 @@ import { CommonModule } from '@angular/common';
 
       <!-- Card Content -->
       <div class="card-content" [class]="contentClass()">
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       <!-- Card Footer -->
       @if (showFooter()) {
         <div class="card-footer" [class]="footerClass()">
-          <ng-content select="[slot=footer]"></ng-content>
+          <ng-content select="[slot=footer]" />
         </div>
       }
 
@@ -287,7 +285,7 @@ import { CommonModule } from '@angular/common';
   `]
 })
 export class ModernCardComponent {
-  // Signal-based inputs (Angular 20+ feature)
+  // Signal-based inputs (Angular 21+ feature)
   readonly title = input<string>('');
   readonly subtitle = input<string>('');
   readonly icon = input<string>('');
@@ -307,7 +305,7 @@ export class ModernCardComponent {
   readonly selected = model<boolean>(false);
   readonly expanded = model<boolean>(false);
 
-  // Signal-based outputs (Angular 20+ feature)
+  // Signal-based outputs (Angular 21+ feature)
   readonly cardClick = output<MouseEvent>();
   readonly cardHover = output<boolean>();
   readonly cardFocus = output<FocusEvent>();

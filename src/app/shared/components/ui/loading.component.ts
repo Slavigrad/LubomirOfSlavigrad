@@ -1,13 +1,11 @@
-import { Component, Input, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, computed } from '@angular/core';
+
 
 export type LoadingVariant = 'spinner' | 'dots' | 'pulse' | 'skeleton';
 export type LoadingSize = 'sm' | 'md' | 'lg' | 'xl';
 
 @Component({
   selector: 'app-loading',
-  standalone: true,
-  imports: [CommonModule],
   template: `
     <div [class]="containerClasses()">
       @switch (variant()) {
@@ -131,10 +129,10 @@ export type LoadingSize = 'sm' | 'md' | 'lg' | 'xl';
   `]
 })
 export class LoadingComponent {
-  @Input() variant = signal<LoadingVariant>('spinner');
-  @Input() size = signal<LoadingSize>('md');
-  @Input() text = signal<string>('');
-  @Input() color = signal<'primary' | 'secondary' | 'accent' | 'muted'>('primary');
+  readonly variant = input<LoadingVariant>('spinner');
+  readonly size = input<LoadingSize>('md');
+  readonly text = input<string>('');
+  readonly color = input<'primary' | 'secondary' | 'accent' | 'muted'>('primary');
 
   readonly containerClasses = computed(() => {
     return [

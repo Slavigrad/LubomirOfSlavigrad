@@ -1,5 +1,5 @@
-import { Component, Input, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, signal, computed } from '@angular/core';
+
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
 import { createCardVariants, cardCompoundVariants, combineVariants } from '../../utils';
@@ -17,28 +17,26 @@ export type CardHoverable = CardVariants['hoverable'];
 
 @Component({
   selector: 'app-card',
-  standalone: true,
-  imports: [CommonModule],
   template: `
     <div [class]="cardClasses()">
-      @if (title || subtitle) {
+      @if (title() || subtitle()) {
         <div class="card-header">
-          @if (title) {
-            <h3 class="card-title">{{ title }}</h3>
+          @if (title()) {
+            <h3 class="card-title">{{ title() }}</h3>
           }
-          @if (subtitle) {
-            <p class="card-subtitle">{{ subtitle }}</p>
+          @if (subtitle()) {
+            <p class="card-subtitle">{{ subtitle() }}</p>
           }
         </div>
       }
 
       <div class="card-content">
-        <ng-content></ng-content>
+        <ng-content />
       </div>
 
       @if (hasFooter()) {
         <div class="card-footer">
-          <ng-content select="[slot=footer]"></ng-content>
+          <ng-content select="[slot=footer]" />
         </div>
       }
     </div>
@@ -188,18 +186,18 @@ export type CardHoverable = CardVariants['hoverable'];
   `]
 })
 export class CardComponent {
-  @Input() variant: CardVariant = 'default';
-  @Input() title: string = '';
-  @Input() subtitle: string = '';
-  @Input() hoverable: boolean = true;
+  readonly variant = input<CardVariant>('default');
+  readonly title = input<string>('');
+  readonly subtitle = input<string>('');
+  readonly hoverable = input<boolean>(true);
 
   readonly hasFooter = signal(false);
 
   readonly cardClasses = computed(() =>
     clsx(
       cardVariants({
-        variant: this.variant,
-        hoverable: this.hoverable
+        variant: this.variant(),
+        hoverable: this.hoverable()
       })
     )
   );

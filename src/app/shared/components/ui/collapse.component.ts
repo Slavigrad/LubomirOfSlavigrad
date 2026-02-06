@@ -1,19 +1,18 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   signal,
   computed,
   effect,
   ElementRef,
-  ViewChild,
+  viewChild,
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
   AfterViewInit
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { trigger, state, style, transition, animate, AnimationEvent } from '@angular/animations';
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -51,8 +50,7 @@ export interface CollapseConfig {
 
 @Component({
   selector: 'app-collapse',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     // Slide animation
@@ -120,7 +118,7 @@ export interface CollapseConfig {
       class="collapse-container"
       [class]="containerClasses()"
       [attr.aria-expanded]="isExpanded()"
-      [attr.aria-disabled]="disabled"
+      [attr.aria-disabled]="disabled()"
     >
       <!-- Header/Trigger -->
       <div
@@ -130,27 +128,27 @@ export interface CollapseConfig {
         (click)="toggleCollapse()"
         (keydown.enter)="toggleCollapse()"
         (keydown.space)="toggleCollapse()"
-        [attr.tabindex]="disabled ? -1 : 0"
+        [attr.tabindex]="disabled() ? -1 : 0"
         [attr.role]="'button'"
         [attr.aria-controls]="contentId"
         [attr.aria-expanded]="isExpanded()"
       >
         <!-- Header Content -->
         <div class="header-content">
-          <ng-content select="[slot=header]"></ng-content>
+          <ng-content select="[slot=header]" />
           @if (!hasHeaderSlot()) {
-            <span class="default-header">{{ headerText }}</span>
+            <span class="default-header">{{ headerText() }}</span>
           }
         </div>
 
         <!-- Toggle Icon -->
-        @if (showIcon) {
+        @if (showIcon()) {
           <div
             class="collapse-icon"
-            [@iconRotation]="{ value: animationState(), params: { duration: duration } }"
+            [@iconRotation]="{ value: animationState(), params: { duration: duration() } }"
           >
-            @if (customIcon) {
-              <span [innerHTML]="customIcon"></span>
+            @if (customIcon()) {
+              <span [innerHTML]="customIcon()"></span>
             } @else {
               <svg
                 class="w-5 h-5"
@@ -183,7 +181,7 @@ export interface CollapseConfig {
         role="region"
       >
         <div class="content-wrapper">
-          <ng-content></ng-content>
+          <ng-content />
         </div>
       </div>
     </div>
@@ -316,28 +314,28 @@ export interface CollapseConfig {
   `]
 })
 export class CollapseComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('headerElement') headerElement!: ElementRef<HTMLElement>;
-  @ViewChild('contentElement') contentElement!: ElementRef<HTMLElement>;
+  readonly headerElement = viewChild<ElementRef<HTMLElement>>('headerElement');
+  readonly contentElement = viewChild<ElementRef<HTMLElement>>('contentElement');
 
   // Configuration inputs
-  @Input() variant: CollapseVariant = 'default';
-  @Input() size: CollapseSize = 'md';
-  @Input() animation: CollapseAnimation = 'slide';
-  @Input() duration: number = 300;
-  @Input() disabled: boolean = false;
-  @Input() allowToggle: boolean = true;
-  @Input() expanded: boolean = false;
-  @Input() showIcon: boolean = true;
-  @Input() customIcon: string = '';
-  @Input() headerText: string = 'Toggle Content';
-  @Input() headerClass: string = '';
-  @Input() contentClass: string = '';
+  readonly variant = input<CollapseVariant>('default');
+  readonly size = input<CollapseSize>('md');
+  readonly animation = input<CollapseAnimation>('slide');
+  readonly duration = input<number>(300);
+  readonly disabled = input<boolean>(false);
+  readonly allowToggle = input<boolean>(true);
+  readonly expanded = input<boolean>(false);
+  readonly showIcon = input<boolean>(true);
+  readonly customIcon = input<string>('');
+  readonly headerText = input<string>('Toggle Content');
+  readonly headerClass = input<string>('');
+  readonly contentClass = input<string>('');
 
   // Events
-  @Output() expandedChange = new EventEmitter<boolean>();
-  @Output() toggleEvent = new EventEmitter<boolean>();
-  @Output() animationStart = new EventEmitter<AnimationEvent>();
-  @Output() animationDone = new EventEmitter<AnimationEvent>();
+  readonly expandedChange = output<boolean>();
+  readonly toggleEvent = output<boolean>();
+  readonly animationStart = output<AnimationEvent>();
+  readonly animationDone = output<AnimationEvent>();
 
   // Internal state
   private readonly animating = signal(false);
@@ -352,12 +350,12 @@ export class CollapseComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly containerClasses = computed(() =>
     clsx(
       collapseContainerVariants({
-        variant: this.variant,
-        size: this.size,
-        animation: this.animation,
-        disabled: this.disabled
+        variant: this.variant(),
+        size: this.size(),
+        animation: this.animation(),
+        disabled: this.disabled()
       }),
-      this.headerClass
+      this.headerClass()
     )
   );
 
@@ -373,19 +371,20 @@ export class CollapseComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly contentClasses = computed(() =>
     clsx(
       collapseContentVariants({}),
-      this.contentClass
+      this.contentClass()
     )
   );
 
   ngOnInit() {
     // Initialize expanded signal from input
-    this.expandedSignal.set(this.expanded);
+    this.expandedSignal.set(this.expanded());
   }
 
   ngAfterViewInit() {
     // Check if header slot content exists after view initialization
-    if (this.headerElement) {
-      const headerSlot = this.headerElement.nativeElement.querySelector('[slot=header]');
+    const headerEl = this.headerElement();
+    if (headerEl) {
+      const headerSlot = headerEl.nativeElement.querySelector('[slot=header]');
       this.hasHeaderSlot.set(!!headerSlot);
     }
   }
@@ -395,7 +394,7 @@ export class CollapseComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toggleCollapse(): void {
-    if (this.disabled || !this.allowToggle || this.animating()) {
+    if (this.disabled() || !this.allowToggle() || this.animating()) {
       return;
     }
 
@@ -406,30 +405,30 @@ export class CollapseComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   expand(): void {
-    if (!this.isExpanded() && !this.disabled) {
+    if (!this.isExpanded() && !this.disabled()) {
       this.toggleCollapse();
     }
   }
 
   collapse(): void {
-    if (this.isExpanded() && !this.disabled) {
+    if (this.isExpanded() && !this.disabled()) {
       this.toggleCollapse();
     }
   }
 
   getAnimationConfig() {
-    const animationType = this.animation;
-    const duration = this.duration;
-    const state = this.animationState();
+    const animationType = this.animation();
+    const durationValue = this.duration();
+    const stateValue = this.animationState();
 
     switch (animationType) {
       case 'fade':
-        return { value: state, params: { duration } };
+        return { value: stateValue, params: { duration: durationValue } };
       case 'scale':
-        return { value: state, params: { duration } };
+        return { value: stateValue, params: { duration: durationValue } };
       case 'slide':
       default:
-        return { value: state, params: { duration } };
+        return { value: stateValue, params: { duration: durationValue } };
     }
   }
 

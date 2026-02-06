@@ -1,5 +1,5 @@
-import { Component, Input, signal, computed, forwardRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, signal, computed, forwardRef } from '@angular/core';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -20,8 +20,6 @@ export type InputSize = InputVariants['size'];
 
 @Component({
   selector: 'app-input',
-  standalone: true,
-  imports: [CommonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -31,28 +29,28 @@ export type InputSize = InputVariants['size'];
   ],
   template: `
     <div [class]="containerClasses()">
-      @if (label) {
+      @if (label()) {
         <label [for]="inputId()" class="input-label">
-          {{ label }}
-          @if (required) {
+          {{ label() }}
+          @if (required()) {
             <span class="text-red-500 ml-1">*</span>
           }
         </label>
       }
 
       <div class="relative">
-        @if (icon) {
+        @if (icon()) {
           <div class="input-icon-left">
-            <span [innerHTML]="icon"></span>
+            <span [innerHTML]="icon()"></span>
           </div>
         }
 
         <input
           [id]="inputId()"
-          [type]="type"
-          [placeholder]="placeholder"
-          [disabled]="disabled"
-          [readonly]="readonly"
+          [type]="type()"
+          [placeholder]="placeholder()"
+          [disabled]="disabledState()"
+          [readonly]="readonly()"
           [class]="inputClasses()"
           [value]="value()"
           (input)="onInput($event)"
@@ -60,7 +58,7 @@ export type InputSize = InputVariants['size'];
           (focus)="onFocus()"
         />
 
-        @if (clearable && value()) {
+        @if (clearable() && value()) {
           <button
             type="button"
             class="input-clear"
@@ -74,12 +72,12 @@ export type InputSize = InputVariants['size'];
         }
       </div>
 
-      @if (error) {
-        <p class="input-error">{{ error }}</p>
+      @if (error()) {
+        <p class="input-error">{{ error() }}</p>
       }
 
-      @if (hint && !error) {
-        <p class="input-hint">{{ hint }}</p>
+      @if (hint() && !error()) {
+        <p class="input-hint">{{ hint() }}</p>
       }
     </div>
   `,
@@ -193,19 +191,20 @@ export type InputSize = InputVariants['size'];
   `]
 })
 export class InputComponent implements ControlValueAccessor {
-  @Input() label: string = '';
-  @Input() placeholder: string = '';
-  @Input() type: string = 'text';
-  @Input() variant: InputVariant = 'default';
-  @Input() size: InputSize = 'md';
-  @Input() disabled: boolean = false;
-  @Input() readonly: boolean = false;
-  @Input() required: boolean = false;
-  @Input() clearable: boolean = false;
-  @Input() icon: string = '';
-  @Input() error: string = '';
-  @Input() hint: string = '';
+  readonly label = input<string>('');
+  readonly placeholder = input<string>('');
+  readonly type = input<string>('text');
+  readonly variant = input<InputVariant>('default');
+  readonly size = input<InputSize>('md');
+  readonly readonly = input<boolean>(false);
+  readonly required = input<boolean>(false);
+  readonly clearable = input<boolean>(false);
+  readonly icon = input<string>('');
+  readonly error = input<string>('');
+  readonly hint = input<string>('');
 
+  // disabledState is a writable signal to support ControlValueAccessor's setDisabledState
+  readonly disabledState = signal<boolean>(false);
   readonly value = signal<string>('');
   readonly inputId = signal(`input-${Math.random().toString(36).substr(2, 9)}`);
 
@@ -221,10 +220,10 @@ export class InputComponent implements ControlValueAccessor {
   readonly inputClasses = computed(() =>
     clsx(
       inputFieldVariants({
-        variant: this.variant,
-        size: this.size,
-        hasIcon: !!this.icon,
-        hasError: !!this.error
+        variant: this.variant(),
+        size: this.size(),
+        hasIcon: !!this.icon(),
+        hasError: !!this.error()
       })
     )
   );
@@ -262,6 +261,6 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.disabledState.set(isDisabled);
   }
 }

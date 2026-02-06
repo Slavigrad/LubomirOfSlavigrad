@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { loadSignalConfig, saveSignalConfig } from '../utils/local-storage-config';
 
 export interface ImageOptimizationConfig {
   enableWebP: boolean;
@@ -44,7 +45,7 @@ export class ImageOptimizationService {
 
   constructor() {
     this.detectWebPSupport();
-    this.loadConfiguration();
+    loadSignalConfig(this._config, 'image-optimization-config', 'image optimization');
   }
 
   /**
@@ -235,7 +236,7 @@ export class ImageOptimizationService {
    */
   updateConfig(config: Partial<ImageOptimizationConfig>): void {
     this._config.update(current => ({ ...current, ...config }));
-    this.saveConfiguration();
+    saveSignalConfig(this._config, 'image-optimization-config');
   }
 
   private detectWebPSupport(): void {
@@ -281,25 +282,5 @@ export class ImageOptimizationService {
   private detectImageFormat(url: string): string {
     const extension = url.split('.').pop()?.toLowerCase();
     return extension || 'unknown';
-  }
-
-  private loadConfiguration(): void {
-    if (typeof localStorage !== 'undefined') {
-      const saved = localStorage.getItem('image-optimization-config');
-      if (saved) {
-        try {
-          const config = JSON.parse(saved);
-          this._config.set({ ...this._config(), ...config });
-        } catch (error) {
-          console.warn('Failed to load image optimization configuration:', error);
-        }
-      }
-    }
-  }
-
-  private saveConfiguration(): void {
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem('image-optimization-config', JSON.stringify(this._config()));
-    }
   }
 }

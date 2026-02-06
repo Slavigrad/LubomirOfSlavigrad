@@ -5,7 +5,7 @@ import { ModernCardComponent } from './modern-card.component';
 
 /**
  * Modern Angular testing patterns for signal-based components
- * Demonstrates Angular 20+ testing best practices
+ * Demonstrates Angular 21+ testing best practices
  */
 
 // Test host component for testing inputs/outputs

@@ -1,13 +1,11 @@
 import { Component, inject, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { PerformanceService } from '../../services/performance.service';
 import { BundleAnalyzerService } from '../../services/bundle-analyzer.service';
 import { CacheService } from '../../services/cache.service';
 
 @Component({
   selector: 'app-performance-monitor',
-  standalone: true,
-  imports: [CommonModule],
   template: `
     <div class="performance-monitor glass-card p-6">
       <!-- Header -->
@@ -23,7 +21,7 @@ import { CacheService } from '../../services/cache.service';
           </span>
         </div>
       </div>
-
+    
       <!-- Core Web Vitals -->
       <div class="mb-6">
         <h4 class="text-lg font-semibold mb-4 text-foreground">Core Web Vitals</h4>
@@ -36,7 +34,7 @@ import { CacheService } from '../../services/cache.service';
             </div>
             <div class="metric-description">First Contentful Paint</div>
           </div>
-
+    
           <!-- LCP -->
           <div class="metric-card">
             <div class="metric-label">LCP</div>
@@ -45,7 +43,7 @@ import { CacheService } from '../../services/cache.service';
             </div>
             <div class="metric-description">Largest Contentful Paint</div>
           </div>
-
+    
           <!-- FID -->
           <div class="metric-card">
             <div class="metric-label">FID</div>
@@ -54,7 +52,7 @@ import { CacheService } from '../../services/cache.service';
             </div>
             <div class="metric-description">First Input Delay</div>
           </div>
-
+    
           <!-- CLS -->
           <div class="metric-card">
             <div class="metric-label">CLS</div>
@@ -65,32 +63,34 @@ import { CacheService } from '../../services/cache.service';
           </div>
         </div>
       </div>
-
+    
       <!-- Bundle Analysis -->
-      <div class="mb-6" *ngIf="bundleAnalyzer.analysis()">
-        <h4 class="text-lg font-semibold mb-4 text-foreground">Bundle Analysis</h4>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="metric-card">
-            <div class="metric-label">Total Size</div>
-            <div class="metric-value">
-              {{ formatSize(bundleAnalyzer.analysis()?.totalSize || 0) }}
+      @if (bundleAnalyzer.analysis()) {
+        <div class="mb-6">
+          <h4 class="text-lg font-semibold mb-4 text-foreground">Bundle Analysis</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="metric-card">
+              <div class="metric-label">Total Size</div>
+              <div class="metric-value">
+                {{ formatSize(bundleAnalyzer.analysis()?.totalSize || 0) }}
+              </div>
             </div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Gzip Size</div>
-            <div class="metric-value">
-              {{ formatSize(bundleAnalyzer.analysis()?.totalGzipSize || 0) }}
+            <div class="metric-card">
+              <div class="metric-label">Gzip Size</div>
+              <div class="metric-value">
+                {{ formatSize(bundleAnalyzer.analysis()?.totalGzipSize || 0) }}
+              </div>
             </div>
-          </div>
-          <div class="metric-card">
-            <div class="metric-label">Bundle Score</div>
-            <div class="metric-value">
-              {{ bundleAnalyzer.analysis()?.performanceScore || 0 }}
+            <div class="metric-card">
+              <div class="metric-label">Bundle Score</div>
+              <div class="metric-value">
+                {{ bundleAnalyzer.analysis()?.performanceScore || 0 }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
+      }
+    
       <!-- Cache Metrics -->
       <div class="mb-6">
         <h4 class="text-lg font-semibold mb-4 text-foreground">Cache Performance</h4>
@@ -115,72 +115,76 @@ import { CacheService } from '../../services/cache.service';
           </div>
         </div>
       </div>
-
+    
       <!-- Budget Status -->
-      <div class="mb-6" *ngIf="bundleAnalyzer.budgets().length > 0">
-        <h4 class="text-lg font-semibold mb-4 text-foreground">Performance Budgets</h4>
-        <div class="space-y-3">
-          @for (budget of bundleAnalyzer.budgets(); track budget.type) {
-            <div class="budget-item">
-              <div class="flex items-center justify-between mb-2">
-                <span class="font-medium capitalize">{{ budget.type }} Bundle</span>
-                <span
-                  class="px-2 py-1 rounded text-xs font-medium"
-                  [class]="getBudgetStatusClass(budget.status)"
-                >
-                  {{ budget.status.toUpperCase() }}
-                </span>
+      @if (bundleAnalyzer.budgets().length > 0) {
+        <div class="mb-6">
+          <h4 class="text-lg font-semibold mb-4 text-foreground">Performance Budgets</h4>
+          <div class="space-y-3">
+            @for (budget of bundleAnalyzer.budgets(); track budget.type) {
+              <div class="budget-item">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-medium capitalize">{{ budget.type }} Bundle</span>
+                  <span
+                    class="px-2 py-1 rounded text-xs font-medium"
+                    [class]="getBudgetStatusClass(budget.status)"
+                    >
+                    {{ budget.status.toUpperCase() }}
+                  </span>
+                </div>
+                <div class="budget-bar">
+                  <div
+                    class="budget-progress"
+                    [class]="getBudgetProgressClass(budget.status)"
+                    [style.width.%]="getBudgetPercentage(budget)"
+                  ></div>
+                </div>
+                <div class="flex justify-between text-xs text-muted-foreground mt-1">
+                  <span>{{ formatSize(budget.current) }}</span>
+                  <span>{{ formatSize(budget.maximumError) }}</span>
+                </div>
               </div>
-              <div class="budget-bar">
-                <div
-                  class="budget-progress"
-                  [class]="getBudgetProgressClass(budget.status)"
-                  [style.width.%]="getBudgetPercentage(budget)"
-                ></div>
-              </div>
-              <div class="flex justify-between text-xs text-muted-foreground mt-1">
-                <span>{{ formatSize(budget.current) }}</span>
-                <span>{{ formatSize(budget.maximumError) }}</span>
-              </div>
-            </div>
-          }
+            }
+          </div>
         </div>
-      </div>
-
+      }
+    
       <!-- Recommendations -->
-      <div *ngIf="bundleAnalyzer.analysis()?.recommendations && bundleAnalyzer.analysis()!.recommendations.length > 0">
-        <h4 class="text-lg font-semibold mb-4 text-foreground">Recommendations</h4>
-        <div class="space-y-3">
-          @for (rec of bundleAnalyzer.analysis()?.recommendations; track rec.message) {
-            <div
-              class="recommendation-item p-3 rounded border-l-4"
-              [class]="getRecommendationClass(rec.severity)"
-            >
-              <div class="font-medium">{{ rec.message }}</div>
-              <div class="text-sm text-muted-foreground mt-1">{{ rec.solution }}</div>
-            </div>
-          }
+      @if (bundleAnalyzer.analysis()?.recommendations && bundleAnalyzer.analysis()!.recommendations.length > 0) {
+        <div>
+          <h4 class="text-lg font-semibold mb-4 text-foreground">Recommendations</h4>
+          <div class="space-y-3">
+            @for (rec of bundleAnalyzer.analysis()?.recommendations; track rec.message) {
+              <div
+                class="recommendation-item p-3 rounded border-l-4"
+                [class]="getRecommendationClass(rec.severity)"
+                >
+                <div class="font-medium">{{ rec.message }}</div>
+                <div class="text-sm text-muted-foreground mt-1">{{ rec.solution }}</div>
+              </div>
+            }
+          </div>
         </div>
-      </div>
-
+      }
+    
       <!-- Actions -->
       <div class="flex gap-3 mt-6">
         <button
           class="btn btn-primary"
           (click)="refreshAnalysis()"
           [disabled]="bundleAnalyzer.isAnalyzing()"
-        >
+          >
           {{ bundleAnalyzer.isAnalyzing() ? 'Analyzing...' : 'Refresh Analysis' }}
         </button>
         <button
           class="btn btn-secondary"
           (click)="clearCache()"
-        >
+          >
           Clear Cache
         </button>
       </div>
     </div>
-  `,
+    `,
   styles: [`
     .performance-monitor {
       max-width: 1200px;

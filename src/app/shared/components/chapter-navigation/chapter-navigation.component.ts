@@ -1,5 +1,5 @@
-import { Component, Input, HostListener, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, HostListener, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+
 
 /**
  * Chapter Navigation Component
@@ -23,29 +23,30 @@ export interface NavigationChapter {
 
 @Component({
   selector: 'app-chapter-navigation',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="chapter-nav hidden lg:block">
       <div class="chapter-nav-container">
         <h3 class="chapter-nav-title">Chapters</h3>
-
+    
         <ul class="chapter-nav-list">
-          <li *ngFor="let chapter of chapters; trackBy: trackById" class="chapter-nav-item">
-            <a
-              [attr.href]="hrefFor(chapter.id)"
-              (click)="onNavClick($event, chapter.id)"
-              [class.active]="activeChapterId() === chapter.id"
-              class="chapter-nav-link">
-              <span class="chapter-number">{{ chapter.number }}</span>
-              <span class="chapter-title">{{ chapter.title }}</span>
-            </a>
-          </li>
+          @for (chapter of chapters(); track trackById($index, chapter)) {
+            <li class="chapter-nav-item">
+              <a
+                [attr.href]="hrefFor(chapter.id)"
+                (click)="onNavClick($event, chapter.id)"
+                [class.active]="activeChapterId() === chapter.id"
+                class="chapter-nav-link">
+                <span class="chapter-number">{{ chapter.number }}</span>
+                <span class="chapter-title">{{ chapter.title }}</span>
+              </a>
+            </li>
+          }
         </ul>
       </div>
     </nav>
-  `,
+    `,
   styles: [`
     .chapter-nav {
       position: fixed;
@@ -194,7 +195,7 @@ export interface NavigationChapter {
   `]
 })
 export class ChapterNavigationComponent {
-  @Input() chapters: NavigationChapter[] = [];
+  readonly chapters = input<NavigationChapter[]>([]);
 
   /**
    * Currently active chapter ID
@@ -232,10 +233,11 @@ export class ChapterNavigationComponent {
 
   private updateActiveChapter(): void {
     const offset = this.SCROLL_OFFSET;
-    let candidateId = this.chapters[0]?.id ?? '';
+    const chaptersValue = this.chapters();
+    let candidateId = chaptersValue[0]?.id ?? '';
 
-    for (let i = 0; i < this.chapters.length; i++) {
-      const chapter = this.chapters[i];
+    for (let i = 0; i < chaptersValue.length; i++) {
+      const chapter = chaptersValue[i];
       const el = document.getElementById(chapter.id);
       if (!el) continue;
       const top = el.getBoundingClientRect().top;

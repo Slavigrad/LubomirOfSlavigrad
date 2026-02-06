@@ -20,6 +20,11 @@ import {
   extractAllTechnologies,
   applyContentStrategy
 } from '../models/cv-data.utils';
+import {
+  AUDIENCE_TECH_PRIORITIES,
+  AUDIENCE_TECH_PRIORITIES_EXTENDED,
+  getTechPriorities
+} from '../shared/constants/audience-tech-priorities';
 
 // ============================================================================
 // PDF DATA PROCESSING INTERFACES
@@ -454,15 +459,7 @@ export class PDFDataProcessorService {
    */
   private extractKeyTechnologies(personalInfo: PersonalInfo, audience: string): string[] {
     const technologies = personalInfo.technologies || [];
-
-    // Audience-specific technology prioritization
-    const priorityMap: Record<string, string[]> = {
-      recruiter: ['Java', 'Spring Boot', 'Angular', 'AWS', 'Docker'],
-      technical: ['Java', 'Kotlin', 'Spring Boot', 'Kafka', 'Kubernetes'],
-      executive: ['Java', 'Spring Boot', 'AWS', 'Microservices', 'Leadership']
-    };
-
-    const priorities = priorityMap[audience] || priorityMap['recruiter'];
+    const priorities = getTechPriorities(audience);
 
     // Sort technologies by priority and limit to top 7
     return technologies
@@ -590,14 +587,8 @@ export class PDFDataProcessorService {
    */
   private calculateTechnologyRelevance(experience: Experience, audience: string): number {
     const technologies = experience.technologies || [];
+    const relevant = getTechPriorities(audience, true); // Use extended priorities
 
-    const relevantTechs: Record<string, string[]> = {
-      recruiter: ['Java', 'Spring Boot', 'Angular', 'AWS', 'Docker', 'Kubernetes'],
-      technical: ['Java', 'Kotlin', 'Spring Boot', 'Kafka', 'Microservices', 'Kubernetes', 'Angular'],
-      executive: ['Java', 'Spring Boot', 'AWS', 'Microservices', 'Leadership', 'Architecture']
-    };
-
-    const relevant = relevantTechs[audience] || relevantTechs['recruiter'];
     const matches = technologies.filter(tech =>
       relevant.some(rel => tech.toLowerCase().includes(rel.toLowerCase()))
     );
@@ -675,13 +666,7 @@ export class PDFDataProcessorService {
    * Extract primary technologies for experience
    */
   private extractPrimaryTechnologies(technologies: string[], audience: string): string[] {
-    const priorityTechs: Record<string, string[]> = {
-      recruiter: ['Java', 'Spring Boot', 'Angular', 'AWS', 'Docker'],
-      technical: ['Java', 'Kotlin', 'Spring Boot', 'Kafka', 'Kubernetes', 'Angular'],
-      executive: ['Java', 'Spring Boot', 'AWS', 'Microservices']
-    };
-
-    const priorities = priorityTechs[audience] || priorityTechs['recruiter'];
+    const priorities = getTechPriorities(audience);
 
     return technologies
       .filter(tech => priorities.some(p => tech.toLowerCase().includes(p.toLowerCase())))

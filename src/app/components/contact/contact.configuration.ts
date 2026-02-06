@@ -2,6 +2,8 @@
 // - Keep recruiter-safe defaults
 // - Allow local overrides on localhost only
 
+import { createFeatureConfig } from '../../shared/utils/feature-toggle';
+
 const BASE_FEATURES = {
   // Entire contact section visibility
   sectionEnabled: true,
@@ -17,14 +19,7 @@ export const CONTACT_LOCAL_OVERRIDES: Partial<typeof BASE_FEATURES> = {
   // formEnabled: true,
 };
 
-const isLocalhost = typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
-
-export const CONTACT_CONFIG = {
-  features: {
-    ...BASE_FEATURES,
-    ...(isLocalhost ? CONTACT_LOCAL_OVERRIDES : {}),
-  },
-} as const;
+export const CONTACT_CONFIG = createFeatureConfig(BASE_FEATURES, CONTACT_LOCAL_OVERRIDES);
 
 export type ContactFeatures = typeof BASE_FEATURES;
 export type ContactConfig = typeof CONTACT_CONFIG;

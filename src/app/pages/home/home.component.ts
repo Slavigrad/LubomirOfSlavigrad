@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CvDataService, ThemeService } from '../../services';
 import {
   HeroComponent,
@@ -12,35 +12,33 @@ import {
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [
-    CommonModule,
     HeroComponent,
     StatsComponent,
     SkillsComponent,
     ExperienceComponent,
     ProjectsComponent,
     ContactComponent
-  ],
+],
   template: `
     <div class="min-h-screen">
       <!-- Hero Section Component -->
-      <app-hero></app-hero>
+      <app-hero />
 
       <!-- Stats Section Component -->
-      <app-stats></app-stats>
+      <app-stats />
 
       <!-- Skills Section Component -->
-      <app-skills></app-skills>
+      <app-skills />
 
       <!-- Experience Section Component -->
-      <app-experience></app-experience>
+      <app-experience />
 
       <!-- Projects Section Component -->
-      <app-projects></app-projects>
+      <app-projects />
 
       <!-- Contact Section Component -->
-      <app-contact></app-contact>
+      <app-contact />
     </div>
   `,
 

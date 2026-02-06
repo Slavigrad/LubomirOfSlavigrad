@@ -1,5 +1,5 @@
 import { Component, HostListener, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Scroll to Top Button Component
@@ -15,20 +15,20 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
   selector: 'app-scroll-to-top',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
-    <button
-      *ngIf="isVisible()"
-      (click)="scrollToTop()"
-      class="scroll-to-top-button"
-      aria-label="Scroll to top"
-      title="Back to top">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-      </svg>
-    </button>
-  `,
+    @if (isVisible()) {
+      <button
+        (click)="scrollToTop()"
+        class="scroll-to-top-button"
+        aria-label="Scroll to top"
+        title="Back to top">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+      </button>
+    }
+    `,
   styles: [`
     .scroll-to-top-button {
       position: fixed;

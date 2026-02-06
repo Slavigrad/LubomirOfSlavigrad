@@ -36,6 +36,8 @@ import {
   prepareDataForExport
 } from '../models/cv-data.utils';
 import { CV_DATA } from '../data/cv-data';
+import { createSignalCrud, SignalCrudOps } from '../shared/utils/signal-crud';
+import { generateId } from '../shared/utils/id-generator';
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +67,18 @@ export class CvDataService {
   private readonly _sectionConfigs = signal<CVSectionConfig[]>(Object.values(DEFAULT_CV_SECTIONS));
   private readonly _dataChangeNotifications = signal<DataChangeNotification[]>([]);
 
+  // CRUD operation helpers for entity management
+  private readonly experienceCrud: SignalCrudOps<Experience>;
+  private readonly projectCrud: SignalCrudOps<Project>;
+  private readonly skillCrud: SignalCrudOps<Skill>;
+
   constructor() {
+    // Initialize CRUD helpers with bound notification callback
+    const notify = this.notifyDataChange.bind(this);
+    this.experienceCrud = createSignalCrud(this._experiences, 'exp', notify, 'experience');
+    this.projectCrud = createSignalCrud(this._projects, 'proj', notify, 'project');
+    this.skillCrud = createSignalCrud(this._skills, 'skill', notify, 'skill');
+
     // Set up reactive effects for data synchronization and validation
     this.setupReactiveEffects();
   }
@@ -324,139 +337,43 @@ export class CvDataService {
     this.notifyDataChange('update', 'personalInfo', current, updated);
   }
 
-  // Experience operations
+  // Experience operations (delegated to experienceCrud)
   addExperience(experience: Omit<Experience, 'id' | 'createdAt' | 'updatedAt'>): void {
-    const newExperience: Experience = {
-      ...experience,
-      id: this.generateId('exp'),
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    const current = this._experiences();
-    this._experiences.set([...current, newExperience]);
-    this.notifyDataChange('create', 'experience', null, newExperience);
+    this.experienceCrud.add(experience);
   }
 
   updateExperience(id: string, updates: Partial<Experience>): void {
-    const current = this._experiences();
-    const index = current.findIndex(exp => exp.id === id);
-
-    if (index === -1) return;
-
-    const oldExperience = current[index];
-    const updatedExperience = {
-      ...oldExperience,
-      ...updates,
-      updatedAt: new Date()
-    };
-
-    const newExperiences = [...current];
-    newExperiences[index] = updatedExperience;
-
-    this._experiences.set(newExperiences);
-    this.notifyDataChange('update', 'experience', oldExperience, updatedExperience);
+    this.experienceCrud.update(id, updates);
   }
 
   deleteExperience(id: string): void {
-    const current = this._experiences();
-    const experience = current.find(exp => exp.id === id);
-
-    if (!experience) return;
-
-    const filtered = current.filter(exp => exp.id !== id);
-    this._experiences.set(filtered);
-    this.notifyDataChange('delete', 'experience', experience, null);
+    this.experienceCrud.delete(id);
   }
 
-  // Project operations
+  // Project operations (delegated to projectCrud)
   addProject(project: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>): void {
-    const newProject: Project = {
-      ...project,
-      id: this.generateId('proj'),
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    const current = this._projects();
-    this._projects.set([...current, newProject]);
-    this.notifyDataChange('create', 'project', null, newProject);
+    this.projectCrud.add(project);
   }
 
   updateProject(id: string, updates: Partial<Project>): void {
-    const current = this._projects();
-    const index = current.findIndex(proj => proj.id === id);
-
-    if (index === -1) return;
-
-    const oldProject = current[index];
-    const updatedProject = {
-      ...oldProject,
-      ...updates,
-      updatedAt: new Date()
-    };
-
-    const newProjects = [...current];
-    newProjects[index] = updatedProject;
-
-    this._projects.set(newProjects);
-    this.notifyDataChange('update', 'project', oldProject, updatedProject);
+    this.projectCrud.update(id, updates);
   }
 
   deleteProject(id: string): void {
-    const current = this._projects();
-    const project = current.find(proj => proj.id === id);
-
-    if (!project) return;
-
-    const filtered = current.filter(proj => proj.id !== id);
-    this._projects.set(filtered);
-    this.notifyDataChange('delete', 'project', project, null);
+    this.projectCrud.delete(id);
   }
 
-  // Skill operations
+  // Skill operations (delegated to skillCrud)
   addSkill(skill: Omit<Skill, 'id' | 'createdAt' | 'updatedAt'>): void {
-    const newSkill: Skill = {
-      ...skill,
-      id: this.generateId('skill'),
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    const current = this._skills();
-    this._skills.set([...current, newSkill]);
-    this.notifyDataChange('create', 'skill', null, newSkill);
+    this.skillCrud.add(skill);
   }
 
   updateSkill(id: string, updates: Partial<Skill>): void {
-    const current = this._skills();
-    const index = current.findIndex(skill => skill.id === id);
-
-    if (index === -1) return;
-
-    const oldSkill = current[index];
-    const updatedSkill = {
-      ...oldSkill,
-      ...updates,
-      updatedAt: new Date()
-    };
-
-    const newSkills = [...current];
-    newSkills[index] = updatedSkill;
-
-    this._skills.set(newSkills);
-    this.notifyDataChange('update', 'skill', oldSkill, updatedSkill);
+    this.skillCrud.update(id, updates);
   }
 
   deleteSkill(id: string): void {
-    const current = this._skills();
-    const skill = current.find(s => s.id === id);
-
-    if (!skill) return;
-
-    const filtered = current.filter(s => s.id !== id);
-    this._skills.set(filtered);
-    this.notifyDataChange('delete', 'skill', skill, null);
+    this.skillCrud.delete(id);
   }
 
   // ============================================================================
@@ -569,10 +486,6 @@ export class CvDataService {
   // PRIVATE HELPER METHODS
   // ============================================================================
 
-  private generateId(prefix: string): string {
-    return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  }
-
   private notifyDataChange(
     action: 'create' | 'update' | 'delete' | 'bulk_update',
     entityType: string,
@@ -581,7 +494,7 @@ export class CvDataService {
   ): void {
     const notification: DataChangeNotification = {
       entity_type: entityType,
-      entity_id: newValue?.id || oldValue?.id || this.generateId('entity'),
+      entity_id: newValue?.id || oldValue?.id || generateId('entity'),
       change_type: action,
       old_value: oldValue,
       new_value: newValue,

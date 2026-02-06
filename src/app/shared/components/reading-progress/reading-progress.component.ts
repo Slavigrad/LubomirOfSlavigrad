@@ -1,5 +1,5 @@
 import { Component, HostListener, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 /**
  * Reading Progress Bar Component
@@ -15,8 +15,6 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
   selector: 'app-reading-progress',
-  standalone: true,
-  imports: [CommonModule],
   template: `
     <div class="reading-progress-container">
       <div 

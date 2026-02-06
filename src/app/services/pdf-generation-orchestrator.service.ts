@@ -4,6 +4,7 @@ import { CvDataService } from './cv-data.service';
 import { PDFTemplateService, PDFTemplate } from './pdf-template.service';
 import { PDFDataProcessorService, PDFProcessingOptions, ProcessedPDFData } from './pdf-data-processor.service';
 import { PDFRendererService, PDFRenderingOptions, RenderingMetrics } from './pdf-renderer.service';
+import { generateId } from '../shared/utils/id-generator';
 
 /**
  * PDF Generation Request Configuration
@@ -402,7 +403,7 @@ export class PDFGenerationOrchestratorService {
   async queueGeneration(request: PDFGenerationRequest): Promise<Promise<PDFGenerationResult>> {
     return new Promise((resolve, reject) => {
       const queueItem: GenerationQueueItem = {
-        id: this.generateQueueId(),
+        id: generateId('queue'),
         request,
         priority: this.calculatePriority(request),
         createdAt: new Date(),
@@ -862,13 +863,6 @@ export class PDFGenerationOrchestratorService {
     }
 
     this.isProcessingQueue = false;
-  }
-
-  /**
-   * Generate unique queue ID
-   */
-  private generateQueueId(): string {
-    return `queue_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**

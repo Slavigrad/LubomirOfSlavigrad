@@ -1,6 +1,6 @@
-import { Injectable, signal, computed, inject } from '@angular/core';
-import { BehaviorSubject, Observable, fromEvent } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { Injectable, signal, computed } from '@angular/core';
+import { generateId } from '../shared/utils/id-generator';
+import { IntervalManager } from '../shared/utils/interval-manager';
 
 /**
  * Performance Metrics Interface
@@ -111,7 +111,6 @@ export class PDFPerformanceService {
   // Processing queue management
   private readonly processingQueue: ProcessingQueueItem[] = [];
   private readonly activeOperations = new Set<string>();
-  private processingQueueWorker: number | null = null;
 
   // Performance metrics
   private readonly _performanceMetrics = signal<PerformanceMetrics[]>([]);
@@ -127,8 +126,7 @@ export class PDFPerformanceService {
 
   // Performance monitoring
   private performanceObserver: PerformanceObserver | null = null;
-  private memoryMonitorInterval: number | null = null;
-  private gcInterval: number | null = null;
+  private readonly intervals = new IntervalManager();
   private lastGcTime = 0;
 
   // Public readonly signals
@@ -200,36 +198,36 @@ export class PDFPerformanceService {
     });
 
     // Setup cleanup interval
-    setInterval(() => {
+    this.intervals.register(window.setInterval(() => {
       this.cleanupCanvasPool();
-    }, this.canvasPoolConfig.cleanupInterval);
+    }, this.canvasPoolConfig.cleanupInterval));
   }
 
   /**
    * Start memory monitoring
    */
   private startMemoryMonitoring(): void {
-    this.memoryMonitorInterval = window.setInterval(() => {
+    this.intervals.register(window.setInterval(() => {
       this.updateMemoryStats();
-    }, 5000); // Update every 5 seconds
+    }, 5000)); // Update every 5 seconds
   }
 
   /**
    * Start garbage collection optimization
    */
   private startGarbageCollection(): void {
-    this.gcInterval = window.setInterval(() => {
+    this.intervals.register(window.setInterval(() => {
       this.optimizeMemoryUsage();
-    }, this.config.gcInterval);
+    }, this.config.gcInterval));
   }
 
   /**
    * Start processing queue worker
    */
   private startProcessingQueueWorker(): void {
-    this.processingQueueWorker = window.setInterval(() => {
+    this.intervals.register(window.setInterval(() => {
       this.processQueue();
-    }, 100); // Process queue every 100ms
+    }, 100)); // Process queue every 100ms
   }
 
   /**
@@ -530,7 +528,7 @@ export class PDFPerformanceService {
     operation: () => Promise<T>,
     priority: number = 1
   ): Promise<T> {
-    const operationId = `${operationName}-${Date.now()}-${Math.random()}`;
+    const operationId = generateId(operationName);
 
     return new Promise((resolve, reject) => {
       this.processingQueue.push({
@@ -644,16 +642,8 @@ export class PDFPerformanceService {
    * Destroy service and cleanup resources
    */
   destroy(): void {
-    // Clear intervals
-    if (this.memoryMonitorInterval) {
-      clearInterval(this.memoryMonitorInterval);
-    }
-    if (this.gcInterval) {
-      clearInterval(this.gcInterval);
-    }
-    if (this.processingQueueWorker) {
-      clearInterval(this.processingQueueWorker);
-    }
+    // Clear all intervals
+    this.intervals.clearAll();
 
     // Disconnect performance observer
     if (this.performanceObserver) {

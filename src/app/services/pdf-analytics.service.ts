@@ -1,8 +1,8 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { BehaviorSubject, Observable, interval } from 'rxjs';
-import { map, filter, debounceTime } from 'rxjs/operators';
 import { PDFPerformanceService, PerformanceMetrics } from './pdf-performance.service';
 import { PDFCacheManagerService, CacheAnalytics } from './pdf-cache-manager.service';
+import { IntervalManager } from '../shared/utils/interval-manager';
+import { generateId } from '../shared/utils/id-generator';
 
 /**
  * Analytics Event Types
@@ -200,10 +200,8 @@ export class PDFAnalyticsService {
   private readonly performanceService = inject(PDFPerformanceService);
   private readonly cacheService = inject(PDFCacheManagerService);
 
-  // Monitoring intervals
-  private analyticsInterval?: number;
-  private healthCheckInterval?: number;
-  private regressionCheckInterval?: number;
+  // Interval management
+  private readonly intervals = new IntervalManager();
 
   // Analytics configuration
   private readonly config: AnalyticsConfig = {
@@ -227,7 +225,7 @@ export class PDFAnalyticsService {
   // Event storage and processing
   private readonly events: AnalyticsEvent[] = [];
   private readonly alerts: SystemAlert[] = [];
-  private sessionId = this.generateSessionId();
+  private sessionId = generateId('session');
   private userId?: string;
 
   // Reactive state
@@ -318,7 +316,7 @@ export class PDFAnalyticsService {
     errorMessage?: string
   ): void {
     const event: AnalyticsEvent = {
-      id: this.generateEventId(),
+      id: generateId('event'),
       type,
       timestamp: Date.now(),
       userId: this.userId,
@@ -346,7 +344,7 @@ export class PDFAnalyticsService {
    * Track PDF generation start
    */
   trackGenerationStart(templateId: string, metadata: Record<string, any> = {}): string {
-    const eventId = this.generateEventId();
+    const eventId = generateId('event');
     this.trackEvent('pdf_generation_started', {
       ...metadata,
       eventId
@@ -557,22 +555,10 @@ export class PDFAnalyticsService {
    * Private helper methods
    */
 
-  private generateSessionId(): string {
-    return `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  }
-
-  private generateEventId(): string {
-    return `event-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-  }
-
   private initializeUserTracking(): void {
     // Initialize user ID from localStorage or generate new one
-    this.userId = localStorage.getItem('pdf-analytics-user-id') || this.generateUserId();
+    this.userId = localStorage.getItem('pdf-analytics-user-id') || generateId('user');
     localStorage.setItem('pdf-analytics-user-id', this.userId);
-  }
-
-  private generateUserId(): string {
-    return `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   private setupPerformanceIntegration(): void {
@@ -636,7 +622,7 @@ export class PDFAnalyticsService {
     message: string
   ): void {
     const alert: SystemAlert = {
-      id: this.generateEventId(),
+      id: generateId('alert'),
       timestamp: Date.now(),
       type,
       severity,
@@ -961,14 +947,6 @@ Analytics Report Summary:
    * Destroy service and cleanup resources
    */
   destroy(): void {
-    if (this.analyticsInterval) {
-      clearInterval(this.analyticsInterval);
-    }
-    if (this.healthCheckInterval) {
-      clearInterval(this.healthCheckInterval);
-    }
-    if (this.regressionCheckInterval) {
-      clearInterval(this.regressionCheckInterval);
-    }
+    this.intervals.clearAll();
   }
 }

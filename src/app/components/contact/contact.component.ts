@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CvDataService } from '../../services/cv-data.service';
 import { ThemeService } from '../../services/theme.service';
@@ -9,8 +9,7 @@ import { CONTACT_CONFIG } from './contact.configuration';
 
 @Component({
   selector: 'app-contact',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ScrollAnimateDirective, InteractiveAnimateDirective],
+  imports: [ReactiveFormsModule, ScrollAnimateDirective, InteractiveAnimateDirective],
   template: `
     <!-- Contact Section -->
     @if (FEATURES.sectionEnabled) {

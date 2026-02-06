@@ -1,11 +1,11 @@
 import {
   Component,
-  Input,
+  input,
   computed,
   signal,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export interface TechnologyCategory {
   name: string;
@@ -16,12 +16,11 @@ export interface TechnologyCategory {
 
 @Component({
   selector: 'app-technology-list',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="technology-list">
-      @if (showPreview && technologies.length > previewCount) {
+      @if (showPreview() && technologies().length > previewCount()) {
         <!-- Preview Mode with simple toggle (robust, no nested components) -->
         <div class="space-y-3">
           <!-- Preview Technologies -->
@@ -70,7 +69,7 @@ export interface TechnologyCategory {
       } @else {
         <!-- Full List Mode -->
         <div class="flex flex-wrap gap-2">
-          @for (tech of technologies; track tech) {
+          @for (tech of technologies(); track tech) {
             <span
               class="tech-badge"
               [class]="getTechnologyClass(tech)"
@@ -138,10 +137,10 @@ export interface TechnologyCategory {
   `]
 })
 export class TechnologyListComponent {
-  @Input() technologies: string[] = [];
-  @Input() showPreview: boolean = true;
-  @Input() previewCount: number = 4;
-  @Input() variant: 'default' | 'compact' | 'detailed' = 'default';
+  readonly technologies = input<string[]>([]);
+  readonly showPreview = input<boolean>(true);
+  readonly previewCount = input<number>(4);
+  readonly variant = input<'default' | 'compact' | 'detailed'>('default');
 
   // Local state for simple toggle
   private readonly expandedState = signal(false);
@@ -150,11 +149,11 @@ export class TechnologyListComponent {
 
   // Computed properties for preview/additional split
   readonly previewTechnologies = computed(() =>
-    this.technologies.slice(0, this.previewCount)
+    this.technologies().slice(0, this.previewCount())
   );
 
   readonly additionalTechnologies = computed(() =>
-    this.technologies.slice(this.previewCount)
+    this.technologies().slice(this.previewCount())
   );
 
 

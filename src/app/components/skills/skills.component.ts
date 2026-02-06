@@ -1,6 +1,6 @@
-import { Component, inject, computed, signal, ViewChildren, QueryList } from '@angular/core';
+import { Component, inject, computed, signal, viewChildren } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+
 import { CvDataService } from '../../services/cv-data.service';
 import { Skill } from '../../models/cv-data.interface';
 import { ThemeService } from '../../services/theme.service';
@@ -9,8 +9,7 @@ import { CollapseComponent } from '../../shared/components/ui/collapse.component
 
 @Component({
   selector: 'app-skills',
-  standalone: true,
-  imports: [CommonModule, ScrollAnimateDirective, InteractiveAnimateDirective, CollapseComponent],
+  imports: [ScrollAnimateDirective, InteractiveAnimateDirective],
   template: `
     <!-- Skills Section -->
     <section id="skills" class="py-20 relative overflow-hidden">
@@ -311,7 +310,7 @@ import { CollapseComponent } from '../../shared/components/ui/collapse.component
   `]
 })
 export class SkillsComponent {
-  @ViewChildren(CollapseComponent) private collapseItems!: QueryList<CollapseComponent>;
+  private readonly collapseItems = viewChildren(CollapseComponent);
   private sanitizer = inject(DomSanitizer);
   private cvDataService = inject(CvDataService);
   private themeService = inject(ThemeService);
@@ -332,7 +331,7 @@ export class SkillsComponent {
     categories?.forEach(cat => newStates.set(cat.id, true));
     this.categoryStates.set(newStates);
     // Expand visible collapse items
-    this.collapseItems?.forEach(item => item.expand());
+    this.collapseItems().forEach(item => item.expand());
   }
 
   collapseAllSkills(): void {
@@ -341,7 +340,7 @@ export class SkillsComponent {
     categories?.forEach(cat => newStates.set(cat.id, false));
     this.categoryStates.set(newStates);
     // Collapse visible collapse items
-    this.collapseItems?.forEach(item => item.collapse());
+    this.collapseItems().forEach(item => item.collapse());
   }
 
   onSkillCategoryToggle(event: { itemId: string; expanded: boolean }): void {

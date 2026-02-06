@@ -1,5 +1,6 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
 import { PDFAnalyticsService, QualityAnalytics, QualityTrend, QualityAlert } from './pdf-analytics.service';
+import { IntervalManager } from '../shared/utils/interval-manager';
 
 /**
  * Quality Assessment Criteria
@@ -224,9 +225,8 @@ export class PDFQualityMetricsService {
     return this._qualityAlerts().filter(alert => !alert.resolved);
   });
 
-  // Monitoring intervals
-  private assessmentInterval?: number;
-  private trendAnalysisInterval?: number;
+  // Interval management
+  private readonly intervals = new IntervalManager();
 
   constructor() {
     this.initializeQualityMonitoring();
@@ -315,15 +315,15 @@ export class PDFQualityMetricsService {
 
   private startQualityAssessment(): void {
     if (this.config.enableRealTimeAssessment) {
-      this.assessmentInterval = window.setInterval(() => {
+      this.intervals.register(window.setInterval(() => {
         this.performPeriodicQualityAssessment();
-      }, this.config.assessmentInterval);
+      }, this.config.assessmentInterval));
     }
 
     if (this.config.enableTrendAnalysis) {
-      this.trendAnalysisInterval = window.setInterval(() => {
+      this.intervals.register(window.setInterval(() => {
         this.analyzeTrends();
-      }, 600000); // Every 10 minutes
+      }, 600000)); // Every 10 minutes
     }
   }
 
@@ -854,11 +854,6 @@ Quality Report Summary:
    * Destroy service and cleanup resources
    */
   destroy(): void {
-    if (this.assessmentInterval) {
-      clearInterval(this.assessmentInterval);
-    }
-    if (this.trendAnalysisInterval) {
-      clearInterval(this.trendAnalysisInterval);
-    }
+    this.intervals.clearAll();
   }
 }

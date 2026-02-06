@@ -1,5 +1,5 @@
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CollapseComponent,
   AccordionComponent,
@@ -14,15 +14,13 @@ import {
 
 @Component({
   selector: 'app-collapse-demo',
-  standalone: true,
   imports: [
-    CommonModule,
     CollapseComponent,
     AccordionComponent,
     CollapsibleCardComponent,
     CollapseGroupComponent,
     ButtonComponent
-  ],
+],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="collapse-demo p-6 space-y-8 max-w-4xl mx-auto">
@@ -181,24 +179,20 @@ import {
           <!-- Single Selection Accordion -->
           <div>
             <h3 class="text-lg font-medium mb-3">Single Selection Mode</h3>
-            <app-accordion
-              variant="glass"
+            <app-accordion variant="glass"
               [allowMultiple]="false"
               [items]="singleAccordionItems()"
-              (itemToggle)="onAccordionToggle($event)">
-            </app-accordion>
+              (itemToggle)="onAccordionToggle($event)" />
           </div>
 
           <!-- Multiple Selection Accordion -->
           <div>
             <h3 class="text-lg font-medium mb-3">Multiple Selection Mode</h3>
-            <app-accordion
-              variant="bordered"
+            <app-accordion variant="bordered"
               [allowMultiple]="true"
               [allowToggleAll]="true"
               [items]="multipleAccordionItems()"
-              [showIcons]="true">
-            </app-accordion>
+              [showIcons]="true" />
           </div>
         </div>
       </section>

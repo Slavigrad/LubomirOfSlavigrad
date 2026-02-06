@@ -1,6 +1,6 @@
 /**
  * Modern Angular Components Index
- * Exports all modern Angular 20+ components and utilities
+ * Exports all modern Angular 21+ components and utilities
  */
 
 // Modern signal-based components
@@ -91,7 +91,7 @@ export const ModernAngularUtils = {
    * Check if the current Angular version supports modern features
    */
   isModernAngularSupported(): boolean {
-    // Check for Angular 20+ features
+    // Check for Angular 21+ features
     try {
       // Test for signal-based inputs (Angular 17.1+)
       const hasSignalInputs = typeof (globalThis as any).ng?.input === 'function';
@@ -180,7 +180,7 @@ export const ModernAngularUtils = {
     }
 
     if (features.length < 8) {
-      recommendations.push('Consider upgrading to Angular 20+ for full modern feature support');
+      recommendations.push('Consider upgrading to Angular 21+ for full modern feature support');
     }
 
     return {
