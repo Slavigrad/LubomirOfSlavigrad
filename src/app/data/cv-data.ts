@@ -6,7 +6,15 @@
  * the single source of truth architecture with automatic propagation.
  */
 
-import { CVData, PersonalInfo, SocialLink, Stat, SkillCategory, Experience, Project } from '../models/cv-data.interface';
+import {
+  CVData,
+  PersonalInfo,
+  SocialLink,
+  Stat,
+  SkillCategory,
+  Experience,
+  Project,
+} from '../models/cv-data.interface';
 import { experiences } from './experience-data';
 import { projects } from './projects-data';
 import { skillCategories, skills } from './skills-data';
@@ -54,7 +62,7 @@ const personalInfo: PersonalInfo = {
   personal_brand: {
     tagline: 'Code and Myth Intertwined',
     color_scheme: 'electric-blue-purple',
-    logo: '/assets/images/slavigrad-logo.svg'
+    logo: '/assets/images/slavigrad-logo.svg',
   },
 
   // Availability
@@ -68,8 +76,8 @@ const personalInfo: PersonalInfo = {
       min: 80000,
       max: 120000,
       currency: 'EUR',
-      negotiable: true
-    }
+      negotiable: true,
+    },
   },
 
   // Languages
@@ -81,7 +89,7 @@ const personalInfo: PersonalInfo = {
       proficiency: 'native',
       is_native: true,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       id: 'lang-en',
@@ -91,7 +99,7 @@ const personalInfo: PersonalInfo = {
       certifications: ['TOEFL 110/120'],
       is_native: false,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     },
     {
       id: 'lang-de',
@@ -100,12 +108,12 @@ const personalInfo: PersonalInfo = {
       proficiency: 'intermediate',
       is_native: false,
       createdAt: new Date(),
-      updatedAt: new Date()
-    }
+      updatedAt: new Date(),
+    },
   ],
 
   createdAt: new Date(),
-  updatedAt: new Date()
+  updatedAt: new Date(),
 };
 
 // ============================================================================
@@ -124,7 +132,7 @@ const socialLinks: SocialLink[] = [
     description: 'Open source contributions and personal projects',
     primary: true,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'social-linkedin',
@@ -138,7 +146,7 @@ const socialLinks: SocialLink[] = [
     description: 'Professional networking and career updates',
     primary: true,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'social-email',
@@ -149,7 +157,7 @@ const socialLinks: SocialLink[] = [
     description: 'Best way to reach me for opportunities',
     primary: true,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'social-website',
@@ -159,8 +167,8 @@ const socialLinks: SocialLink[] = [
     label: 'Digital Realm',
     description: 'Welcome to the Chronicles of Slavigrad',
     createdAt: new Date(),
-    updatedAt: new Date()
-  }
+    updatedAt: new Date(),
+  },
 ];
 
 // ============================================================================
@@ -184,7 +192,7 @@ const stats: Stat[] = [
     highlight: true,
     last_updated: new Date(),
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'stat-projects',
@@ -202,7 +210,7 @@ const stats: Stat[] = [
     highlight: true,
     last_updated: new Date(),
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'stat-technologies',
@@ -220,7 +228,7 @@ const stats: Stat[] = [
     highlight: true,
     last_updated: new Date(),
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'stat-teams',
@@ -238,7 +246,7 @@ const stats: Stat[] = [
     highlight: false,
     last_updated: new Date(),
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'stat-architecture',
@@ -256,7 +264,7 @@ const stats: Stat[] = [
     highlight: true,
     last_updated: new Date(),
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   },
   {
     id: 'stat-coffee',
@@ -274,8 +282,8 @@ const stats: Stat[] = [
     highlight: false,
     last_updated: new Date(),
     createdAt: new Date(),
-    updatedAt: new Date()
-  }
+    updatedAt: new Date(),
+  },
 ];
 
 // ============================================================================
@@ -305,8 +313,7 @@ export const CV_DATA: CVData = {
   references: [],
 
   // Metadata
-  data_schema_version: '2.0.0',
   lastUpdated: new Date(),
   createdAt: new Date(),
-  updatedAt: new Date()
+  updatedAt: new Date(),
 };

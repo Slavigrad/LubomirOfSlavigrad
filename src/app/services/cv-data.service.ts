@@ -11,36 +11,14 @@ import {
   Publication,
   Speaking,
   Reference,
-  ValidationResult,
-  DataQualityScore,
-  ContentStrategy,
-  DataChangeNotification,
   CVSectionConfig,
-  DEFAULT_CV_SECTIONS
+  DEFAULT_CV_SECTIONS,
 } from '../models';
-import {
-  validateCVData,
-  validatePersonalInfo,
-  validateExperience,
-  calculateCompletenessScore,
-  calculateDataQualityScore
-} from '../models/cv-data.validators';
-import {
-  migrateLegacyExperience,
-  computeOverallExperienceDates,
-  calculateTotalExperience,
-  groupSkillsByCategory,
-  extractAllTechnologies,
-  generateComputedStats,
-  applyContentStrategy,
-  prepareDataForExport
-} from '../models/cv-data.utils';
+import { computeOverallExperienceDates, extractAllTechnologies } from '../models/cv-data.utils';
 import { CV_DATA } from '../data/cv-data';
-import { createSignalCrud, SignalCrudOps } from '../shared/utils/signal-crud';
-import { generateId } from '../shared/utils/id-generator';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CvDataService {
   // ============================================================================
@@ -62,23 +40,9 @@ export class CvDataService {
   private readonly _references = signal<Reference[]>([]);
 
   // Configuration and state signals
-  private readonly _contentStrategy = signal<ContentStrategy | null>(null);
-  private readonly _searchQuery = signal<string>('');
   private readonly _sectionConfigs = signal<CVSectionConfig[]>(Object.values(DEFAULT_CV_SECTIONS));
-  private readonly _dataChangeNotifications = signal<DataChangeNotification[]>([]);
-
-  // CRUD operation helpers for entity management
-  private readonly experienceCrud: SignalCrudOps<Experience>;
-  private readonly projectCrud: SignalCrudOps<Project>;
-  private readonly skillCrud: SignalCrudOps<Skill>;
 
   constructor() {
-    // Initialize CRUD helpers with bound notification callback
-    const notify = this.notifyDataChange.bind(this);
-    this.experienceCrud = createSignalCrud(this._experiences, 'exp', notify, 'experience');
-    this.projectCrud = createSignalCrud(this._projects, 'proj', notify, 'project');
-    this.skillCrud = createSignalCrud(this._skills, 'skill', notify, 'skill');
-
     // Set up reactive effects for data synchronization and validation
     this.setupReactiveEffects();
   }
@@ -102,40 +66,13 @@ export class CvDataService {
   readonly references = this._references.asReadonly();
 
   // Configuration access
-  readonly contentStrategy = this._contentStrategy.asReadonly();
-  readonly searchQuery = this._searchQuery.asReadonly();
   readonly sectionConfigs = this._sectionConfigs.asReadonly();
 
   // ============================================================================
   // COMPUTED SIGNALS FOR REACTIVE DATA TRANSFORMATIONS
   // ============================================================================
 
-  // Filtered and transformed data
-  readonly filteredExperiences = computed(() => {
-    const experiences = this._experiences();
-    const strategy = this._contentStrategy();
-
-    if (!strategy) return experiences;
-
-    // Apply content strategy filtering
-    const strategicData = applyContentStrategy({ experiences } as CVData, strategy);
-    return strategicData.experiences;
-  });
-
-  readonly filteredProjects = computed(() => {
-    const projects = this._projects();
-    const strategy = this._contentStrategy();
-
-    if (!strategy) return projects;
-
-    // Apply project filtering based on strategy
-    if (strategy.project_selection === 'impact') {
-      return projects.filter(p => p.featured).sort((a, b) => (b.highlight_order || 0) - (a.highlight_order || 0));
-    }
-
-    return projects;
-  });
-
+  // Transformed data
   readonly skillsByCategory = computed(() => {
     return CV_DATA.skillCategories;
   });
@@ -143,52 +80,6 @@ export class CvDataService {
   readonly allTechnologies = computed(() => {
     const cvData = this.exportCVData();
     return extractAllTechnologies(cvData);
-  });
-
-  // Data validation and quality metrics
-  readonly validationResult = computed(() => {
-    const cvData = this.exportCVData();
-    return validateCVData(cvData);
-  });
-
-  readonly qualityMetrics = computed(() => {
-    const cvData = this.exportCVData();
-    return calculateDataQualityScore(cvData);
-  });
-
-  readonly completenessScore = computed(() => {
-    const cvData = this.exportCVData();
-    return calculateCompletenessScore(cvData);
-  });
-
-  // Search functionality
-  readonly searchResults = computed(() => {
-    const query = this._searchQuery().toLowerCase().trim();
-    if (!query) return null;
-
-    const allData = this.exportCVData();
-    const results = {
-      experiences: allData.experiences.filter(exp =>
-        exp.company.toLowerCase().includes(query) ||
-        exp.industry?.some(i => i.toLowerCase().includes(query)) ||
-        exp.positions?.some(pos =>
-          pos.title.toLowerCase().includes(query) ||
-          pos.description?.toLowerCase().includes(query) ||
-          pos.technologies?.some(tech => tech.toLowerCase().includes(query))
-        )
-      ),
-      projects: allData.projects.filter(proj =>
-        proj.name.toLowerCase().includes(query) ||
-        proj.description?.toLowerCase().includes(query) ||
-        proj.technologies?.some(tech => tech.toLowerCase().includes(query))
-      ),
-      skills: allData.skills.filter(skill =>
-        skill.name.toLowerCase().includes(query) ||
-        skill.category?.toLowerCase().includes(query)
-      )
-    };
-
-    return results;
   });
 
   // Statistics and computed metrics (maintaining backward compatibility)
@@ -221,7 +112,6 @@ export class CvDataService {
 
     // Round to whole numbers for clean display
     return Math.round(totalYears);
-
   });
 
   // Total unique companies (by company name)
@@ -274,10 +164,12 @@ export class CvDataService {
 
     return {
       portfolio: Array.from(portfolioNames).sort(),
-      experience: Array.from(experienceMap.entries()).map(([name, companies]) => ({
-        name,
-        companies: Array.from(companies).sort()
-      })).sort((a, b) => a.name.localeCompare(b.name))
+      experience: Array.from(experienceMap.entries())
+        .map(([name, companies]) => ({
+          name,
+          companies: Array.from(companies).sort(),
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name)),
     } as const;
   });
 
@@ -289,119 +181,29 @@ export class CvDataService {
     return names.size;
   });
 
-
-  readonly computedStatistics = computed(() => {
-    const cvData = this.exportCVData();
-    return generateComputedStats(cvData);
-  });
-
   readonly skillsByLevel = computed(() => {
     const skills = this._skills();
-    return skills.reduce((acc, skill) => {
-      if (!acc[skill.level]) {
-        acc[skill.level] = [];
-      }
-      acc[skill.level].push(skill);
-      return acc;
-    }, {} as Record<string, Skill[]>);
+    return skills.reduce(
+      (acc, skill) => {
+        if (!acc[skill.level]) {
+          acc[skill.level] = [];
+        }
+        acc[skill.level].push(skill);
+        return acc;
+      },
+      {} as Record<string, Skill[]>,
+    );
   });
-
-  // Export data preparation
-  readonly exportData = computed(() => {
-    const cvData = this.exportCVData();
-    const strategy = this._contentStrategy();
-
-    // Apply content strategy before export if available
-    if (strategy) {
-      const strategicData = applyContentStrategy(cvData, strategy);
-      return prepareDataForExport(strategicData, 'pdf');
-    }
-
-    return prepareDataForExport(cvData, 'pdf');
-  });
-
-  // ============================================================================
-  // CRUD OPERATIONS AND DATA MANAGEMENT
-  // ============================================================================
-
-  // Personal Info operations
-  updatePersonalInfo(updates: Partial<PersonalInfo>): void {
-    const current = this._personalInfo();
-    const updated = {
-      ...current,
-      ...updates,
-      updatedAt: new Date()
-    };
-
-    this._personalInfo.set(updated);
-    this.notifyDataChange('update', 'personalInfo', current, updated);
-  }
-
-  // Experience operations (delegated to experienceCrud)
-  addExperience(experience: Omit<Experience, 'id' | 'createdAt' | 'updatedAt'>): void {
-    this.experienceCrud.add(experience);
-  }
-
-  updateExperience(id: string, updates: Partial<Experience>): void {
-    this.experienceCrud.update(id, updates);
-  }
-
-  deleteExperience(id: string): void {
-    this.experienceCrud.delete(id);
-  }
-
-  // Project operations (delegated to projectCrud)
-  addProject(project: Omit<Project, 'id' | 'createdAt' | 'updatedAt'>): void {
-    this.projectCrud.add(project);
-  }
-
-  updateProject(id: string, updates: Partial<Project>): void {
-    this.projectCrud.update(id, updates);
-  }
-
-  deleteProject(id: string): void {
-    this.projectCrud.delete(id);
-  }
-
-  // Skill operations (delegated to skillCrud)
-  addSkill(skill: Omit<Skill, 'id' | 'createdAt' | 'updatedAt'>): void {
-    this.skillCrud.add(skill);
-  }
-
-  updateSkill(id: string, updates: Partial<Skill>): void {
-    this.skillCrud.update(id, updates);
-  }
-
-  deleteSkill(id: string): void {
-    this.skillCrud.delete(id);
-  }
 
   // ============================================================================
   // CONFIGURATION AND STATE MANAGEMENT
   // ============================================================================
 
-  // Content strategy operations
-  setContentStrategy(strategy: ContentStrategy | null): void {
-    this._contentStrategy.set(strategy);
-    this.notifyDataChange('update', 'contentStrategy', null, strategy);
-  }
-
-  // Search operations
-  setSearchQuery(query: string): void {
-    this._searchQuery.set(query);
-  }
-
-  clearSearch(): void {
-    this._searchQuery.set('');
-  }
-
   // Section configuration
   updateSectionConfig(sectionKey: string, updates: Partial<CVSectionConfig>): void {
     const current = this._sectionConfigs();
-    const updated = current.map(config =>
-      config.section_key === sectionKey
-        ? { ...config, ...updates }
-        : config
+    const updated = current.map((config) =>
+      config.section_key === sectionKey ? { ...config, ...updates } : config,
     );
     this._sectionConfigs.set(updated);
   }
@@ -426,42 +228,17 @@ export class CvDataService {
       references: this._references(),
       lastUpdated: new Date(),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-  }
-
-  // Import CV data with validation
-  importCVData(data: CVData): void {
-    // Validate data before importing
-    const validation = validateCVData(data);
-    if (!validation.isValid) {
-      console.warn('CV data validation failed:', validation.errors);
-    }
-
-    // Import data with migration if needed
-    this._personalInfo.set(data.personalInfo);
-    this._experiences.set(data.experiences.map(exp => migrateLegacyExperience(exp)));
-    this._projects.set(data.projects);
-    this._skills.set(data.skills);
-
-    // Import additional sections if present
-    if (data.education) this._education.set(data.education);
-    if (data.certifications) this._certifications.set(data.certifications);
-    if (data.volunteerWork) this._volunteerWork.set(data.volunteerWork);
-    if (data.publications) this._publications.set(data.publications);
-    if (data.speaking) this._speaking.set(data.speaking);
-    if (data.references) this._references.set(data.references);
-
-    this.notifyDataChange('bulk_update', 'cvData', null, data);
   }
 
   // Utility methods (maintaining backward compatibility)
   getSkillColor(level: string): string {
     const colorMap = {
-      'expert': 'skill-expert',
-      'advanced': 'skill-advanced',
-      'intermediate': 'skill-intermediate',
-      'beginner': 'skill-beginner'
+      expert: 'skill-expert',
+      advanced: 'skill-advanced',
+      intermediate: 'skill-intermediate',
+      beginner: 'skill-beginner',
     };
     return colorMap[level as keyof typeof colorMap] || 'skill-beginner';
   }
@@ -486,54 +263,26 @@ export class CvDataService {
   // PRIVATE HELPER METHODS
   // ============================================================================
 
-  private notifyDataChange(
-    action: 'create' | 'update' | 'delete' | 'bulk_update',
-    entityType: string,
-    oldValue: any,
-    newValue: any
-  ): void {
-    const notification: DataChangeNotification = {
-      entity_type: entityType,
-      entity_id: newValue?.id || oldValue?.id || generateId('entity'),
-      change_type: action,
-      old_value: oldValue,
-      new_value: newValue,
-      timestamp: new Date(),
-      source: 'user'
-    };
-
-    const current = this._dataChangeNotifications();
-    this._dataChangeNotifications.set([notification, ...current.slice(0, 99)]); // Keep last 100 notifications
-  }
-
   private setupReactiveEffects(): void {
-    // Effect to validate data changes
-    effect(() => {
-      const cvData = this.exportCVData();
-      const validation = validateCVData(cvData);
-
-      if (!validation.isValid) {
-        console.warn('CV data validation issues detected:', validation.errors);
-      }
-    });
-
     // Effect to compute overall experience dates
     effect(() => {
       const experiences = this._experiences();
-      const updatedExperiences = experiences.map(exp => {
+      const updatedExperiences = experiences.map((exp) => {
         const computedDates = computeOverallExperienceDates(exp);
         return {
           ...exp,
           overallStartDate: computedDates.startDate,
-          overallEndDate: computedDates.endDate
+          overallEndDate: computedDates.endDate,
         };
       });
 
       // Only update if there are actual changes to avoid infinite loops
       const hasChanges = updatedExperiences.some((exp, index) => {
         const original = experiences[index];
-        return exp.overallStartDate?.getTime() !== original.overallStartDate?.getTime() ||
-               exp.overallEndDate?.getTime() !== original.overallEndDate?.getTime();
+        return (
+          exp.overallStartDate?.getTime() !== original.overallStartDate?.getTime() ||
+          exp.overallEndDate?.getTime() !== original.overallEndDate?.getTime()
+        );
       });
 
       if (hasChanges) {
@@ -545,5 +294,4 @@ export class CvDataService {
   // ============================================================================
   // HELPER METHODS FOR DATA TRANSFORMATION
   // ============================================================================
-
 }

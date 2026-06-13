@@ -4,7 +4,6 @@ import {
   computeOverallExperienceDates,
   groupSkillsByCategory,
   extractAllTechnologies,
-  generateComputedStats,
 } from './cv-data.utils';
 import type { Skill, SkillCategory, Experience, Project, Position } from './cv-data.interface';
 
@@ -254,46 +253,5 @@ describe('extractAllTechnologies', () => {
       typeof extractAllTechnologies
     >[0];
     expect(extractAllTechnologies(data)).toEqual([]);
-  });
-});
-
-describe('generateComputedStats', () => {
-  const mockData = {
-    experiences: [
-      {
-        startDate: new Date('2020-01-01'),
-        endDate: new Date('2023-01-01'),
-      } as unknown as Experience,
-      { startDate: new Date('2024-01-01'), endDate: null } as unknown as Experience,
-    ],
-    projects: [
-      { technologies: ['A'], featured: true, status: 'completed' } as unknown as Project,
-      { technologies: ['B'], featured: false, status: 'in-progress' } as unknown as Project,
-    ],
-    skills: [
-      { level: 'expert' } as unknown as Skill,
-      { level: 'master' } as unknown as Skill,
-      { level: 'beginner' } as unknown as Skill,
-    ],
-  } as unknown as Parameters<typeof generateComputedStats>[0];
-
-  it('computes totalExperienceYears from experiences', () => {
-    const stats = generateComputedStats(mockData);
-    expect(stats.totalExperienceYears).toBeGreaterThan(0);
-  });
-
-  it('counts total projects', () => {
-    const stats = generateComputedStats(mockData);
-    expect(stats.totalProjects).toBe(2);
-  });
-
-  it('counts total skills', () => {
-    const stats = generateComputedStats(mockData);
-    expect(stats.totalSkills).toBe(3);
-  });
-
-  it('counts expert + master skills', () => {
-    const stats = generateComputedStats(mockData);
-    expect(stats.expertSkills).toBe(2);
   });
 });

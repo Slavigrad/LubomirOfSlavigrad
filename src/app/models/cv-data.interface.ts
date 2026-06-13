@@ -445,7 +445,16 @@ export interface Project extends TimePeriodBase {
   deployment_platforms?: string[];
 
   // Project Classification
-  category?: 'web' | 'mobile' | 'desktop' | 'api' | 'library' | 'tool' | 'research' | 'education' | 'other';
+  category?:
+    | 'web'
+    | 'mobile'
+    | 'desktop'
+    | 'api'
+    | 'library'
+    | 'tool'
+    | 'research'
+    | 'education'
+    | 'other';
   type?: 'personal' | 'professional' | 'open-source' | 'client' | 'academic';
   complexity?: 'simple' | 'moderate' | 'complex' | 'enterprise';
 
@@ -874,15 +883,6 @@ export interface CVData extends CVEntityBase {
 
   // Data Management
   lastUpdated: Date;
-  data_schema_version?: string; // For migration tracking
-
-  // Content Strategy
-  content_strategy?: {
-    target_roles?: string[];
-    target_industries?: Industry[];
-    key_messaging?: string[];
-    differentiators?: string[];
-  };
 
   // Privacy and Visibility
   privacy_settings?: {
@@ -909,103 +909,6 @@ export interface CVData extends CVEntityBase {
 }
 
 // ============================================================================
-// DATA VALIDATION AND SCHEMAS
-// ============================================================================
-
-/**
- * Validation schema for runtime data validation
- * Ensures data integrity across all consumers
- */
-export interface ValidationSchema {
-  required_fields: string[];
-  field_types: Record<string, 'string' | 'number' | 'boolean' | 'date' | 'array' | 'object'>;
-  field_constraints?: Record<string, {
-    min_length?: number;
-    max_length?: number;
-    pattern?: string;
-    enum_values?: string[];
-    min_value?: number;
-    max_value?: number;
-  }>;
-  custom_validators?: Record<string, (value: any) => boolean>;
-}
-
-/**
- * Validation result with detailed feedback
- */
-export interface ValidationResult {
-  isValid: boolean;
-  errors: {
-    field: string;
-    message: string;
-    severity: 'error' | 'warning' | 'info';
-  }[];
-  warnings?: {
-    field: string;
-    message: string;
-    suggestion?: string;
-  }[];
-  completeness_score?: number; // 0-100 percentage
-  suggestions?: string[];
-}
-
-/**
- * Data migration interface for schema updates
- */
-export interface DataMigration {
-  from_version: string;
-  to_version: string;
-  migration_steps: {
-    step: string;
-    description: string;
-    transform: (data: any) => any;
-  }[];
-  rollback_steps?: {
-    step: string;
-    transform: (data: any) => any;
-  }[];
-}
-
-// ============================================================================
-// REACTIVE PATTERNS FOR ANGULAR SIGNALS
-// ============================================================================
-
-/**
- * Signal-compatible data change event
- */
-export interface DataChangeEvent<T = any> {
-  type: 'create' | 'update' | 'delete' | 'bulk_update';
-  entity_type: string;
-  entity_id?: string;
-  old_value?: T;
-  new_value?: T;
-  timestamp: Date;
-  source: 'user' | 'system' | 'import' | 'migration';
-  metadata?: Record<string, any>;
-}
-
-/**
- * Computed data dependencies for reactive updates
- */
-export interface ComputedDependencies {
-  depends_on: string[]; // Field paths that trigger recomputation
-  compute_function: string; // Function name for computation
-  cache_duration?: number; // Cache time in milliseconds
-  invalidate_on?: string[]; // Events that invalidate cache
-}
-
-/**
- * Data subscription configuration for real-time updates
- */
-export interface DataSubscription {
-  entity_types: string[];
-  change_types: ('create' | 'update' | 'delete')[];
-  filters?: Record<string, any>;
-  callback: (event: DataChangeEvent) => void;
-  debounce_ms?: number;
-}
-
-// ============================================================================
 // UTILITY TYPES AND ENUMS
 // ============================================================================
 
@@ -1023,15 +926,6 @@ export type ReferenceRelationship = Reference['relationship'];
 // Section visibility types
 export type SectionVisibility = 'public' | 'private' | 'recruiter-only';
 export type CVSection = keyof Omit<CVData, keyof CVEntityBase | 'lastUpdated' | 'version'>;
-
-// Data quality metrics
-export type DataQualityScore = {
-  completeness: number; // 0-100
-  accuracy: number; // 0-100
-  consistency: number; // 0-100
-  timeliness: number; // 0-100
-  overall: number; // 0-100
-};
 
 // ============================================================================
 // HELPER TYPES AND FUNCTIONS FOR SINGLE SOURCE OF TRUTH
@@ -1060,23 +954,8 @@ export type FieldType<T, P extends FieldPath<T>> = P extends `${infer K}.${infer
       : never
     : never
   : P extends keyof T
-  ? T[P]
-  : never;
-
-/**
- * Data change notification for reactive updates
- */
-export interface DataChangeNotification<T = any> {
-  entity_type: string;
-  entity_id: string;
-  field_path?: string;
-  change_type: 'create' | 'update' | 'delete' | 'bulk_update';
-  old_value?: T;
-  new_value?: T;
-  timestamp: Date;
-  source: 'user' | 'system' | 'import' | 'sync';
-  propagate_to?: string[]; // Which consumers should be notified
-}
+    ? T[P]
+    : never;
 
 /**
  * Extensible section configuration for easy addition of new CV sections
@@ -1098,7 +977,6 @@ export interface CVSectionConfig {
 
   // Data Configuration
   data_type: 'array' | 'object' | 'primitive';
-  validation_schema?: ValidationSchema;
 
   // UI Configuration
   component_name?: string;
@@ -1111,37 +989,6 @@ export interface CVSectionConfig {
   // Dependencies
   depends_on?: string[];
   conflicts_with?: string[];
-}
-
-/**
- * Content strategy configuration for targeted CV presentation
- */
-export interface ContentStrategy {
-  strategy_name: string;
-  target_audience: 'general' | 'technical' | 'executive' | 'startup' | 'enterprise';
-
-  // Section Prioritization
-  section_weights: Record<string, number>; // 0-1 importance weights
-  highlighted_sections: string[];
-  hidden_sections: string[];
-
-  // Content Emphasis
-  skill_emphasis: 'technical' | 'leadership' | 'business' | 'creative';
-  experience_focus: 'recent' | 'relevant' | 'progressive' | 'diverse';
-  project_selection: 'technical' | 'impact' | 'scale' | 'innovation';
-
-  // Messaging
-  key_value_propositions: string[];
-  differentiators: string[];
-  call_to_action?: string;
-
-  // Customization Rules
-  content_rules: {
-    rule_name: string;
-    condition: string; // JSONPath or similar
-    action: 'show' | 'hide' | 'emphasize' | 'modify';
-    parameters?: Record<string, any>;
-  }[];
 }
 
 /**
@@ -1190,7 +1037,7 @@ export const DEFAULT_CV_SECTIONS: Record<string, CVSectionConfig> = {
     default_visibility: 'public',
     required_for_completeness: true,
     data_type: 'object',
-    enabled: true
+    enabled: true,
   },
   experiences: {
     section_key: 'experiences',
@@ -1200,7 +1047,7 @@ export const DEFAULT_CV_SECTIONS: Record<string, CVSectionConfig> = {
     default_visibility: 'public',
     required_for_completeness: true,
     data_type: 'array',
-    enabled: true
+    enabled: true,
   },
   skills: {
     section_key: 'skills',
@@ -1210,7 +1057,7 @@ export const DEFAULT_CV_SECTIONS: Record<string, CVSectionConfig> = {
     default_visibility: 'public',
     required_for_completeness: true,
     data_type: 'array',
-    enabled: true
+    enabled: true,
   },
   projects: {
     section_key: 'projects',
@@ -1220,7 +1067,7 @@ export const DEFAULT_CV_SECTIONS: Record<string, CVSectionConfig> = {
     default_visibility: 'public',
     required_for_completeness: false,
     data_type: 'array',
-    enabled: true
+    enabled: true,
   },
   education: {
     section_key: 'education',
@@ -1230,7 +1077,7 @@ export const DEFAULT_CV_SECTIONS: Record<string, CVSectionConfig> = {
     default_visibility: 'public',
     required_for_completeness: false,
     data_type: 'array',
-    enabled: true
+    enabled: true,
   },
   certifications: {
     section_key: 'certifications',
@@ -1240,29 +1087,9 @@ export const DEFAULT_CV_SECTIONS: Record<string, CVSectionConfig> = {
     default_visibility: 'public',
     required_for_completeness: false,
     data_type: 'array',
-    enabled: true
-  }
+    enabled: true,
+  },
 };
-
-/**
- * Schema version for data migration tracking
- */
-export const CURRENT_SCHEMA_VERSION = '2.0.0';
-
-/**
- * Supported data export formats
- */
-export const SUPPORTED_EXPORT_FORMATS = ['json', 'pdf', 'html', 'docx'] as const;
-
-/**
- * Default content strategies
- */
-export const DEFAULT_CONTENT_STRATEGIES = {
-  technical: 'Technical Role Focus',
-  leadership: 'Leadership & Management Focus',
-  startup: 'Startup & Innovation Focus',
-  enterprise: 'Enterprise & Scale Focus'
-} as const;
 
 // ============================================================================
 // FORMS AND USER INTERACTIONS
@@ -1656,10 +1483,13 @@ export interface SearchResult<T> extends CVEntityBase {
   filters_applied?: SearchFilters;
 
   // Facets and Aggregations
-  facets?: Record<string, {
-    value: string;
-    count: number;
-  }[]>;
+  facets?: Record<
+    string,
+    {
+      value: string;
+      count: number;
+    }[]
+  >;
 
   // Suggestions
   suggestions?: string[];
