@@ -4,14 +4,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+    "types": ["vitest/globals", "node"]
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/pdf-unused-files/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/pdf-unused-files/**/*.ts"]
 }

@@ -1,27 +1,27 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChangeDetectorRef } from '@angular/core';
 import { ChapterNavigationComponent, NavigationChapter } from './chapter-navigation.component';
 
 describe('ChapterNavigationComponent', () => {
   let component: ChapterNavigationComponent;
   let fixture: ComponentFixture<ChapterNavigationComponent>;
-  let changeDetectorRef: ChangeDetectorRef;
+  let markForCheckSpy: ReturnType<typeof vi.spyOn>;
 
   const mockChapters: NavigationChapter[] = [
     { id: 'chapter-1', title: 'First Chapter', number: 1 },
     { id: 'chapter-2', title: 'Second Chapter', number: 2 },
-    { id: 'chapter-3', title: 'Third Chapter', number: 3 }
+    { id: 'chapter-3', title: 'Third Chapter', number: 3 },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChapterNavigationComponent]
+      imports: [ChapterNavigationComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ChapterNavigationComponent);
     component = fixture.componentInstance;
-    changeDetectorRef = fixture.debugElement.injector.get(ChangeDetectorRef);
-    component.chapters = mockChapters;
+    markForCheckSpy = vi.spyOn(component['cdr'] as any, 'markForCheck');
+    fixture.componentRef.setInput('chapters', mockChapters);
     fixture.detectChanges();
   });
 
@@ -34,22 +34,19 @@ describe('ChapterNavigationComponent', () => {
       // Arrange
       const chapterId = 'chapter-2';
       const mockEvent = new Event('click');
-      
+
       // Create a mock element
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
-
-      // Spy on change detection
-      spyOn(changeDetectorRef, 'markForCheck');
 
       // Act
       component.onNavClick(mockEvent, chapterId);
 
       // Assert
       expect(component.activeChapterId()).toBe(chapterId);
-      expect(changeDetectorRef.markForCheck).toHaveBeenCalled();
+      expect(markForCheckSpy).toHaveBeenCalled();
 
       // Cleanup
       document.body.removeChild(mockElement);
@@ -59,19 +56,17 @@ describe('ChapterNavigationComponent', () => {
       // Arrange
       const chapterId = 'chapter-1';
       const mockEvent = new Event('click');
-      
+
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
-
-      spyOn(changeDetectorRef, 'markForCheck');
 
       // Act
       component.onNavClick(mockEvent, chapterId);
 
       // Assert - This is the fix for the two-click bug
-      expect(changeDetectorRef.markForCheck).toHaveBeenCalledTimes(1);
+      expect(markForCheckSpy).toHaveBeenCalledTimes(1);
 
       // Cleanup
       document.body.removeChild(mockElement);
@@ -81,10 +76,10 @@ describe('ChapterNavigationComponent', () => {
       // Arrange
       const chapterId = 'chapter-3';
       const mockEvent = new Event('click');
-      
+
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
 
       // Act
@@ -101,10 +96,10 @@ describe('ChapterNavigationComponent', () => {
       // Arrange
       const chapterId = 'chapter-2';
       const mockEvent = new Event('click');
-      
+
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
 
       // Act
@@ -113,7 +108,7 @@ describe('ChapterNavigationComponent', () => {
       // Assert
       expect(mockElement.scrollIntoView).toHaveBeenCalledWith({
         behavior: 'smooth',
-        block: 'start'
+        block: 'start',
       });
 
       // Cleanup
@@ -124,11 +119,11 @@ describe('ChapterNavigationComponent', () => {
       // Arrange
       const chapterId = 'chapter-1';
       const mockEvent = new Event('click');
-      spyOn(mockEvent, 'preventDefault');
-      
+      vi.spyOn(mockEvent, 'preventDefault');
+
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
 
       // Act
@@ -160,10 +155,10 @@ describe('ChapterNavigationComponent', () => {
       // Arrange
       const chapterId = 'chapter-2';
       const mockEvent = new Event('click');
-      
+
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
 
       // Act
@@ -172,10 +167,10 @@ describe('ChapterNavigationComponent', () => {
 
       // Assert
       const navLinks = fixture.nativeElement.querySelectorAll('.chapter-nav-link');
-      const activeLink = Array.from(navLinks).find((link: any) => 
-        link.classList.contains('active')
+      const activeLink = Array.from(navLinks).find((link: any) =>
+        link.classList.contains('active'),
       );
-      
+
       expect(activeLink).toBeTruthy();
 
       // Cleanup
@@ -188,13 +183,13 @@ describe('ChapterNavigationComponent', () => {
       // Arrange
       const chapterId = 'chapter-2';
       const mockEvent = new Event('click');
-      
+
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
 
-      spyOn(window.history, 'replaceState');
+      vi.spyOn(window.history, 'replaceState').mockImplementation(() => {});
 
       // Act
       component.onNavClick(mockEvent, chapterId);
@@ -203,7 +198,7 @@ describe('ChapterNavigationComponent', () => {
       expect(window.history.replaceState).toHaveBeenCalledWith(
         null,
         '',
-        jasmine.stringContaining(`#${chapterId}`)
+        expect.stringContaining(`#${chapterId}`),
       );
 
       // Cleanup
@@ -246,7 +241,7 @@ describe('ChapterNavigationComponent', () => {
 
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
 
       // Act
@@ -259,33 +254,32 @@ describe('ChapterNavigationComponent', () => {
       document.body.removeChild(mockElement);
     });
 
-    it('should re-enable scroll listener after timeout', (done) => {
-      // Arrange
+    it('should re-enable scroll listener after timeout', () => {
+      vi.useFakeTimers();
+
       const chapterId = 'chapter-2';
       const mockEvent = new Event('click');
 
       const mockElement = document.createElement('div');
       mockElement.id = chapterId;
-      mockElement.scrollIntoView = jasmine.createSpy('scrollIntoView');
+      mockElement.scrollIntoView = vi.fn();
       document.body.appendChild(mockElement);
 
-      // Act
       component.onNavClick(mockEvent, chapterId);
       expect(component['isProgrammaticScroll']).toBe(true);
 
-      // Wait for timeout to complete
-      setTimeout(() => {
-        // Assert - isProgrammaticScroll should be false after timeout
-        expect(component['isProgrammaticScroll']).toBe(false);
-        document.body.removeChild(mockElement);
-        done();
-      }, 1100);
+      vi.advanceTimersByTime(1100);
+
+      expect(component['isProgrammaticScroll']).toBe(false);
+      document.body.removeChild(mockElement);
+
+      vi.useRealTimers();
     });
 
     it('should ignore scroll events during programmatic navigation', () => {
       // Arrange
       component['isProgrammaticScroll'] = true;
-      spyOn<any>(component, 'updateActiveChapter');
+      vi.spyOn(component as any, 'updateActiveChapter');
 
       // Act
       component.onScroll();
@@ -294,21 +288,19 @@ describe('ChapterNavigationComponent', () => {
       expect(component['updateActiveChapter']).not.toHaveBeenCalled();
     });
 
-    it('should process scroll events when not in programmatic navigation', (done) => {
-      // Arrange
-      component['isProgrammaticScroll'] = false;
-      spyOn<any>(component, 'updateActiveChapter');
+    it('should process scroll events when not in programmatic navigation', () => {
+      vi.useFakeTimers();
 
-      // Act
+      component['isProgrammaticScroll'] = false;
+      vi.spyOn(component as any, 'updateActiveChapter');
+
       component.onScroll();
 
-      // Wait for requestAnimationFrame
-      requestAnimationFrame(() => {
-        // Assert - updateActiveChapter should be called
-        expect(component['updateActiveChapter']).toHaveBeenCalled();
-        done();
-      });
+      vi.advanceTimersByTime(16);
+
+      expect(component['updateActiveChapter']).toHaveBeenCalled();
+
+      vi.useRealTimers();
     });
   });
 });
-
