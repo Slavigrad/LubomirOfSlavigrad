@@ -1,25 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 
 import { CvDataService, ThemeService } from '../../services';
-import {
-  HeroComponent,
-  StatsComponent,
-  SkillsComponent,
-  ExperienceComponent,
-  ProjectsComponent,
-  ContactComponent
-} from '../../components';
+import { Hero, Stats, Skills, Experience, ProjectsComponent, Contact } from '../../components';
 
 @Component({
   selector: 'app-home',
-  imports: [
-    HeroComponent,
-    StatsComponent,
-    SkillsComponent,
-    ExperienceComponent,
-    ProjectsComponent,
-    ContactComponent
-],
+  imports: [Hero, Stats, Skills, Experience, ProjectsComponent, Contact],
   template: `
     <div class="min-h-screen">
       <!-- Hero Section Component -->
@@ -41,71 +27,64 @@ import {
       <app-contact />
     </div>
   `,
-
-
-
-
-
-
-
-
-
-  styles: [`
-    :host {
-      display: block;
-    }
-
-    /* Smooth scroll behavior */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Custom animations for staggered entrance */
-    .animate-scale-in {
-      animation: scaleIn 0.6s ease-out forwards;
-    }
-
-    .animate-slide-in-left {
-      animation: slideInLeft 0.8s ease-out forwards;
-    }
-
-    .animate-slide-in-right {
-      animation: slideInRight 0.8s ease-out forwards;
-    }
-
-    @keyframes scaleIn {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
+  styles: [
+    `
+      :host {
+        display: block;
       }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
 
-    @keyframes slideInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-30px);
+      /* Smooth scroll behavior */
+      html {
+        scroll-behavior: smooth;
       }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
 
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(30px);
+      /* Custom animations for staggered entrance */
+      .animate-scale-in {
+        animation: scaleIn 0.6s ease-out forwards;
       }
-      to {
-        opacity: 1;
-        transform: translateX(0);
+
+      .animate-slide-in-left {
+        animation: slideInLeft 0.8s ease-out forwards;
       }
-    }
-  `]
+
+      .animate-slide-in-right {
+        animation: slideInRight 0.8s ease-out forwards;
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    `,
+  ],
 })
 export class HomeComponent {
   // This component now serves as a container for the individual CV section components

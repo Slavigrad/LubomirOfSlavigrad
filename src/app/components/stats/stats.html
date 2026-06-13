@@ -1,0 +1,133 @@
+<!-- Stats Section -->
+<section id="stats" class="py-20 relative overflow-hidden">
+  <!-- Background Elements -->
+  <div class="absolute inset-0 bg-gradient-to-b from-background/30 to-background/50"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6">
+    <!-- Section Header -->
+    <div class="text-center mb-16" appScrollAnimate="fadeInUp">
+      <div class="eyebrow mb-3">By the numbers</div>
+      <h2 class="text-3xl md:text-4xl mb-4 gradient-text-enhanced">
+        {{ STATS.SECTION_TITLES.PROFESSIONAL_METRICS }}
+      </h2>
+      <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+        {{ STATS.DESCRIPTIONS.SECTION_SUBTITLE }}
+      </p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      @for (stat of stats(); track stat.title; let i = $index) {
+        <div
+          class="glass-card p-6 text-center group cursor-pointer"
+          [class]="getStatColorClass(stat.accent)"
+          appScrollAnimate="fadeInUp"
+          [animationDelay]="i * 150"
+          appInteractiveAnimate="lift"
+          animationTrigger="hover"
+          (click)="openStat(stat.title)"
+          (keydown.enter)="openStat(stat.title)"
+          (keydown.space)="$event.preventDefault(); openStat(stat.title)"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="'Open details for ' + stat.title"
+        >
+          <!-- Icon -->
+          <div class="mb-4 flex justify-center">
+            <div
+              class="w-12 h-12 rounded-full flex items-center justify-center"
+              [class]="getIconBackgroundClass(stat.accent)"
+              appInteractiveAnimate="bounce"
+              animationTrigger="hover"
+            >
+              <div [innerHTML]="stat.icon" class="w-6 h-6"></div>
+            </div>
+          </div>
+
+          <!-- Value -->
+          <div class="text-3xl md:text-4xl mb-2 gradient-text-enhanced">
+            {{ stat.value }}
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-lg font-semibold mb-2 text-foreground">
+            {{ stat.title }}
+          </h3>
+
+
+          <!-- Description -->
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            {{ stat.description }}
+          </p>
+        </div>
+      }
+    </div>
+
+
+    @if (statModalOpen()) {
+      <app-glass-modal [open]="true" size="xl" (closed)="closeStatModal()" [closeOnBackdrop]="true">
+        <div class="flex items-start justify-between mb-6">
+          <h3 class="text-2xl md:text-3xl gradient-text-enhanced">{{ modalTitle() }}</h3>
+          <button class="p-2 hover:bg-white/10 rounded-lg transition-colors" (click)="closeStatModal()" aria-label="Close">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Projects Delivered Breakdown -->
+        @if (selectedStat() === 'Projects Delivered') {
+          <div class="space-y-6">
+            <p class="text-sm text-muted-foreground">{{ STATS.LABELS.PROJECTS_DEDUPE_NOTE }}</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <app-glass-list-card [title]="STATS.LABELS.PORTFOLIO_PROJECTS"
+                [items]="projectsBreakdown().portfolio" />
+
+              @for (group of companyProjects(); track group.company) {
+                <app-glass-list-card [title]="group.company"
+                  [subtitle]="STATS.LABELS.EXPERIENCE_PROJECTS"
+                  [items]="group.projects" />
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Technologies Breakdown -->
+        @if (selectedStat() === 'Technologies Adapted') {
+          <div class="space-y-4">
+            @for (cat of techCategories(); track cat.name) {
+              <div class="p-4 rounded-lg border border-border/20 bg-background/60">
+                <div class="text-base font-semibold mb-1">{{ cat.name }} ({{ cat.items.length }})</div>
+                <div class="text-sm text-muted-foreground">{{ cat.items.join(', ') }}</div>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Years of Experience Breakdown -->
+        @if (selectedStat() === 'Years of Experience') {
+          <div class="space-y-2">
+            @for (exp of experiences(); track exp.id) {
+              <div class="flex items-center justify-between p-3 rounded-lg border border-border/20 bg-background/60">
+                <div class="text-sm font-medium">{{ exp.company }}</div>
+                <div class="text-sm text-muted-foreground">{{ formatYears(getCompanyYears(exp)) }} years</div>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Industries Covered Breakdown -->
+        @if (selectedStat() === 'Industries Covered') {
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @for (g of industriesBreakdown(); track g.industry) {
+              <app-glass-list-card [title]="g.industry"
+                [subtitle]="'Companies: ' + g.companies.length + ', Experiences: ' + g.experiences + ' and Projects: ' + g.projectsCount"
+                [items]="g.companies" />
+            }
+          </div>
+        }
+      </app-glass-modal>
+    }
+
+  </div>
+</section>

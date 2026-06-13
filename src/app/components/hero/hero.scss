@@ -1,0 +1,118 @@
+/*
+ * Token fallbacks: these mirror the global "Smoked Crystal" tokens
+ * in styles.css. Defined here so the hero renders correctly even
+ * before the global stylesheet is swapped in. Once styles.css is
+ * in place, :root values win (same names, same values) and these
+ * become inert — safe to keep.
+ */
+:host {
+  --gold: 40 55% 58%;
+  --champagne: 42 48% 78%;
+  --jade: 155 17% 58%;
+  --background: 160 14% 5%;
+  --foreground: 40 30% 93%;
+  --muted-fg: 40 10% 64%;
+  --primary: var(--gold);
+  --accent: var(--champagne);
+  --secondary: var(--jade);
+  --radius: 1rem;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/*
+ * Hero is now driven by the global design system (styles.css):
+ * .gradient-text-enhanced and .eyebrow live in the global styles.css.
+ * Only genuinely component-local rules remain below — no color or
+ * glass values are redefined here, so the global "Smoked Crystal"
+ * tokens win instead of being overridden.
+ */
+
+/* Gold filled CTA — local because it is unique to the hero */
+.btn-gold {
+  color: hsl(160 14% 6%);
+  background: linear-gradient(135deg,
+    hsl(var(--accent)) 0%,
+    hsl(var(--primary)) 100%);
+  border: none;
+  box-shadow:
+    0 1px 2px hsl(160 20% 2% / 0.5),
+    inset 0 1px 0 hsl(var(--accent) / 0.6);
+}
+
+.btn-gold:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+/* Ambient drift for the background fields and scroll cue.
+   Small amplitude on purpose — premium, not playful. */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50%      { transform: translateY(-8px) translateX(-6px); }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-6px) scale(1.03); }
+}
+.animate-float        { animation: float 12s ease-in-out infinite; }
+.animate-float-delayed { animation: float-delayed 14s ease-in-out infinite; }
+.animate-float-slow   { animation: float-slow 18s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float, .animate-float-delayed, .animate-float-slow {
+    animation: none;
+  }
+}
+
+/* Remove old standalone scrim layer rules — superseded by the
+   panel-anchored scrim below. */
+
+/* Hero panel: its OWN radial scrim is the readability guarantee.
+   The dark pool is part of the panel background, so it always sits
+   exactly behind the text no matter the layout or screen size.
+   A light backdrop-blur softens the photo at the edges as a bonus,
+   and the gold hairline + grain carry the Smoked Crystal identity. */
+.hero-panel {
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  background:
+    radial-gradient(
+      ellipse 95% 90% at 50% 45%,
+      hsl(var(--background) / 0.86) 0%,
+      hsl(var(--background) / 0.74) 55%,
+      hsl(var(--background) / 0.52) 100%
+    ) padding-box,
+    linear-gradient(135deg,
+      hsl(var(--champagne) / 0.30) 0%,
+      hsl(var(--gold) / 0.12) 30%,
+      hsl(var(--foreground) / 0.04) 60%,
+      hsl(var(--gold) / 0.08) 100%) border-box;
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  box-shadow:
+    0 1px 1px hsl(160 20% 2% / 0.5),
+    0 24px 64px -24px hsl(160 20% 2% / 0.7);
+}
+.hero-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--grain);
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Responsive padding */
+@media (max-width: 768px) {
+  .hero-panel { padding: 2rem 1.5rem !important; }
+}
+@media (max-width: 640px) {
+  .hero-panel { padding: 1.5rem 1rem !important; }
+}

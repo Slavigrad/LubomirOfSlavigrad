@@ -1,0 +1,35 @@
+/*
+ * Contact — Smoked Crystal form.
+ *
+ * Inputs and the gold submit button read from the global design tokens.
+ * Contact-info and social tiles use the gold / jade two-tone (set in the
+ * template). Tokens on :host mirror styles.css so the component is
+ * self-sufficient before the global stylesheet is installed (delete after).
+ */
+:host {
+  --gold: 40 55% 58%;
+  --champagne: 42 48% 78%;
+  --primary: var(--gold);
+  --accent: var(--champagne);
+}
+
+/* Gold focus ring on inputs/textarea — replaces the old blue ring. */
+input:focus,
+textarea:focus {
+  box-shadow: 0 0 0 2px hsl(var(--gold) / 0.25);
+}
+
+/* Gold filled submit button (same language as the hero CTA). */
+.btn-gold {
+  color: hsl(160 14% 6%);
+  background: linear-gradient(135deg, hsl(var(--champagne)), hsl(var(--gold)));
+  border: none;
+  box-shadow:
+    0 1px 2px hsl(160 20% 2% / 0.5),
+    inset 0 1px 0 hsl(var(--champagne) / 0.6);
+}
+
+.btn-gold:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}

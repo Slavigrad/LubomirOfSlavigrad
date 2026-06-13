@@ -3,9 +3,9 @@
  * Modern Angular CV Website Components
  */
 
-export { HeroComponent } from './hero/hero.component';
-export { StatsComponent } from './stats/stats.component';
-export { SkillsComponent } from './skills/skills.component';
-export { ExperienceComponent } from './experience/experience.component';
+export { Hero } from './hero/hero';
+export { Stats } from './stats/stats';
+export { Skills } from './skills/skills';
+export { Experience } from './experience/experience';
 export { ProjectsComponent } from './projects/projects.component';
-export { ContactComponent } from './contact/contact.component';
+export { Contact } from './contact/contact';

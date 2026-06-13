@@ -1,0 +1,159 @@
+/*
+ * Experience — Smoked Crystal timeline.
+ *
+ * The original cycled company names, locations, and tech badges through
+ * three hues (primary/secondary/accent) for variety. In this system that
+ * reads as rainbow. Instead we alternate TWO tones — gold and jade — so a
+ * long timeline still has rhythm without becoming a colour wheel. The old
+ * neon box-shadow glows and hard-coded text-shadows are gone; emphasis now
+ * comes from the gilded text and a single quiet hairline.
+ *
+ * Tokens on :host mirror styles.css so the component is self-sufficient
+ * before the global stylesheet is installed (delete this block after).
+ */
+:host {
+  --gold: 40 55% 58%;
+  --champagne: 42 48% 78%;
+  --jade: 155 17% 58%;
+  --primary: var(--gold);
+  --secondary: var(--jade);
+  --accent: var(--champagne);
+  --muted: 160 10% 12%;
+  --foreground: 40 30% 93%;
+}
+
+/* ── Timeline dots ───────────────────────────────────────────────
+   Current role: a small gold disc with a soft breathing halo —
+   candlelight, not neon (peak alpha 0.20, not 0.8). */
+.timeline-dot-current {
+  background: hsl(var(--gold));
+  box-shadow: 0 0 0 4px hsl(var(--gold) / 0.12);
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 4px hsl(var(--gold) / 0.10); }
+  50%      { box-shadow: 0 0 0 6px hsl(var(--gold) / 0.20); }
+}
+
+.timeline-dot-past {
+  background: hsl(var(--muted));
+  box-shadow: 0 2px 8px hsl(160 20% 2% / 0.4);
+}
+
+/* ── Technology badges ───────────────────────────────────────────
+   Outlined glass pills in the badge's tone. No box-shadow glow;
+   hover brightens the border instead of lifting/scaling hard. */
+.tech-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full;
+  @apply transition-colors duration-300 ease-out cursor-default;
+  @apply border;
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+}
+
+.tech-icon  { @apply text-sm leading-none; }
+.tech-name  { @apply font-semibold tracking-wide; }
+
+/* gold-toned badges (build / language / framework families) */
+.tech-badge-primary,
+.tech-badge-accent {
+  background: hsl(var(--gold) / 0.10);
+  color: hsl(var(--gold));
+  border-color: hsl(var(--gold) / 0.30);
+}
+.tech-badge-primary:hover,
+.tech-badge-accent:hover {
+  border-color: hsl(var(--gold) / 0.55);
+  background: hsl(var(--gold) / 0.16);
+}
+
+/* jade-toned badges (data / infra / ops families) */
+.tech-badge-secondary {
+  background: hsl(var(--jade) / 0.10);
+  color: hsl(var(--jade));
+  border-color: hsl(var(--jade) / 0.30);
+}
+.tech-badge-secondary:hover {
+  border-color: hsl(var(--jade) / 0.55);
+  background: hsl(var(--jade) / 0.16);
+}
+
+/* ── Company names ───────────────────────────────────────────────
+   All companies share the gilded ink (consistent identity). The
+   cycle classes survive but resolve to the same metal — no per-company
+   hue, no text-shadow glow. */
+.company-name {
+  @apply inline-flex items-center gap-2 text-lg font-bold;
+  @apply transition-colors duration-300 ease-out cursor-default;
+  letter-spacing: 0.5px;
+}
+
+.company-icon { @apply text-lg; }
+.company-text { @apply font-bold tracking-wide; }
+
+.company-primary .company-text,
+.company-secondary .company-text,
+.company-accent .company-text {
+  background: linear-gradient(
+    100deg,
+    hsl(var(--champagne)),
+    hsl(var(--gold)) 60%,
+    hsl(var(--champagne))
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ── Location badges ─────────────────────────────────────────────
+   Alternate gold / jade by cycle, outlined, no glow. */
+.location-badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full;
+  @apply transition-colors duration-300 ease-out cursor-default;
+  @apply border;
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+}
+
+.location-icon { @apply w-4 h-4; }
+.location-text { @apply font-semibold tracking-wide; }
+
+.location-primary,
+.location-accent {
+  background: hsl(var(--gold) / 0.08);
+  color: hsl(var(--gold));
+  border-color: hsl(var(--gold) / 0.25);
+}
+.location-primary:hover,
+.location-accent:hover {
+  border-color: hsl(var(--gold) / 0.45);
+}
+
+.location-secondary {
+  background: hsl(var(--jade) / 0.08);
+  color: hsl(var(--jade));
+  border-color: hsl(var(--jade) / 0.25);
+}
+.location-secondary:hover {
+  border-color: hsl(var(--jade) / 0.45);
+}
+
+/* ── Duration badges ─────────────────────────────────────────────── */
+.duration-badge {
+  @apply inline-flex items-center gap-1.5 px-2 py-1 text-sm;
+  @apply text-muted-foreground transition-colors duration-300;
+  @apply hover:text-foreground;
+}
+.duration-icon { @apply w-4 h-4; }
+.duration-text { @apply font-medium; }
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .timeline-line { left: 2rem; }
+  .timeline-dot  { left: 2rem; }
+
+  .tech-badge { @apply px-2 py-1 text-xs gap-1; }
+  .tech-icon  { @apply text-xs; }
+}

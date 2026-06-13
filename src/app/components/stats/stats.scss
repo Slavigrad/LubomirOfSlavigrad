@@ -1,0 +1,44 @@
+/*
+ * Stats — Smoked Crystal metric cards.
+ *
+ * Each card's big number is the hero, so all four values share the
+ * gilded ink (applied via the global .gradient-text-enhanced in the
+ * template). The only per-card differentiation is the small icon chip,
+ * kept to the two-tone gold / jade pairing — not the old four-hue
+ * rainbow with text-shadow glows on every number.
+ *
+ * Tokens on :host mirror styles.css so the component is self-sufficient
+ * before the global stylesheet is installed (delete this block after).
+ */
+:host {
+  --gold: 40 55% 58%;
+  --jade: 155 17% 58%;
+}
+
+/* Card border tint: a barely-there warm/cool edge by accent. */
+.stat-gold {
+  border-color: hsl(var(--gold) / 0.18);
+}
+
+.stat-jade {
+  border-color: hsl(var(--jade) / 0.18);
+}
+
+/* Icon chip: tinted glass disc in the card's tone, no glow. */
+.icon-bg-gold {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--gold) / 0.08),
+    hsl(var(--gold) / 0.16)
+  );
+  color: hsl(var(--gold));
+}
+
+.icon-bg-jade {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--jade) / 0.08),
+    hsl(var(--jade) / 0.16)
+  );
+  color: hsl(var(--jade));
+}

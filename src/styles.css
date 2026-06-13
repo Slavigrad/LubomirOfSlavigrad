@@ -1,880 +1,400 @@
+/* ════════════════════════════════════════════════════════════════
+   SLAVIGRAD CHRONICLES — global design system
+   Direction: "Smoked Crystal" (2026)
+
+   Glass reinterpreted as dark Bohemian crystal:
+   • one material  — smoked green-black glass with film grain
+   • one metal     — aged gold edge light
+   • one ink       — warm ivory
+   The signature element is the gold-edged crystal card; everything
+   else stays quiet. Same class API as before (glass-card,
+   gradient-text, hover-lift, aurora-bg …) — new implementation.
+   ════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Futuristic CV Dashboard Design System */
-@layer base {
-  :root {
-    /* Core backgrounds - Dark theme with depth */
-    --background: 220 20% 5%;
-    --foreground: 210 40% 98%;
+/* ────────────────────────────────────────────────────────────────
+   1. Design tokens
+   ThemeService writes --theme-* / --glass-* at runtime; everything
+   below reads --glass-blur / --glass-opacity with fallbacks so the
+   user's glass-intensity toggle keeps working.
+   ──────────────────────────────────────────────────────────────── */
+:root {
+  /* surfaces & ink */
+  --background:  160 14% 5%;     /* smoked bottle-glass black */
+  --foreground:  40 30% 93%;     /* warm ivory */
+  --card:        160 12% 7%;
+  --card-glass:  160 12% 9%;
+  --border:      160 10% 17%;
+  --muted:       160 10% 12%;
+  --muted-fg:    40 10% 64%;     /* warm stone */
 
-    /* Glass cards with subtle transparency */
-    --card: 220 15% 8%;
-    --card-foreground: 210 40% 98%;
-    --card-glass: 220 15% 10%;
+  /* the metal & the supporting hue */
+  --gold:        40 55% 58%;     /* aged gold  #CFA050 */
+  --champagne:   42 48% 78%;     /* #E6D3AC */
+  --jade:        155 17% 58%;    /* #7FA893 */
 
-    /* Electric blue primary with glow */
-    --primary: 217 91% 60%;
-    --primary-foreground: 220 20% 5%;
-    --primary-glow: 217 91% 70%;
+  --primary:     var(--gold);
+  --secondary:   var(--jade);
+  --accent:      var(--champagne);
+  --ring:        var(--gold);
 
-    /* Purple secondary accent */
-    --secondary: 280 70% 50%;
-    --secondary-foreground: 210 40% 98%;
-    --secondary-glow: 280 70% 60%;
+  /* shape */
+  --radius: 1rem;
 
-    /* Vibrant accent colors */
-    --accent: 150 80% 45%;
-    --accent-foreground: 220 20% 5%;
-    --accent-glow: 150 80% 55%;
+  /* glass material (ThemeService may override the first two) */
+  --glass-blur: 24px;
+  --glass-opacity: 0.62;
+  --glass-surface: hsl(var(--card-glass) / var(--glass-opacity));
+  /* gold edge light: brightest at top-left, dies out bottom-right */
+  --glass-edge: linear-gradient(
+    135deg,
+    hsl(var(--champagne) / 0.32) 0%,
+    hsl(var(--gold) / 0.14) 28%,
+    hsl(var(--foreground) / 0.05) 55%,
+    hsl(var(--foreground) / 0.02) 100%
+  );
+  --glass-shadow:
+    0 1px 1px hsl(160 20% 2% / 0.55),
+    0 12px 32px -8px hsl(160 20% 2% / 0.55),
+    inset 0 1px 0 hsl(var(--foreground) / 0.07);
+  --glass-shadow-hover:
+    0 2px 2px hsl(160 20% 2% / 0.55),
+    0 20px 48px -12px hsl(160 20% 2% / 0.65),
+    inset 0 1px 0 hsl(var(--foreground) / 0.10);
 
-    /* Borders and inputs */
-    --border: 220 15% 20%;
-    --input: 220 15% 15%;
-    --ring: 217 91% 60%;
+  /* film grain — inline SVG turbulence, tiles at 160px */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 
-    /* Muted tones */
-    --muted: 220 15% 15%;
-    --muted-foreground: 210 20% 70%;
-
-    /* Status colors */
-    --success: 120 70% 50%;
-    --warning: 45 90% 60%;
-    --orange: 24 95% 53%;
-    --destructive: 0 70% 55%;
-
-    /* CV Semantic Colors for Skills and Sections */
-    --skill-primary: 217 91% 60%;      /* Electric Blue for Primary Skills */
-    --skill-secondary: 280 70% 50%;    /* Purple for Secondary Skills */
-    --skill-accent: 150 80% 45%;       /* Green for Accent Skills */
-    --skill-expert: 217 91% 70%;       /* Bright Blue for Expert Level */
-    --skill-advanced: 280 70% 60%;     /* Bright Purple for Advanced Level */
-    --skill-intermediate: 150 80% 55%; /* Bright Green for Intermediate Level */
-    --skill-beginner: var(--orange);      /* Orange for Beginner Level */
-
-    /* Section-specific colors */
-    --hero-accent: 217 91% 60%;        /* Electric Blue for Hero */
-    --experience-accent: 280 70% 50%;  /* Purple for Experience */
-    --projects-accent: 150 80% 45%;    /* Green for Projects */
-    --contact-accent: 217 91% 60%;     /* Electric Blue for Contact */
-
-    /* Glass-morphism variables */
-    --glass-bg: 220 15% 8% / 0.6;
-    --glass-border: 220 15% 20% / 0.3;
-    --glass-shadow: 220 20% 2% / 0.4;
-
-    --radius: 1rem;
-  }
-
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground overflow-x-hidden;
-    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(220 25% 3%) 100%);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Aurora Glass: Premium Typography Refinements */
-  h1, h2, h3, h4, h5, h6 {
-    letter-spacing: 0.5px;
-  }
-
-  h1 {
-    font-weight: 700;
-  }
-
-  h2, h3 {
-    font-weight: 600;
-  }
-
-  /* Subtitle and muted text with lighter weight */
-  .text-muted-foreground {
-    font-weight: 300;
-  }
-
-  /* Premium heading with micro-glow */
-  .heading-glow {
-    text-shadow: 0 0 6px rgba(138, 43, 226, 0.4);
-    letter-spacing: 0.5px;
-  }
-
-  .heading-glow-primary {
-    text-shadow: 0 0 6px rgba(74, 144, 255, 0.4);
-    letter-spacing: 0.5px;
-  }
-
-  .heading-glow-accent {
-    text-shadow: 0 0 6px rgba(0, 212, 170, 0.4);
-    letter-spacing: 0.5px;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--primary));
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary-glow));
-  }
+  --animation-duration: 0.7s; /* ThemeService override point */
 }
 
-@layer components {
-  /* ========================================
-     AURORA GLASS CARD - Premium Glassmorphism (Option 3)
-     Ocean Blue Glass with Very Subtle Glow
-     ======================================== */
-  .glass-card {
-    /* Tailwind utilities for base structure */
-    @apply rounded-xl transition-all duration-300 ease-out;
-
-    /* Option 3: Ocean Blue Glass - Subtle blue gradient background */
-    background: linear-gradient(135deg,
-      rgba(74, 144, 255, 0.1),
-      rgba(138, 43, 226, 0.05));
-
-    /* Enhanced backdrop blur with saturation boost and brightness */
-    backdrop-filter: blur(20px) saturate(180%) brightness(1.15);
-    -webkit-backdrop-filter: blur(20px) saturate(180%) brightness(1.15);
-
-    /* Luminous borders with subtle blue tint */
-    border: 1px solid rgba(255, 255, 255, 0.18);
-
-    /* Layered shadows for 3D depth with subtle blue glow */
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(74, 144, 255, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-    /* Prepare for animated gradient overlay */
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Aurora Glass: Animated gradient overlay on hover */
-  .glass-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(120deg,
-      rgba(255, 255, 255, 0.07),
-      rgba(255, 255, 255, 0.03));
-    background-size: 200% 200%;
-    animation: moveGradient 15s ease infinite;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    border-radius: inherit;
-  }
-
-  .glass-card:hover::before {
-    opacity: 1;
-  }
-
-  @keyframes moveGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* Option 3: Enhanced hover state with subtle blue glow */
-  .glass-card:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 12px 48px rgba(0, 0, 0, 0.4),
-      0 0 24px rgba(74, 144, 255, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  }
-
-  /* Glow effects - Enhanced for Aurora Glass */
-  .glow-primary {
-    box-shadow:
-      0 0 30px hsl(var(--primary) / 0.4),
-      0 0 60px hsl(var(--primary) / 0.2);
-  }
-
-  .glow-primary-lg {
-    box-shadow:
-      0 0 60px hsl(var(--primary) / 0.5),
-      0 0 100px hsl(var(--primary) / 0.3);
-  }
-
-  /* Interactive button with glow */
-  .btn-glow {
-    @apply transition-all duration-300 ease-out;
-    @apply hover:shadow-glow-lg hover:scale-105;
-  }
-
-  /* Animated gradient text with micro-glow */
-  .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    /* Aurora Glass: Micro-glow for premium feel */
-    text-shadow: 0 0 6px rgba(138, 43, 226, 0.4);
-    /* Improved letter spacing for premium typography */
-    letter-spacing: 0.5px;
-    /*!* Improve legibility (esp. descenders like “g”) on dark/complex backgrounds *!*/
-    /*text-shadow:*/
-    /*  0 0 2px rgba(0, 0, 0, 0.45),*/
-    /*  0 2px 6px rgba(0, 0, 0, 0.35);*/
-    /*!* Subtle outline where supported to prevent color bleed *!*/
-    /*-webkit-text-stroke: 0.35px rgba(0, 0, 0, 0.35);*/
-  }
-
-  .gradient-text-accent {
-    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    /* Aurora Glass: Micro-glow */
-    text-shadow: 0 0 6px rgba(0, 212, 170, 0.4);
-    letter-spacing: 0.5px;
-  }
-
-  /* Hover animations - Enhanced */
-  .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-  }
-
-  .hover-glow {
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-  }
-
-  .hover-glow:hover {
-    box-shadow:
-      0 0 30px hsl(var(--primary) / 0.5),
-      0 0 60px hsl(var(--primary) / 0.3);
-    transform: scale(1.02);
-  }
-
-  /* Enhanced Glass Components */
-  .glass-nav {
-    @apply border-b border-border/20;
-    /* Aurora Glass effect for navigation */
-    background: linear-gradient(135deg,
-      rgba(255, 255, 255, 0.05),
-      rgba(255, 255, 255, 0.02));
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow:
-      0 4px 30px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  }
-
-  .glass-button {
-    @apply border border-primary/30 transition-all duration-300;
-    /* Aurora Glass effect for buttons */
-    background: linear-gradient(135deg,
-      rgba(74, 144, 255, 0.1),
-      rgba(74, 144, 255, 0.05));
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  }
-
-  .glass-button:hover {
-    background: linear-gradient(135deg,
-      rgba(74, 144, 255, 0.2),
-      rgba(74, 144, 255, 0.1));
-    border-color: hsl(var(--primary) / 0.5);
-    box-shadow:
-      0 6px 30px rgba(0, 0, 0, 0.4),
-      0 0 40px rgba(74, 144, 255, 0.3);
-    transform: translateY(-2px);
-  }
-
-  .glass-card-glow {
-    @apply glass-card;
-    box-shadow:
-      0 8px 40px rgba(0, 0, 0, 0.5),
-      0 0 40px hsl(var(--primary) / 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  }
-
-  /* ========================================
-     AURORA BACKGROUND - Global Blurred Orbs
-     ======================================== */
-  .aurora-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .aurora-orb-1 {
-    position: absolute;
-    top: 20%;
-    left: 30%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(255, 0, 150, 0.25), transparent 60%);
-    filter: blur(100px);
-    animation: float-aurora-1 20s ease-in-out infinite;
-  }
-
-  .aurora-orb-2 {
-    position: absolute;
-    top: 60%;
-    right: 20%;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(0, 200, 255, 0.25), transparent 60%);
-    filter: blur(100px);
-    animation: float-aurora-2 25s ease-in-out infinite;
-  }
-
-  .aurora-orb-3 {
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(138, 43, 226, 0.20), transparent 60%);
-    filter: blur(100px);
-    animation: float-aurora-3 30s ease-in-out infinite;
-  }
-
-  @keyframes float-aurora-1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(50px, -30px) scale(1.1); }
-  }
-
-  @keyframes float-aurora-2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-40px, 40px) scale(1.15); }
-  }
-
-  @keyframes float-aurora-3 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(30px, -50px) scale(1.08); }
-  }
-
-  /* Skill Level Indicators */
-  .skill-expert {
-    @apply bg-gradient-to-r from-skill-expert to-primary;
-    box-shadow: 0 0 15px hsl(var(--skill-expert) / 0.4);
-  }
-
-  .skill-advanced {
-    @apply bg-gradient-to-r from-skill-advanced to-secondary;
-    box-shadow: 0 0 15px hsl(var(--skill-advanced) / 0.4);
-  }
-
-  .skill-intermediate {
-    @apply bg-gradient-to-r from-skill-intermediate to-accent;
-    box-shadow: 0 0 15px hsl(var(--skill-intermediate) / 0.4);
-  }
-
-  .skill-beginner {
-    background: linear-gradient(135deg, hsl(var(--orange) / 0.9), hsl(var(--orange)));
-    box-shadow: 0 0 15px hsl(var(--orange) / 0.4);
-  }
-
-  /* Section-specific styling */
-  .hero-glow {
-    box-shadow: 0 0 40px hsl(var(--hero-accent) / 0.3);
-  }
-
-  .experience-glow {
-    box-shadow: 0 0 40px hsl(var(--experience-accent) / 0.3);
-  }
-
-  .projects-glow {
-    box-shadow: 0 0 40px hsl(var(--projects-accent) / 0.3);
-  }
-
-  .contact-glow {
-    box-shadow: 0 0 40px hsl(var(--contact-accent) / 0.3);
-  }
-
-  /* Text glow effects */
-  .text-glow-primary {
-    color: hsl(var(--primary));
-    text-shadow: 0 0 20px hsl(var(--primary) / 0.6);
-  }
-
-  .text-glow-secondary {
-    color: hsl(var(--secondary));
-    text-shadow: 0 0 20px hsl(var(--secondary) / 0.6);
-  }
-
-  .text-glow-accent {
-    color: hsl(var(--accent));
-    text-shadow: 0 0 20px hsl(var(--accent) / 0.6);
-  }
-
-  /* Hover lift effect */
-  .hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Gradient text animated */
-  .gradient-text-animated {
-    background: linear-gradient(
-      45deg,
-      hsl(var(--primary)),
-      hsl(var(--secondary)),
-      hsl(var(--accent)),
-      hsl(var(--primary))
-    );
-    background-size: 300% 300%;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient-shift 3s ease infinite;
-  }
+/* ────────────────────────────────────────────────────────────────
+   2. Base
+   ──────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
 }
 
-/* Advanced Animations */
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px hsl(var(--primary) / 0.6);
-  }
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+/* Headings wear the chronicle face. Marcellus has a single weight,
+   so hierarchy comes from size and spacing — which is the point. */
+h1, h2, h3 {
+  font-family: 'Marcellus', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-wrap: balance;
 }
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
-@keyframes slide-in-left {
-  from { transform: translateX(-100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+::selection {
+  background: hsl(var(--gold) / 0.25);
+  color: hsl(var(--foreground));
 }
 
-@keyframes slide-in-right {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+:focus-visible {
+  outline: 2px solid hsl(var(--ring) / 0.8);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-@keyframes scale-in {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+/* Small-caps "eyebrow" labels above sections — replaces the old
+   glowing gradient kickers. Apply to small intro labels. */
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: hsl(var(--gold) / 0.85);
 }
 
-@keyframes rotate-glow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Animation utility classes */
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
-}
-
-.animate-slide-in-left {
-  animation: slide-in-left 0.6s ease-out;
-}
-
-.animate-slide-in-right {
-  animation: slide-in-right 0.6s ease-out;
-}
-
-.animate-scale-in {
-  animation: scale-in 0.4s ease-out;
-}
-
-.animate-rotate-glow {
-  animation: rotate-glow 8s linear infinite;
-}
-
-/* Scroll-triggered animations */
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-fadeInDown {
-  animation: fadeInDown 0.6s ease-out forwards;
-}
-
-.animate-fadeInLeft {
-  animation: fadeInLeft 0.6s ease-out forwards;
-}
-
-.animate-fadeInRight {
-  animation: fadeInRight 0.6s ease-out forwards;
-}
-
-.animate-zoomIn {
-  animation: zoomIn 0.6s ease-out forwards;
-}
-
-.animate-slideInUp {
-  animation: slideInUp 0.6s ease-out forwards;
-}
-
-.animate-rotateIn {
-  animation: rotateIn 0.6s ease-out forwards;
-}
-
-/* Additional keyframes for scroll animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale(0.5);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes rotateIn {
-  from {
-    opacity: 0;
-    transform: rotate(-10deg) scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: rotate(0) scale(1);
-  }
-}
-
-/* Enhanced Interactive Animations */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-.hover-scale {
-  transition: transform 0.3s ease;
-}
-
-.hover-scale:hover {
-  transform: scale(1.05);
-}
-
-.hover-bounce:hover {
-  animation: bounce 0.6s ease;
-}
-
-.hover-pulse:hover {
-  animation: pulse 1s ease infinite;
-}
-
-.hover-glow {
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.hover-glow:hover {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-  transform: translateY(-2px);
-}
-
-.click-ripple {
-  position: relative;
+/* ────────────────────────────────────────────────────────────────
+   3. Background atmosphere
+   Replaces the three rainbow aurora orbs. Same class names so
+   app.html is untouched: one warm gold field high, one cold jade
+   field low, both at whisper opacity, plus vignette and grain.
+   ──────────────────────────────────────────────────────────────── */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 120%, hsl(160 20% 8% / 0.9), transparent 70%),
+    hsl(var(--background));
 }
 
-.click-scale {
-  transition: transform 0.1s ease;
+/* grain sits over the whole backdrop */
+.aurora-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.035;
+  mix-blend-mode: overlay;
 }
 
-.click-scale:active {
-  transform: scale(0.95);
+.aurora-orb-1 {
+  position: absolute;
+  top: -20%;
+  left: 8%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, hsl(var(--gold) / 0.10), transparent 65%);
+  filter: blur(80px);
 }
 
-/* Enhanced keyframes */
-@keyframes bounce {
-  0%, 20%, 53%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40%, 43% {
-    transform: translateY(-15px);
-  }
-  70% {
-    transform: translateY(-7px);
-  }
-  90% {
-    transform: translateY(-3px);
-  }
+.aurora-orb-2 {
+  position: absolute;
+  bottom: -25%;
+  right: -5%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, hsl(var(--jade) / 0.08), transparent 65%);
+  filter: blur(80px);
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
+/* third orb retired — present but invisible, so markup stays valid */
+.aurora-orb-3 {
+  display: none;
 }
 
-/* Lazy Loading Styles */
-.lazy-loading {
-  filter: blur(5px);
-  opacity: 0.7;
-  transition: filter 0.3s ease, opacity 0.3s ease;
+/* particles: the floating glow-dots become near-invisible dust */
+.particle,
+.particle-1, .particle-2, .particle-3, .particle-4, .particle-5 {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 9999px;
+  background: hsl(var(--champagne) / 0.18);
+  animation: float 14s ease-in-out infinite;
 }
+.particle-1 { top: 18%; left: 12%; animation-delay: 0s; }
+.particle-2 { top: 34%; left: 78%; animation-delay: 3s; }
+.particle-3 { top: 62%; left: 22%; animation-delay: 6s; }
+.particle-4 { top: 74%; left: 64%; animation-delay: 9s; }
+.particle-5 { top: 46%; left: 48%; animation-delay: 12s; }
 
-.lazy-loaded {
-  filter: none;
-  opacity: 1;
-}
-
-.lazy-error {
-  opacity: 0.5;
-  filter: grayscale(100%);
-}
-
-.lazy-bg-loaded {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* Performance optimizations */
-.reduced-motion * {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
-}
-
-/* Additional utilities for hero section */
-@layer utilities {
-  .bg-gradient-radial {
-    background: radial-gradient(circle at center, var(--tw-gradient-stops));
-  }
-}
-
-/* Fix descender clipping on large gradient headings */
-h1.text-4xl.md\:text-5xl.lg\:text-6xl.font-bold.mb-4.gradient-text.leading-tight {
-  line-height: 1.5; /* Provides more vertical space so letters like 'y' aren't cut off */
-}
-
-
-/* ========================================
-   PHASE 4: Advanced Hover States & Interactions
-   ======================================== */
-
-/* Aurora Glass: Advanced hover lift with glow */
-.hover-lift-advanced {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hover-lift-advanced:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow:
-    0 12px 50px rgba(0, 0, 0, 0.5),
-    0 20px 80px rgba(74, 144, 255, 0.2),
-    0 0 40px rgba(74, 144, 255, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-/* Aurora Glass: Glow pulse animation */
-@keyframes glow-pulse {
-  0%, 100% {
-    box-shadow:
-      0 0 20px rgba(74, 144, 255, 0.4),
-      0 0 40px rgba(74, 144, 255, 0.2);
-  }
-  50% {
-    box-shadow:
-      0 0 30px rgba(74, 144, 255, 0.6),
-      0 0 60px rgba(74, 144, 255, 0.3);
-  }
-}
-
-.glow-pulse {
-  animation: glow-pulse 2s ease-in-out infinite;
-}
-
-/* Aurora Glass: Interactive card with advanced hover */
-.interactive-card {
+/* ────────────────────────────────────────────────────────────────
+   4. The signature: smoked-crystal cards
+   Technique: two stacked backgrounds — the surface fills the
+   padding-box, the gold edge gradient fills the border-box —
+   which produces a 1px gradient border without pseudo-elements.
+   ──────────────────────────────────────────────────────────────── */
+.glass-card {
   position: relative;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--glass-surface), var(--glass-surface)) padding-box,
+    var(--glass-edge) border-box;
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%) brightness(1.04);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%) brightness(1.04);
+  box-shadow: var(--glass-shadow);
+  transition:
+    box-shadow var(--animation-duration) ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* grain on the glass surface itself — what sells "material" */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--grain);
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* enhanced / glow variants: a touch more edge, a candle of halo */
+.glass-card-enhanced,
+.glass-card-glow {
+  --glass-edge: linear-gradient(
+    135deg,
+    hsl(var(--champagne) / 0.45) 0%,
+    hsl(var(--gold) / 0.20) 30%,
+    hsl(var(--foreground) / 0.06) 60%,
+    hsl(var(--gold) / 0.10) 100%
+  );
+  box-shadow:
+    var(--glass-shadow),
+    0 0 40px -12px hsl(var(--gold) / 0.15);
+}
+
+/* hero card: largest slab, slightly clearer glass, stronger light */
+.glass-card-hero {
+  --glass-opacity: 0.5;
+  --glass-blur: 32px;
+  --glass-edge: linear-gradient(
+    150deg,
+    hsl(var(--champagne) / 0.5) 0%,
+    hsl(var(--gold) / 0.18) 25%,
+    hsl(var(--foreground) / 0.05) 50%,
+    hsl(var(--foreground) / 0.02) 100%
+  );
+}
+
+/* interactive cards & hover-lift: restraint — 2px, edge brightens */
+.interactive-card,
+.hover-lift {
   cursor: pointer;
 }
 
-.interactive-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg,
-    rgba(74, 144, 255, 0.1),
-    rgba(138, 43, 226, 0.1));
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-  border-radius: inherit;
-}
-
-.interactive-card:hover::after {
-  opacity: 1;
-}
-
-.interactive-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow:
-    0 8px 40px rgba(0, 0, 0, 0.5),
-    0 12px 80px rgba(74, 144, 255, 0.2),
-    0 0 40px rgba(74, 144, 255, 0.25);
-}
-
-/* Aurora Glass: Shimmer effect on hover */
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%) translateY(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) translateY(100%) rotate(45deg);
-  }
-}
-
-.shimmer-on-hover {
-  position: relative;
-  overflow: hidden;
-}
-
-.shimmer-on-hover::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 70%
+.interactive-card:hover,
+.hover-lift:hover,
+.glass-card.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glass-shadow-hover);
+  --glass-edge: linear-gradient(
+    135deg,
+    hsl(var(--champagne) / 0.55) 0%,
+    hsl(var(--gold) / 0.25) 30%,
+    hsl(var(--foreground) / 0.08) 60%,
+    hsl(var(--gold) / 0.12) 100%
   );
-  transform: translateX(-100%) translateY(-100%) rotate(45deg);
-  transition: transform 0.6s ease;
 }
 
-.shimmer-on-hover:hover::before {
-  animation: shimmer 1.5s ease-in-out;
+/* glass nav (app shell header) */
+.glass-nav {
+  border-bottom: 1px solid hsl(var(--border) / 0.6);
+  background: hsl(var(--background) / 0.7);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
-/* Aurora Glass: Glow border on focus */
-.focus-glow:focus {
-  outline: none;
-  box-shadow:
-    0 0 0 3px rgba(74, 144, 255, 0.3),
-    0 0 20px rgba(74, 144, 255, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+/* glass buttons keep the material language at control size */
+.glass-button {
+  border-radius: calc(var(--radius) - 0.375rem);
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card-glass) / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
-/* Aurora Glass: Smooth scale on active */
-.active-scale:active {
-  transform: scale(0.97);
-  transition: transform 0.1s ease;
+.glass-button:hover {
+  border-color: hsl(var(--gold) / 0.45);
+  background: hsl(var(--card-glass) / 0.9);
 }
 
+/* ────────────────────────────────────────────────────────────────
+   5. Text treatments
+   gradient-text survives in name, but it is now gilded ink:
+   a static ivory→gold metal sheen. No animation, no glow.
+   ──────────────────────────────────────────────────────────────── */
+.gradient-text,
+.gradient-text-enhanced {
+  font-family: 'Marcellus', Georgia, serif;
+  letter-spacing: 0.02em;
+  background: linear-gradient(
+    100deg,
+    hsl(var(--foreground)) 0%,
+    hsl(var(--champagne)) 45%,
+    hsl(var(--gold)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* the enhanced variant gets a hair more gold, nothing more */
+.gradient-text-enhanced {
+  background: linear-gradient(
+    100deg,
+    hsl(var(--champagne)) 0%,
+    hsl(var(--gold)) 60%,
+    hsl(var(--champagne)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* old glowing-heading helper, neutered to a faint warm cast */
+.text-glow {
+  text-shadow: 0 0 24px hsl(var(--gold) / 0.18);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   6. Entrance animations (names preserved)
+   One easing curve everywhere; reveals are short and downplayed.
+   ──────────────────────────────────────────────────────────────── */
+.animate-fade-in-up {
+  animation: slideInUp var(--animation-duration) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* shimmer (loading skeletons): kept, slowed, de-saturated */
+.shimmer {
+  background: linear-gradient(
+    100deg,
+    hsl(var(--muted)) 40%,
+    hsl(var(--muted-fg) / 0.12) 50%,
+    hsl(var(--muted)) 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   7. Scrollbar & accessibility
+   ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: hsl(var(--background)); }
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 9999px;
+  border: 2px solid hsl(var(--background));
+}
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--gold) / 0.4); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* Fallback when backdrop-filter is unsupported: solid crystal */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-card, .glass-card-hero, .glass-nav, .glass-button {
+    background-color: hsl(var(--card));
+  }
+}
