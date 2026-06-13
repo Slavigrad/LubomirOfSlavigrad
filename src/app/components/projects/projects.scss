@@ -1,0 +1,35 @@
+/*
+ * Projects — Smoked Crystal status badges.
+ *
+ * Status colour is SEMANTIC here (it encodes state), so unlike the other
+ * sections it isn't flattened to one tone — it's mapped onto the ramp in a
+ * way that reads intuitively: in-progress = bright gold (active), completed
+ * = jade (settled), planned = warm stone (not yet lit). Outlined pills, no
+ * neon fill.
+ *
+ * Tokens on :host mirror styles.css so the component is self-sufficient
+ * before the global stylesheet is installed (delete this block after).
+ */
+:host {
+  --gold: 40 55% 58%;
+  --jade: 155 17% 58%;
+  --stone: 40 8% 50%;
+}
+
+.status-in-progress {
+  color: hsl(var(--gold));
+  border: 1px solid hsl(var(--gold) / 0.4);
+  background: hsl(var(--gold) / 0.08);
+}
+
+.status-completed {
+  color: hsl(var(--jade));
+  border: 1px solid hsl(var(--jade) / 0.4);
+  background: hsl(var(--jade) / 0.08);
+}
+
+.status-planned {
+  color: hsl(var(--stone));
+  border: 1px solid hsl(var(--stone) / 0.4);
+  background: hsl(var(--stone) / 0.08);
+}

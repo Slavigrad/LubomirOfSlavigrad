@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 
 import { CvDataService, ThemeService } from '../../services';
-import { Hero, Stats, Skills, Experience, ProjectsComponent, Contact } from '../../components';
+import { Hero, Stats, Skills, Experience, Projects, Contact } from '../../components';
 
 @Component({
   selector: 'app-home',
-  imports: [Hero, Stats, Skills, Experience, ProjectsComponent, Contact],
+  imports: [Hero, Stats, Skills, Experience, Projects, Contact],
   template: `
     <div class="min-h-screen">
       <!-- Hero Section Component -->
