@@ -9,8 +9,6 @@
     "build:prod": "ng build --configuration production",
     "build:analyze": "ng build --configuration production && npm run analyze:bundle",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "test:coverage": "ng test --coverage",
     "analyze:bundle": "npx webpack-bundle-analyzer dist/LubomirOfSlavigrad/stats.json",
     "performance:budget": "node scripts/performance-budget.js",
     "performance:build": "npm run build:prod && npm run performance:budget",
