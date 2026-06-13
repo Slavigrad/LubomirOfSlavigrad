@@ -1,7 +1,7 @@
 # ADR-001: Two Bounded Contexts — `cv` and `memoir`
 
-- **Status:** Proposed (becomes *Accepted* when Lubomir approves; restructure work must not begin before that)
-- **Date:** 2026-06-12
+- **Status:** Accepted (2026-06-13) — verified against the repo by the Phase 0 inspection map
+- **Date:** 2026-06-12 (proposed), 2026-06-13 (accepted)
 - **Deciders:** Lubomir (owner), Claude (architecture analysis)
 - **Technical story:** Restructure of the Slavigrad CV application from type-first layout (`components/`, `pages/`, `models/`, `services/`, `shared/`) to a domain-based architecture per *Modern Angular* (Steyer) and `advanced-modern-angular-application-structure-guide.md`.
 
@@ -24,6 +24,8 @@ Found in: `src/app/models/cv-data.interface.ts`, `cv-data.utils.ts`, `cv-data.va
 Found in: `src/app/data/egypt-story-data.ts`, `egypt-memoir-structured.json`, `src/app/pages/egypt-story/egypt-story.component.ts`, `src/app/shared/components/{chapter-navigation, reading-progress, social-share, scroll-to-top}/`.
 
 The two vocabularies share no terms. No file in cluster 1 imports a type from cluster 2 or vice versa. A `Chapter` is meaningless on the CV page; an `Experience` is meaningless in the memoir.
+
+**Verification (Phase 0 inspection map, 2026-06-13):** a grep-level boundary check confirmed zero cross-domain imports. CV files import only shared/model/CV-data; `egypt-story.component.ts` imports only its own data plus shared UI; no CV file imports anything memoir, and no memoir file imports anything CV. The two domains meet only at shell level (`app.routes.ts` registers both; `app.html` has a nav link). The decision below therefore matches reality — the restructure relocates already-decoupled code. The boundary is currently held by convention only; nothing enforces it, which is why Sheriff (below) is non-negotiable.
 
 **Neither-domain code (technical / design system):**
 Glassmorphism UI kit (`src/app/shared/components/ui/*`), design tokens (`glass-design.interface.ts`, `z-index.ts`, `tailwind.config.js`, `src/styles.css`), `theme.service.ts`, animation utilities, performance/cache/image services, lazy-image directive, preloading strategy.

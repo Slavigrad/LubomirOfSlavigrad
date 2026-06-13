@@ -1,7 +1,7 @@
 # ADR-003: Fate of the `/demo` Route and Experimental Components
 
-- **Status:** Proposed (DECIDE items require owner choice; becomes *Accepted* when choices are recorded)
-- **Date:** 2026-06-12
+- **Status:** Accepted (2026-06-13) — DECIDE items resolved (recorded below); `performance-monitor` remains deferred to ADR-004
+- **Date:** 2026-06-12 (proposed), 2026-06-13 (accepted)
 - **Deciders:** Lubomir (owner), Claude (analysis)
 - **Depends on:** ADR-001 (target structure and module rules). Related: ADR-004 (performance services — one item here is coupled to it).
 - **Scope:** the `/demo` route, `shared/components/ui/collapse-demo.component.ts`, and the experimental components `modern-card`, `modern-lifecycle`, `signal-form`, `performance-monitor` (+ the `shared/components/modern/index.ts` barrel).
@@ -49,10 +49,10 @@ domains/
 | Item | Verdict | Rationale |
 |---|---|---|
 | `collapse-demo.component.ts` + `/demo` route | **KEEP, relocate** to `domains/lab/feature-ui-showcase/`, route becomes `/lab/ui-showcase` (optionally keep a `/demo` → redirect for old links) | Genuine portfolio asset: a working design-system showcase. Relocation also fixes the layering violation (routed page out of the `ui` folder). Add `<meta name="robots" content="noindex">` via route data or title strategy if it should stay out of search results — owner's call. |
-| `modern-card.component.ts` (+ spec) | **DECIDE** | Option A *(recommended)*: relocate to `feature-signal-playground` and mount it on a lab route — it is a competent demonstration of the full signal component API and currently renders nowhere, which is the worst of both worlds. Option B: delete; the same APIs are now used in production components, so the lesson is learned. Keeping it unmounted in `shared/` is the only wrong answer. |
-| `modern-lifecycle.component.ts` | **DECIDE** | Same options as `modern-card`. Slightly weaker keep-case: it is more tutorial than showpiece. |
-| `signal-form.component.ts` | **DECIDE** | Same options. Note for the decision: if the contact section's form is ever rebuilt on signal forms, this experiment is its natural prototype — that argues for lab over deletion until then. |
-| `performance-monitor.component.ts` | **DEFER to ADR-004** | It is a dashboard over the performance service suite whose own fate is undecided. If ADR-004 keeps the services, this component moves to lab *after* fixing the interval leak (use `DestroyRef` + `takeUntilDestroyed`, or delete the timer). If ADR-004 deletes the services, this component goes with them. Do not relocate it before ADR-004 is resolved. |
+| `modern-card.component.ts` (+ spec) | **RESOLVED → KEEP, lab** (`feature-signal-playground`) | Owner decision 2026-06-13. The most polished signal-API demo (input/output/model/viewChild, has a spec) and currently renders nowhere; mounting it on a lab route makes it a portfolio asset. |
+| `modern-lifecycle.component.ts` | **RESOLVED → DELETE** | Owner decision 2026-06-13. More tutorial than showpiece; the signal APIs it demonstrates are already used in production components, so the lesson is captured. |
+| `signal-form.component.ts` | **RESOLVED → KEEP, lab** (`feature-signal-playground`) | Owner decision 2026-06-13. Retained explicitly as the prototype for a future signal-based rebuild of the contact form. |
+| `performance-monitor.component.ts` | **DEFER to ADR-004** | It is a dashboard over the performance service suite whose own fate is undecided. If ADR-004 keeps the services, this component moves to lab *after* fixing the interval leak (`DestroyRef` + `takeUntilDestroyed`, or delete the timer). If ADR-004 deletes the services, this component goes with them. Do not relocate it before ADR-004 is resolved. (Phase 0 note: the missing-teardown `setInterval` is confirmed present.) |
 | `shared/components/modern/index.ts` barrel | **DELETE** | Barrel for the relocated/deleted experiments; nothing outside lab may import them anyway (Rule 8), and lab features import their own files directly. |
 
 ### 3. Sequencing
