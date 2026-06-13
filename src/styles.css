@@ -1,6 +1,6 @@
 /* ════════════════════════════════════════════════════════════════
    SLAVIGRAD CHRONICLES — global design system
-   Direction: "Smoked Crystal" (2026)
+   Direction: "Slavic Smoked Crystal" (2026)
 
    Glass reinterpreted as dark Bohemian crystal:
    • one material  — smoked green-black glass with film grain
@@ -24,106 +24,104 @@
    user's glass-intensity toggle keeps working.
    ──────────────────────────────────────────────────────────────── */
 :root {
-  /* surfaces & ink */
-  --background:  160 14% 5%;     /* smoked bottle-glass black */
-  --foreground:  40 30% 93%;     /* warm ivory */
-  --card:        160 12% 7%;
-  --card-glass:  160 12% 9%;
-  --border:      160 10% 17%;
-  --muted:       160 10% 12%;
-  --muted-fg:    40 10% 64%;     /* warm stone */
+    /* surfaces & ink */
+    --background: 160 14% 5%; /* smoked bottle-glass black */
+    --foreground: 40 30% 93%; /* warm ivory */
+    --card: 160 12% 7%;
+    --card-glass: 160 12% 9%;
+    --border: 160 10% 17%;
+    --muted: 160 10% 12%;
+    --muted-fg: 40 10% 64%; /* warm stone */
 
-  /* the metal & the supporting hue */
-  --gold:        40 55% 58%;     /* aged gold  #CFA050 */
-  --champagne:   42 48% 78%;     /* #E6D3AC */
-  --jade:        155 17% 58%;    /* #7FA893 */
+    /* the metal & the supporting hue */
+    --gold: 40 55% 58%; /* aged gold  #CFA050 */
+    --champagne: 42 48% 78%; /* #E6D3AC */
+    --jade: 155 17% 58%; /* #7FA893 */
 
-  --primary:     var(--gold);
-  --secondary:   var(--jade);
-  --accent:      var(--champagne);
-  --ring:        var(--gold);
+    --primary: var(--gold);
+    --secondary: var(--jade);
+    --accent: var(--champagne);
+    --ring: var(--gold);
 
-  /* shape */
-  --radius: 1rem;
+    /* shape */
+    --radius: 1rem;
 
-  /* glass material (ThemeService may override the first two) */
-  --glass-blur: 24px;
-  --glass-opacity: 0.62;
-  --glass-surface: hsl(var(--card-glass) / var(--glass-opacity));
-  /* gold edge light: brightest at top-left, dies out bottom-right */
-  --glass-edge: linear-gradient(
-    135deg,
-    hsl(var(--champagne) / 0.32) 0%,
-    hsl(var(--gold) / 0.14) 28%,
-    hsl(var(--foreground) / 0.05) 55%,
-    hsl(var(--foreground) / 0.02) 100%
-  );
-  --glass-shadow:
-    0 1px 1px hsl(160 20% 2% / 0.55),
+    /* glass material (ThemeService may override the first two) */
+    --glass-blur: 24px;
+    --glass-opacity: 0.62;
+    --glass-surface: hsl(var(--card-glass) / var(--glass-opacity));
+    /* gold edge light: brightest at top-left, dies out bottom-right */
+    --glass-edge: linear-gradient(
+            135deg,
+            hsl(var(--champagne) / 0.32) 0%,
+            hsl(var(--gold) / 0.14) 28%,
+            hsl(var(--foreground) / 0.05) 55%,
+            hsl(var(--foreground) / 0.02) 100%
+    );
+    --glass-shadow: 0 1px 1px hsl(160 20% 2% / 0.55),
     0 12px 32px -8px hsl(160 20% 2% / 0.55),
     inset 0 1px 0 hsl(var(--foreground) / 0.07);
-  --glass-shadow-hover:
-    0 2px 2px hsl(160 20% 2% / 0.55),
+    --glass-shadow-hover: 0 2px 2px hsl(160 20% 2% / 0.55),
     0 20px 48px -12px hsl(160 20% 2% / 0.65),
     inset 0 1px 0 hsl(var(--foreground) / 0.10);
 
-  /* film grain — inline SVG turbulence, tiles at 160px */
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    /* film grain — inline SVG turbulence, tiles at 160px */
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 
-  --animation-duration: 0.7s; /* ThemeService override point */
+    --animation-duration: 0.7s; /* ThemeService override point */
 }
 
 /* ────────────────────────────────────────────────────────────────
    2. Base
    ──────────────────────────────────────────────────────────────── */
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
-  font-family: 'Hanken Grotesk', system-ui, sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.005em;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Hanken Grotesk', system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 /* Headings wear the chronicle face. Marcellus has a single weight,
    so hierarchy comes from size and spacing — which is the point. */
 h1, h2, h3 {
-  font-family: 'Marcellus', Georgia, serif;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  text-wrap: balance;
+    font-family: 'Marcellus', Georgia, serif;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-wrap: balance;
 }
 
 h4, h5, h6 {
-  font-weight: 600;
-  letter-spacing: 0.01em;
+    font-weight: 600;
+    letter-spacing: 0.01em;
 }
 
 ::selection {
-  background: hsl(var(--gold) / 0.25);
-  color: hsl(var(--foreground));
+    background: hsl(var(--gold) / 0.25);
+    color: hsl(var(--foreground));
 }
 
 :focus-visible {
-  outline: 2px solid hsl(var(--ring) / 0.8);
-  outline-offset: 2px;
-  border-radius: 4px;
+    outline: 2px solid hsl(var(--ring) / 0.8);
+    outline-offset: 2px;
+    border-radius: 4px;
 }
 
 /* Small-caps "eyebrow" labels above sections — replaces the old
    glowing gradient kickers. Apply to small intro labels. */
 .eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: hsl(var(--gold) / 0.85);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: hsl(var(--gold) / 0.85);
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -133,66 +131,90 @@ h4, h5, h6 {
    field low, both at whisper opacity, plus vignette and grain.
    ──────────────────────────────────────────────────────────────── */
 .aurora-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 90% 60% at 50% 120%, hsl(160 20% 8% / 0.9), transparent 70%),
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: radial-gradient(ellipse 90% 60% at 50% 120%, hsl(160 20% 8% / 0.9), transparent 70%),
     hsl(var(--background));
 }
 
 /* grain sits over the whole backdrop */
 .aurora-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--grain);
-  opacity: 0.035;
-  mix-blend-mode: overlay;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain);
+    opacity: 0.035;
+    mix-blend-mode: overlay;
 }
 
 .aurora-orb-1 {
-  position: absolute;
-  top: -20%;
-  left: 8%;
-  width: 60vw;
-  height: 60vw;
-  background: radial-gradient(circle, hsl(var(--gold) / 0.10), transparent 65%);
-  filter: blur(80px);
+    position: absolute;
+    top: -20%;
+    left: 8%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, hsl(var(--gold) / 0.10), transparent 65%);
+    filter: blur(80px);
 }
 
 .aurora-orb-2 {
-  position: absolute;
-  bottom: -25%;
-  right: -5%;
-  width: 55vw;
-  height: 55vw;
-  background: radial-gradient(circle, hsl(var(--jade) / 0.08), transparent 65%);
-  filter: blur(80px);
+    position: absolute;
+    bottom: -25%;
+    right: -5%;
+    width: 55vw;
+    height: 55vw;
+    background: radial-gradient(circle, hsl(var(--jade) / 0.08), transparent 65%);
+    filter: blur(80px);
 }
 
 /* third orb retired — present but invisible, so markup stays valid */
 .aurora-orb-3 {
-  display: none;
+    display: none;
 }
 
 /* particles: the floating glow-dots become near-invisible dust */
 .particle,
 .particle-1, .particle-2, .particle-3, .particle-4, .particle-5 {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  border-radius: 9999px;
-  background: hsl(var(--champagne) / 0.18);
-  animation: float 14s ease-in-out infinite;
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 9999px;
+    background: hsl(var(--champagne) / 0.18);
+    animation: float 14s ease-in-out infinite;
 }
-.particle-1 { top: 18%; left: 12%; animation-delay: 0s; }
-.particle-2 { top: 34%; left: 78%; animation-delay: 3s; }
-.particle-3 { top: 62%; left: 22%; animation-delay: 6s; }
-.particle-4 { top: 74%; left: 64%; animation-delay: 9s; }
-.particle-5 { top: 46%; left: 48%; animation-delay: 12s; }
+
+.particle-1 {
+    top: 18%;
+    left: 12%;
+    animation-delay: 0s;
+}
+
+.particle-2 {
+    top: 34%;
+    left: 78%;
+    animation-delay: 3s;
+}
+
+.particle-3 {
+    top: 62%;
+    left: 22%;
+    animation-delay: 6s;
+}
+
+.particle-4 {
+    top: 74%;
+    left: 64%;
+    animation-delay: 9s;
+}
+
+.particle-5 {
+    top: 46%;
+    left: 48%;
+    animation-delay: 12s;
+}
 
 /* ────────────────────────────────────────────────────────────────
    4. The signature: smoked-crystal cards
@@ -201,101 +223,98 @@ h4, h5, h6 {
    which produces a 1px gradient border without pseudo-elements.
    ──────────────────────────────────────────────────────────────── */
 .glass-card {
-  position: relative;
-  border-radius: var(--radius);
-  border: 1px solid transparent;
-  background:
-    linear-gradient(var(--glass-surface), var(--glass-surface)) padding-box,
+    position: relative;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    background: linear-gradient(var(--glass-surface), var(--glass-surface)) padding-box,
     var(--glass-edge) border-box;
-  backdrop-filter: blur(var(--glass-blur)) saturate(140%) brightness(1.04);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%) brightness(1.04);
-  box-shadow: var(--glass-shadow);
-  transition:
-    box-shadow var(--animation-duration) ease,
+    backdrop-filter: blur(var(--glass-blur)) saturate(140%) brightness(1.04);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%) brightness(1.04);
+    box-shadow: var(--glass-shadow);
+    transition: box-shadow var(--animation-duration) ease,
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* grain on the glass surface itself — what sells "material" */
 .glass-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background-image: var(--grain);
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  pointer-events: none;
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: var(--grain);
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    pointer-events: none;
 }
 
 /* enhanced / glow variants: a touch more edge, a candle of halo */
 .glass-card-enhanced,
 .glass-card-glow {
-  --glass-edge: linear-gradient(
-    135deg,
-    hsl(var(--champagne) / 0.45) 0%,
-    hsl(var(--gold) / 0.20) 30%,
-    hsl(var(--foreground) / 0.06) 60%,
-    hsl(var(--gold) / 0.10) 100%
-  );
-  box-shadow:
-    var(--glass-shadow),
+    --glass-edge: linear-gradient(
+            135deg,
+            hsl(var(--champagne) / 0.45) 0%,
+            hsl(var(--gold) / 0.20) 30%,
+            hsl(var(--foreground) / 0.06) 60%,
+            hsl(var(--gold) / 0.10) 100%
+    );
+    box-shadow: var(--glass-shadow),
     0 0 40px -12px hsl(var(--gold) / 0.15);
 }
 
 /* hero card: largest slab, slightly clearer glass, stronger light */
 .glass-card-hero {
-  --glass-opacity: 0.5;
-  --glass-blur: 32px;
-  --glass-edge: linear-gradient(
-    150deg,
-    hsl(var(--champagne) / 0.5) 0%,
-    hsl(var(--gold) / 0.18) 25%,
-    hsl(var(--foreground) / 0.05) 50%,
-    hsl(var(--foreground) / 0.02) 100%
-  );
+    --glass-opacity: 0.5;
+    --glass-blur: 32px;
+    --glass-edge: linear-gradient(
+            150deg,
+            hsl(var(--champagne) / 0.5) 0%,
+            hsl(var(--gold) / 0.18) 25%,
+            hsl(var(--foreground) / 0.05) 50%,
+            hsl(var(--foreground) / 0.02) 100%
+    );
 }
 
 /* interactive cards & hover-lift: restraint — 2px, edge brightens */
 .interactive-card,
 .hover-lift {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .interactive-card:hover,
 .hover-lift:hover,
 .glass-card.hover-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--glass-shadow-hover);
-  --glass-edge: linear-gradient(
-    135deg,
-    hsl(var(--champagne) / 0.55) 0%,
-    hsl(var(--gold) / 0.25) 30%,
-    hsl(var(--foreground) / 0.08) 60%,
-    hsl(var(--gold) / 0.12) 100%
-  );
+    transform: translateY(-2px);
+    box-shadow: var(--glass-shadow-hover);
+    --glass-edge: linear-gradient(
+            135deg,
+            hsl(var(--champagne) / 0.55) 0%,
+            hsl(var(--gold) / 0.25) 30%,
+            hsl(var(--foreground) / 0.08) 60%,
+            hsl(var(--gold) / 0.12) 100%
+    );
 }
 
 /* glass nav (app shell header) */
 .glass-nav {
-  border-bottom: 1px solid hsl(var(--border) / 0.6);
-  background: hsl(var(--background) / 0.7);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid hsl(var(--border) / 0.6);
+    background: hsl(var(--background) / 0.7);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
 /* glass buttons keep the material language at control size */
 .glass-button {
-  border-radius: calc(var(--radius) - 0.375rem);
-  border: 1px solid hsl(var(--border));
-  background: hsl(var(--card-glass) / 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: border-color 0.25s ease, background-color 0.25s ease;
+    border-radius: calc(var(--radius) - 0.375rem);
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card-glass) / 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 0.25s ease, background-color 0.25s ease;
 }
 
 .glass-button:hover {
-  border-color: hsl(var(--gold) / 0.45);
-  background: hsl(var(--card-glass) / 0.9);
+    border-color: hsl(var(--gold) / 0.45);
+    background: hsl(var(--card-glass) / 0.9);
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -305,35 +324,35 @@ h4, h5, h6 {
    ──────────────────────────────────────────────────────────────── */
 .gradient-text,
 .gradient-text-enhanced {
-  font-family: 'Marcellus', Georgia, serif;
-  letter-spacing: 0.02em;
-  background: linear-gradient(
-    100deg,
-    hsl(var(--foreground)) 0%,
-    hsl(var(--champagne)) 45%,
-    hsl(var(--gold)) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+    font-family: 'Marcellus', Georgia, serif;
+    letter-spacing: 0.02em;
+    background: linear-gradient(
+            100deg,
+            hsl(var(--foreground)) 0%,
+            hsl(var(--champagne)) 45%,
+            hsl(var(--gold)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
 }
 
 /* the enhanced variant gets a hair more gold, nothing more */
 .gradient-text-enhanced {
-  background: linear-gradient(
-    100deg,
-    hsl(var(--champagne)) 0%,
-    hsl(var(--gold)) 60%,
-    hsl(var(--champagne)) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
+    background: linear-gradient(
+            100deg,
+            hsl(var(--champagne)) 0%,
+            hsl(var(--gold)) 60%,
+            hsl(var(--champagne)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 /* old glowing-heading helper, neutered to a faint warm cast */
 .text-glow {
-  text-shadow: 0 0 24px hsl(var(--gold) / 0.18);
+    text-shadow: 0 0 24px hsl(var(--gold) / 0.18);
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -341,60 +360,86 @@ h4, h5, h6 {
    One easing curve everywhere; reveals are short and downplayed.
    ──────────────────────────────────────────────────────────────── */
 .animate-fade-in-up {
-  animation: slideInUp var(--animation-duration) cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: slideInUp var(--animation-duration) cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes slideInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-4px); }
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
 }
 
 /* shimmer (loading skeletons): kept, slowed, de-saturated */
 .shimmer {
-  background: linear-gradient(
-    100deg,
-    hsl(var(--muted)) 40%,
-    hsl(var(--muted-fg) / 0.12) 50%,
-    hsl(var(--muted)) 60%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2.4s ease-in-out infinite;
+    background: linear-gradient(
+            100deg,
+            hsl(var(--muted)) 40%,
+            hsl(var(--muted-fg) / 0.12) 50%,
+            hsl(var(--muted)) 60%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.4s ease-in-out infinite;
 }
 
 @keyframes shimmer {
-  from { background-position: 200% 0; }
-  to   { background-position: -200% 0; }
+    from {
+        background-position: 200% 0;
+    }
+    to {
+        background-position: -200% 0;
+    }
 }
 
 /* ────────────────────────────────────────────────────────────────
    7. Scrollbar & accessibility
    ──────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: hsl(var(--background)); }
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--border));
-  border-radius: 9999px;
-  border: 2px solid hsl(var(--background));
+::-webkit-scrollbar {
+    width: 10px;
 }
-::-webkit-scrollbar-thumb:hover { background: hsl(var(--gold) / 0.4); }
+
+::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 9999px;
+    border: 2px solid hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--gold) / 0.4);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-  html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
 }
 
 /* Fallback when backdrop-filter is unsupported: solid crystal */
 @supports not (backdrop-filter: blur(1px)) {
-  .glass-card, .glass-card-hero, .glass-nav, .glass-button {
-    background-color: hsl(var(--card));
-  }
+    .glass-card, .glass-card-hero, .glass-nav, .glass-button {
+        background-color: hsl(var(--card));
+    }
 }
