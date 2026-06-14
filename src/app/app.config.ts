@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 import { provideRouter, withPreloading } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withPreloading(CustomPreloadingStrategy)),
     provideAnimations(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(),
     provideTranslateService({
       loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/', suffix: '.json' }),
       fallbackLang: DEFAULT_LANGUAGE,

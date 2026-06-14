@@ -292,7 +292,7 @@ export class ScrollAnimateDirective implements OnInit, OnDestroy {
   readonly animationThreshold = input<number>(0.1);
   readonly animationOnce = input<boolean>(true);
 
-  private animationService = new AnimationService();
+  private readonly animationService = inject(AnimationService);
   private readonly elementRef = inject(ElementRef);
 
   ngOnInit() {
@@ -323,7 +323,7 @@ export class InteractiveAnimateDirective implements OnInit, OnDestroy {
   readonly animationTrigger = input<'hover' | 'click' | 'focus'>('hover');
   readonly animationDuration = input<number>(300);
 
-  private animationService = new AnimationService();
+  private readonly animationService = inject(AnimationService);
   private readonly elementRef = inject(ElementRef);
 
   ngOnInit() {
