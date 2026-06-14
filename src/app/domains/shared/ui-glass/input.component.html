@@ -1,0 +1,52 @@
+<div [class]="containerClasses()">
+  @if (label()) {
+    <label [for]="inputId()" class="input-label">
+      {{ label() }}
+      @if (required()) {
+        <span class="text-red-500 ml-1">*</span>
+      }
+    </label>
+  }
+
+  <div class="relative">
+    @if (icon()) {
+      <div class="input-icon-left">
+        <span [innerHTML]="icon()"></span>
+      </div>
+    }
+
+    <input
+      [id]="inputId()"
+      [type]="type()"
+      [placeholder]="placeholder()"
+      [disabled]="disabledState()"
+      [readonly]="readonly()"
+      [class]="inputClasses()"
+      [value]="value()"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+      (focus)="onFocus()"
+    />
+
+    @if (clearable() && value()) {
+      <button type="button" class="input-clear" (click)="clearValue()" aria-label="Clear input">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+    }
+  </div>
+
+  @if (error()) {
+    <p class="input-error">{{ error() }}</p>
+  }
+
+  @if (hint() && !error()) {
+    <p class="input-hint">{{ hint() }}</p>
+  }
+</div>

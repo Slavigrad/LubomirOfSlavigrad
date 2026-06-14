@@ -1,0 +1,66 @@
+<div
+  class="collapse-container"
+  [class]="containerClasses()"
+  [attr.aria-expanded]="isExpanded()"
+  [attr.aria-disabled]="disabled()"
+>
+  <!-- Header/Trigger -->
+  <div
+    #headerElement
+    class="collapse-header"
+    [class]="headerClasses()"
+    (click)="toggleCollapse()"
+    (keydown.enter)="toggleCollapse()"
+    (keydown.space)="toggleCollapse()"
+    [attr.tabindex]="disabled() ? -1 : 0"
+    [attr.role]="'button'"
+    [attr.aria-controls]="contentId"
+    [attr.aria-expanded]="isExpanded()"
+  >
+    <!-- Header Content -->
+    <div class="header-content">
+      <ng-content select="[slot=header]" />
+      @if (!hasHeaderSlot()) {
+        <span class="default-header">{{ headerText() }}</span>
+      }
+    </div>
+
+    <!-- Toggle Icon -->
+    @if (showIcon()) {
+      <div
+        class="collapse-icon"
+        [@iconRotation]="{ value: animationState(), params: { duration: duration() } }"
+      >
+        @if (customIcon()) {
+          <span [innerHTML]="customIcon()"></span>
+        } @else {
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Content -->
+  <div
+    #contentElement
+    [id]="contentId"
+    class="collapse-content"
+    [class]="contentClasses()"
+    [@slideAnimation]="getAnimationConfig()"
+    (@slideAnimation.start)="onAnimationStart($event)"
+    (@slideAnimation.done)="onAnimationDone($event)"
+    [attr.aria-hidden]="!isExpanded()"
+    role="region"
+  >
+    <div class="content-wrapper">
+      <ng-content />
+    </div>
+  </div>
+</div>

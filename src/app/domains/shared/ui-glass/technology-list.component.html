@@ -1,0 +1,63 @@
+<div class="technology-list">
+  @if (showPreview() && technologies().length > previewCount()) {
+    <!-- Preview Mode with simple toggle (robust, no nested components) -->
+    <div class="space-y-3">
+      <!-- Preview Technologies -->
+      <div class="flex flex-wrap gap-2">
+        @for (tech of previewTechnologies(); track tech) {
+          <span
+            class="tech-badge"
+            [class]="getTechnologyClass(tech)"
+            [title]="getTechnologyTooltip(tech)"
+          >
+            <span class="tech-icon">{{ getTechnologyIcon(tech) }}</span>
+            <span class="tech-name">{{ tech }}</span>
+          </span>
+        }
+      </div>
+
+      <!-- Toggle for Additional Technologies -->
+      @if (additionalTechnologies().length > 0) {
+        <button type="button"
+          class="w-full text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
+          (click)="toggleExpanded()"
+          [attr.aria-expanded]="isExpanded()"
+        >
+          <svg class="w-4 h-4 transition-transform" [class.rotate-180]="isExpanded()" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+          {{ isExpanded() ? 'Hide' : getCollapseHeaderText() }}
+        </button>
+
+        @if (isExpanded()) {
+          <div class="pt-2 flex flex-wrap gap-2">
+            @for (tech of additionalTechnologies(); track tech) {
+              <span
+                class="tech-badge"
+                [class]="getTechnologyClass(tech)"
+                [title]="getTechnologyTooltip(tech)"
+              >
+                <span class="tech-icon">{{ getTechnologyIcon(tech) }}</span>
+                <span class="tech-name">{{ tech }}</span>
+              </span>
+            }
+          </div>
+        }
+      }
+    </div>
+  } @else {
+    <!-- Full List Mode -->
+    <div class="flex flex-wrap gap-2">
+      @for (tech of technologies(); track tech) {
+        <span
+          class="tech-badge"
+          [class]="getTechnologyClass(tech)"
+          [title]="getTechnologyTooltip(tech)"
+        >
+          <span class="tech-icon">{{ getTechnologyIcon(tech) }}</span>
+          <span class="tech-name">{{ tech }}</span>
+        </span>
+      }
+    </div>
+  }
+</div>

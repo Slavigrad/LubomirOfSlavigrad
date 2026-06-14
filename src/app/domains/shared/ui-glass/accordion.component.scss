@@ -1,0 +1,94 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.accordion-container {
+  width: 100%;
+}
+.accordion-container > * + * {
+  margin-top: 0;
+}
+
+/* Variant-specific spacing */
+.variant-default .accordion-container > * + *,
+.variant-glass .accordion-container > * + *,
+.variant-bordered .accordion-container > * + *,
+.variant-card .accordion-container > * + * {
+  margin-top: 0.5rem;
+}
+
+.variant-minimal .accordion-container > * + * {
+  margin-top: 0;
+}
+
+/* Item styling */
+.accordion-item-header {
+  width: 100%;
+  text-align: left;
+}
+
+.accordion-item-content {
+  width: 100%;
+}
+
+/* Size variants */
+.size-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.size-md {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.size-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+/* Animation classes */
+.animation-stagger app-collapse {
+  animation-delay: calc(var(--item-index) * 50ms);
+}
+
+/* Accessibility improvements */
+.accordion-container:focus-within {
+  border-radius: 0.5rem;
+  box-shadow:
+    0 0 0 2px var(--color-background),
+    0 0 0 4px var(--color-primary);
+}
+
+/* Custom item states */
+.item-first {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.item-last {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.item-middle {
+  border-radius: 0;
+}
+
+.item-only {
+  border-radius: 0.5rem;
+}
+
+/* Hover effects for groups */
+.variant-glass .accordion-container:hover {
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.variant-card .accordion-container:hover {
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+}

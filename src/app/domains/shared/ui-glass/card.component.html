@@ -1,0 +1,22 @@
+<div [class]="cardClasses()">
+  @if (title() || subtitle()) {
+    <div class="card-header">
+      @if (title()) {
+        <h3 class="card-title">{{ title() }}</h3>
+      }
+      @if (subtitle()) {
+        <p class="card-subtitle">{{ subtitle() }}</p>
+      }
+    </div>
+  }
+
+  <div class="card-content">
+    <ng-content />
+  </div>
+
+  @if (hasFooter()) {
+    <div class="card-footer">
+      <ng-content select="[slot=footer]" />
+    </div>
+  }
+</div>

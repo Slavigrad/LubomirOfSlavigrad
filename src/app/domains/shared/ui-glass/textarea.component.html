@@ -1,0 +1,57 @@
+<div [class]="containerClasses()">
+  @if (label()) {
+    <label [for]="textareaId()" class="textarea-label">
+      {{ label() }}
+      @if (required()) {
+        <span class="text-red-500 ml-1">*</span>
+      }
+    </label>
+  }
+
+  <div class="relative">
+    <textarea
+      #textareaRef
+      [id]="textareaId()"
+      [placeholder]="placeholder()"
+      [disabled]="disabledState()"
+      [readonly]="readonly()"
+      [rows]="rows()"
+      [attr.maxlength]="maxLength() || null"
+      [class]="textareaClasses()"
+      [value]="value()"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+      (focus)="onFocus()"
+    ></textarea>
+
+    @if (clearable() && value()) {
+      <button
+        type="button"
+        class="textarea-clear"
+        (click)="clearValue()"
+        aria-label="Clear textarea"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+    }
+
+    @if (maxLength()) {
+      <div class="textarea-counter">{{ value().length }}/{{ maxLength() }}</div>
+    }
+  </div>
+
+  @if (error()) {
+    <p class="textarea-error">{{ error() }}</p>
+  }
+
+  @if (hint() && !error()) {
+    <p class="textarea-hint">{{ hint() }}</p>
+  }
+</div>

@@ -1,0 +1,28 @@
+<div [class]="containerClasses()">
+  @switch (variant()) {
+    @case ('spinner') {
+      <div [class]="spinnerClasses()"></div>
+    }
+    @case ('dots') {
+      <div class="flex space-x-1">
+        <div [class]="dotClasses() + ' animate-bounce'" style="animation-delay: 0ms"></div>
+        <div [class]="dotClasses() + ' animate-bounce'" style="animation-delay: 150ms"></div>
+        <div [class]="dotClasses() + ' animate-bounce'" style="animation-delay: 300ms"></div>
+      </div>
+    }
+    @case ('pulse') {
+      <div [class]="pulseClasses()"></div>
+    }
+    @case ('skeleton') {
+      <div class="space-y-3">
+        <div [class]="skeletonClasses() + ' h-4 w-3/4'"></div>
+        <div [class]="skeletonClasses() + ' h-4 w-1/2'"></div>
+        <div [class]="skeletonClasses() + ' h-4 w-5/6'"></div>
+      </div>
+    }
+  }
+
+  @if (text()) {
+    <p [class]="textClasses()">{{ text() }}</p>
+  }
+</div>

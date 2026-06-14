@@ -1,0 +1,63 @@
+<div
+  class="collapse-group"
+  [class]="containerClasses()"
+  role="group"
+  [attr.aria-label]="groupLabel()"
+>
+  <!-- Group Controls -->
+  @if (allowToggleAll() && showControls()) {
+    <div class="group-controls">
+      <div class="control-buttons">
+        <button
+          type="button"
+          class="control-btn expand-all"
+          [disabled]="allExpanded()"
+          (click)="expandAllItems()"
+          [attr.aria-label]="'Expand all items'"
+        >
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+          Expand All
+        </button>
+
+        <button
+          type="button"
+          class="control-btn collapse-all"
+          [disabled]="allCollapsed()"
+          (click)="collapseAllItems()"
+          [attr.aria-label]="'Collapse all items'"
+        >
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+          </svg>
+          Collapse All
+        </button>
+      </div>
+
+      @if (showStats()) {
+        <div class="group-stats">
+          <span class="stats-text">
+            {{ expandedCount() }} of {{ totalCount() }} expanded
+          </span>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Group Content -->
+  <div
+    class="group-content"
+    [class]="contentClasses()"
+    [style.--stagger-delay]="staggerDelay() + 'ms'"
+  >
+    <ng-content />
+  </div>
+
+  <!-- Group Footer -->
+  @if (hasFooterContent()) {
+    <div class="group-footer">
+      <ng-content select="[slot=footer]" />
+    </div>
+  }
+</div>

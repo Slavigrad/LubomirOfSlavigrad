@@ -1,0 +1,18 @@
+<span [class]="badgeClasses()">
+  @if (icon()) {
+    <span class="badge-icon" [innerHTML]="icon()"></span>
+  }
+  <ng-content />
+  @if (removable()) {
+    <button class="badge-remove" (click)="onRemove()" type="button" aria-label="Remove">
+      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </button>
+  }
+</span>

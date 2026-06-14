@@ -1,0 +1,45 @@
+<div
+  class="accordion-container"
+  [class]="containerClasses()"
+  role="tablist"
+  [attr.aria-multiselectable]="allowMultiple()"
+>
+  @for (item of items(); track item.id; let i = $index) {
+    <app-collapse
+      [variant]="variant()"
+      [size]="size()"
+      [animation]="animation()"
+      [duration]="duration()"
+      [disabled]="item.disabled || false"
+      [allowToggle]="allowToggle()"
+      [expanded]="isItemExpanded(item.id)"
+      [showIcon]="showIcons()"
+      [customIcon]="customIcon()"
+      [headerText]="item.header"
+      [headerClass]="getItemHeaderClass(item, i)"
+      [contentClass]="getItemContentClass(item, i)"
+      (expandedChange)="onItemToggle(item.id, $event)"
+      (toggleEvent)="onItemToggleEvent(item.id, $event)"
+      [attr.aria-setsize]="items().length"
+      [attr.aria-posinset]="i + 1"
+    >
+      <!-- Header slot -->
+      <div slot="header" class="accordion-item-header">
+        <ng-container *ngTemplateOutlet="getHeaderTemplate(item); context: { $implicit: item, index: i }"
+         />
+      </div>
+
+      <!-- Content -->
+      <div class="accordion-item-content">
+        @if (item.content) {
+          <div [innerHTML]="item.content"></div>
+        }
+        <ng-container *ngTemplateOutlet="getContentTemplate(item); context: { $implicit: item, index: i }"
+         />
+      </div>
+    </app-collapse>
+  }
+
+  <!-- Content projection for custom accordion items -->
+  <ng-content />
+</div>
