@@ -11,8 +11,6 @@ export {
   type FormData,
   type FormErrors,
 } from '../signal-form/signal-form.component';
-export { ModernLifecycleComponent } from '../modern-lifecycle/modern-lifecycle.component';
-
 // Modern directives
 export {
   LazyImageDirective,
@@ -22,11 +20,7 @@ export {
 /**
  * Collection of all modern Angular components for easy importing
  */
-export const MODERN_COMPONENTS = [
-  'ModernCardComponent',
-  'SignalFormComponent',
-  'ModernLifecycleComponent',
-] as const;
+export const MODERN_COMPONENTS = ['ModernCardComponent', 'SignalFormComponent'] as const;
 
 /**
  * Collection of all modern Angular directives for easy importing
