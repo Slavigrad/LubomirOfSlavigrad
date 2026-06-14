@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostListener,
   input,
   output,
   OnChanges,
@@ -21,6 +20,9 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 @Component({
   selector: 'app-glass-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(document:keydown)': 'onKeydown($event)',
+  },
   template: `
     @if (open()) {
       <div
@@ -233,7 +235,6 @@ export class GlassModalComponent implements OnInit, OnDestroy {
     this.movedToBody = true;
   }
 
-  @HostListener('document:keydown', ['$event'])
   onKeydown(ev: KeyboardEvent) {
     if (!this.open()) return;
     if (ev.key === 'Escape' || ev.key === 'Esc') {

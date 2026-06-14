@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 
@@ -17,6 +17,9 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-scroll-to-top',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(window:scroll)': 'onScroll()',
+  },
   imports: [TranslatePipe],
   template: `
     @if (isVisible()) {
@@ -113,7 +116,6 @@ export class ScrollToTopComponent {
   /**
    * Listen to scroll events and show/hide button
    */
-  @HostListener('window:scroll')
   onScroll(): void {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     this.isVisible.set(scrollTop > this.SCROLL_THRESHOLD);

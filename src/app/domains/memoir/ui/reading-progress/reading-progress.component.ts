@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 
 /**
@@ -16,6 +16,9 @@ import { ChangeDetectionStrategy, Component, HostListener, signal } from '@angul
 @Component({
   selector: 'app-reading-progress',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(window:scroll)': 'onScroll()',
+  },
   template: `
     <div class="reading-progress-container">
       <div 
@@ -61,7 +64,6 @@ export class ReadingProgressComponent {
   /**
    * Listen to scroll events and update progress
    */
-  @HostListener('window:scroll')
   onScroll(): void {
     const windowHeight = window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;

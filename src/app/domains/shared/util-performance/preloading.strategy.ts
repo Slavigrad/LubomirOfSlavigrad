@@ -14,12 +14,7 @@ export class CustomPreloadingStrategy implements PreloadingStrategy {
       // Add delay for low priority routes to avoid blocking critical resources
       const delay = this.getPreloadDelay(route);
 
-      return timer(delay).pipe(
-        mergeMap(() => {
-          console.log(`Preloading route: ${route.path}`);
-          return load();
-        }),
-      );
+      return timer(delay).pipe(mergeMap(() => load()));
     }
 
     return of(null);

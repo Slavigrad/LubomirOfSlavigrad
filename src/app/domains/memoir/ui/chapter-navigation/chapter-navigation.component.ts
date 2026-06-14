@@ -1,4 +1,4 @@
-import { Component, input, HostListener, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, input, signal, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 
@@ -26,6 +26,9 @@ export interface NavigationChapter {
   selector: 'app-chapter-navigation',
   imports: [TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(window:scroll)': 'onScroll()',
+  },
   template: `
     <nav class="chapter-nav hidden lg:block">
       <div class="chapter-nav-container">
@@ -206,8 +209,7 @@ export class ChapterNavigationComponent {
   private scrollTicking = false;
   private readonly HYSTERESIS_PX = 16;
   private isProgrammaticScroll = false;
-
-  constructor(private cdr: ChangeDetectorRef) {}
+  private readonly cdr = inject(ChangeDetectorRef);
 
   /**
    * Scroll offset for active chapter detection
@@ -219,7 +221,6 @@ export class ChapterNavigationComponent {
    * Scroll listener to detect which chapter is currently visible
    * Uses the same visual offset as the scroll alignment to avoid flicker
    */
-  @HostListener('window:scroll')
   onScroll(): void {
     // Ignore scroll events during programmatic navigation to prevent race conditions
     if (this.isProgrammaticScroll) return;

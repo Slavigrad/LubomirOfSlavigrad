@@ -15,5 +15,5 @@ import { LanguageSelectorComponent } from './shell/language-selector/language-se
 export class App {
   protected readonly title = signal('LubomirOfSlavigrad');
   protected readonly currentYear = new Date().getFullYear();
-  protected readonly angularVersion = '20+';
+  protected readonly angularVersion = '22';
 }
