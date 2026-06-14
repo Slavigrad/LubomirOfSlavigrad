@@ -1,14 +1,19 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideTranslateService, TranslateService } from '@ngx-translate/core';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideTranslateService({ lang: 'en', fallbackLang: 'en' })],
     }).compileComponents();
+
+    const translate = TestBed.inject(TranslateService);
+    translate.setTranslation('en', { APP: { NAV: { SITE_TITLE: 'Lubomir of Slavigrad' } } });
+    translate.use('en');
   });
 
   it('should create the app', () => {

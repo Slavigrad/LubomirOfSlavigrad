@@ -1,41 +1,5 @@
-// Constants for ExperienceComponent: UI strings, repeated classes, icon paths
-// Keep purely presentational values here (no behavior). Typed and documented.
-
-export const EXPERIENCE_TEXT = {
-  SECTION_TITLE: 'Professional Experience',
-  SUMMARY_LINE: 'A journey through innovative projects and technical leadership roles',
-  SUMMARY_LABELS: {
-    PROJECTS_DELIVERED: 'Projects Delivered',
-    YEARS_OF_EXPERIENCE: 'Years of Experience',
-    COMPANIES_WORKED: 'Companies Worked',
-    TECHNOLOGIES_USED: 'Technologies Used',
-  },
-  BUTTONS: {
-    EXPAND_ALL: 'Expand All',
-    COLLAPSE_ALL: 'Collapse All',
-    READ: 'Read',
-    EXPAND: 'Expand',
-    COLLAPSE: 'Collapse',
-    SHOW: 'Show',
-    HIDE: 'Hide',
-    CLOSE: 'Close',
-  },
-  ARIA: {
-    VIEW_DETAILS: 'View details',
-  },
-  LABELS: {
-    PRESENT: 'Present',
-    CURRENT: 'Current',
-    TEAM: 'Team',
-  },
-  HEADINGS: {
-    DESCRIPTION: 'Description',
-    TECHNOLOGIES: 'Technologies',
-    RESPONSIBILITIES: 'Responsibilities',
-    ACHIEVEMENTS: 'Achievements',
-    PROJECTS: 'Projects',
-  },
-} as const;
+// Constants for ExperienceComponent: repeated classes and icon paths.
+// User-facing copy now lives in assets/i18n; only presentational values remain.
 
 // Frequently reused class strings
 export const EXPERIENCE_CLASSES = {

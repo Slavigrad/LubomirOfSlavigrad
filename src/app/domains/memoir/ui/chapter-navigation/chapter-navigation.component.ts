@@ -1,4 +1,5 @@
 import { Component, input, HostListener, signal, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 /**
@@ -23,12 +24,12 @@ export interface NavigationChapter {
 
 @Component({
   selector: 'app-chapter-navigation',
-  imports: [],
+  imports: [TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nav class="chapter-nav hidden lg:block">
       <div class="chapter-nav-container">
-        <h3 class="chapter-nav-title">Chapters</h3>
+        <h3 class="chapter-nav-title">{{ 'MEMOIR.NAV.CHAPTERS' | translate }}</h3>
     
         <ul class="chapter-nav-list">
           @for (chapter of chapters(); track trackById($index, chapter)) {

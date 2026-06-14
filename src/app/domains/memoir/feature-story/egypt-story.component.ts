@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import { EGYPT_STORY, Story } from '../data/egypt-story-data';
 import { InteractiveAnimateDirective } from '../../shared/util-performance/utils/animations';
 import { ReadingProgressComponent } from '../ui/reading-progress/reading-progress.component';
@@ -20,6 +21,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
     ScrollToTopComponent,
     ChapterNavigationComponent,
     SocialShareComponent,
+    TranslatePipe,
   ],
   template: `
     <!-- Reading Progress Bar -->
@@ -78,7 +80,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                   d="M10 19l-7-7m0 0l7-7m-7 7h18"
                 ></path>
               </svg>
-              <span>Return to the Citadel</span>
+              <span>{{ 'MEMOIR.STORY.RETURN_TO_CITADEL' | translate }}</span>
             </a>
 
             <!-- Title -->
@@ -132,7 +134,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                     ></path>
                   </svg>
-                  <span class="font-medium">{{ getReadingTimeText() }}</span>
+                  <span class="font-medium">{{ 'MEMOIR.STORY.READING_TIME' | translate: { minutes: getEstimatedReadingTime() } }}</span>
                 </div>
                 <span class="text-muted-foreground/40">•</span>
                 <div class="flex items-center gap-2">
@@ -144,7 +146,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                       d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
                     ></path>
                   </svg>
-                  <span class="font-medium">{{ story.chapters.length }} chapters</span>
+                  <span class="font-medium">{{ 'MEMOIR.STORY.CHAPTERS_COUNT' | translate: { count: story.chapters.length } }}</span>
                 </div>
               </div>
 
@@ -526,7 +528,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                   ></path>
                 </svg>
-                <span class="font-semibold text-lg">Return Home</span>
+                <span class="font-semibold text-lg">{{ 'MEMOIR.STORY.RETURN_HOME' | translate }}</span>
               </a>
             </div>
           </div>
@@ -1138,14 +1140,6 @@ export class EgyptStoryComponent {
     const minutes = Math.ceil(totalWords / wordsPerMinute);
 
     return minutes;
-  }
-
-  /**
-   * Get formatted reading time string
-   */
-  protected getReadingTimeText(): string {
-    const minutes = this.getEstimatedReadingTime();
-    return `${minutes} min read`;
   }
 
   /**

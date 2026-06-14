@@ -8,12 +8,12 @@
     <div class="relative z-10 max-w-6xl mx-auto px-6">
       <!-- Section Header -->
       <div class="text-center mb-16" appScrollAnimate="fadeInUp">
-        <div class="eyebrow mb-3">Get in touch</div>
+        <div class="eyebrow mb-3">{{ 'CV.CONTACT.EYEBROW' | translate }}</div>
         <h2 class="text-3xl md:text-4xl mb-4 gradient-text-enhanced">
-          Let's build something
+          {{ 'CV.CONTACT.HEADING' | translate }}
         </h2>
         <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-          {{ CONTACT_TEXT.sectionSubtitle }}
+          {{ 'CV.CONTACT.SECTION_SUBTITLE' | translate }}
         </p>
       </div>
 
@@ -23,7 +23,7 @@
           <div class="glass-card p-8" appScrollAnimate="fadeInLeft" appInteractiveAnimate="lift"
                animationTrigger="hover">
             <h3 class="text-2xl font-bold mb-6 text-foreground">
-              {{ CONTACT_TEXT.infoTitle }}
+              {{ 'CV.CONTACT.INFO_TITLE' | translate }}
             </h3>
 
             <div class="space-y-6">
@@ -37,7 +37,7 @@
                   </svg>
                 </div>
                 <div>
-                  <div class="text-sm text-muted-foreground">Email</div>
+                  <div class="text-sm text-muted-foreground">{{ 'CV.CONTACT.LABEL.EMAIL' | translate }}</div>
                   <a [href]="'mailto:' + personalInfo().email"
                      class="text-foreground hover:text-primary transition-colors">
                     {{ personalInfo().email }}
@@ -55,7 +55,7 @@
                   </svg>
                 </div>
                 <div>
-                  <div class="text-sm text-muted-foreground">Phone</div>
+                  <div class="text-sm text-muted-foreground">{{ 'CV.CONTACT.LABEL.PHONE' | translate }}</div>
                   <a [href]="'tel:' + personalInfo().phone"
                      class="text-foreground hover:text-secondary transition-colors">
                     {{ personalInfo().phone }}
@@ -75,7 +75,7 @@
                   </svg>
                 </div>
                 <div>
-                  <div class="text-sm text-muted-foreground">Location</div>
+                  <div class="text-sm text-muted-foreground">{{ 'CV.CONTACT.LABEL.LOCATION' | translate }}</div>
                   <div class="text-foreground">{{ personalInfo().location }}</div>
                 </div>
               </div>
@@ -86,7 +86,7 @@
           <div class="glass-card p-8" appScrollAnimate="fadeInLeft" [animationDelay]="200"
                appInteractiveAnimate="lift" animationTrigger="hover">
             <h3 class="text-xl font-bold mb-6 text-foreground">
-              {{ CONTACT_TEXT.connectTitle }}
+              {{ 'CV.CONTACT.CONNECT_TITLE' | translate }}
             </h3>
 
             <div class="flex gap-4">
@@ -95,7 +95,7 @@
                   [href]="personalInfo().linkedin"
                   target="_blank"
                   class="w-12 h-12 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-all duration-300 hover-lift group"
-                  aria-label="LinkedIn Profile"
+                  [attr.aria-label]="'CV.CONTACT.ARIA.LINKEDIN' | translate"
                 >
                   <svg class="w-6 h-6 text-primary transition-transform" fill="currentColor"
                        viewBox="0 0 24 24">
@@ -110,7 +110,7 @@
                   [href]="personalInfo().github"
                   target="_blank"
                   class="w-12 h-12 rounded-lg bg-secondary/10 hover:bg-secondary/20 flex items-center justify-center transition-all duration-300 hover-lift group"
-                  aria-label="GitHub Profile"
+                  [attr.aria-label]="'CV.CONTACT.ARIA.GITHUB' | translate"
                 >
                   <svg class="w-6 h-6 text-secondary transition-transform" fill="currentColor"
                        viewBox="0 0 24 24">
@@ -125,7 +125,7 @@
                   [href]="personalInfo().website"
                   target="_blank"
                   class="w-12 h-12 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-all duration-300 hover-lift group"
-                  aria-label="Personal Website"
+                  [attr.aria-label]="'CV.CONTACT.ARIA.WEBSITE' | translate"
                 >
                   <svg class="w-6 h-6 text-primary transition-transform" fill="none"
                        stroke="currentColor" viewBox="0 0 24 24">
@@ -142,75 +142,75 @@
         <div class="glass-card p-8" appScrollAnimate="fadeInRight" appInteractiveAnimate="lift"
              animationTrigger="hover">
           <h3 class="text-2xl font-bold mb-6 text-foreground">
-            {{ CONTACT_TEXT.formTitle }}
+            {{ 'CV.CONTACT.FORM_TITLE' | translate }}
           </h3>
 
           <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-6">
             <!-- Name -->
             <div>
               <label for="name" class="block text-sm font-medium text-foreground mb-2">
-                Name *
+                {{ 'CV.CONTACT.LABEL.NAME' | translate }} *
               </label>
               <input
                 type="text"
                 id="name"
                 formControlName="name"
                 class="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                placeholder="{{ CONTACT_TEXT.placeholders.name }}"
+                [placeholder]="'CV.CONTACT.PLACEHOLDER.NAME' | translate"
               >
               @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
-                <div class="text-destructive text-sm mt-1">{{ CONTACT_TEXT.validation.nameRequired }}</div>
+                <div class="text-destructive text-sm mt-1">{{ 'CV.CONTACT.VALIDATION.NAME_REQUIRED' | translate }}</div>
               }
             </div>
 
             <!-- Email -->
             <div>
               <label for="email" class="block text-sm font-medium text-foreground mb-2">
-                Email *
+                {{ 'CV.CONTACT.LABEL.EMAIL' | translate }} *
               </label>
               <input
                 type="email"
                 id="email"
                 formControlName="email"
                 class="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                placeholder="{{ CONTACT_TEXT.placeholders.email }}"
+                [placeholder]="'CV.CONTACT.PLACEHOLDER.EMAIL' | translate"
               >
               @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
-                <div class="text-destructive text-sm mt-1">{{ CONTACT_TEXT.validation.emailRequired }}</div>
+                <div class="text-destructive text-sm mt-1">{{ 'CV.CONTACT.VALIDATION.EMAIL_REQUIRED' | translate }}</div>
               }
             </div>
 
             <!-- Subject -->
             <div>
               <label for="subject" class="block text-sm font-medium text-foreground mb-2">
-                Subject *
+                {{ 'CV.CONTACT.LABEL.SUBJECT' | translate }} *
               </label>
               <input
                 type="text"
                 id="subject"
                 formControlName="subject"
                 class="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                placeholder="{{ CONTACT_TEXT.placeholders.subject }}"
+                [placeholder]="'CV.CONTACT.PLACEHOLDER.SUBJECT' | translate"
               >
               @if (contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched) {
-                <div class="text-destructive text-sm mt-1">{{ CONTACT_TEXT.validation.subjectRequired }}</div>
+                <div class="text-destructive text-sm mt-1">{{ 'CV.CONTACT.VALIDATION.SUBJECT_REQUIRED' | translate }}</div>
               }
             </div>
 
             <!-- Message -->
             <div>
               <label for="message" class="block text-sm font-medium text-foreground mb-2">
-                Message *
+                {{ 'CV.CONTACT.LABEL.MESSAGE' | translate }} *
               </label>
               <textarea
                 id="message"
                 formControlName="message"
                 rows="5"
                 class="w-full px-4 py-3 bg-muted border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
-                placeholder="{{ CONTACT_TEXT.placeholders.message }}"
+                [placeholder]="'CV.CONTACT.PLACEHOLDER.MESSAGE' | translate"
               ></textarea>
               @if (contactForm.get('message')?.invalid && contactForm.get('message')?.touched) {
-                <div class="text-destructive text-sm mt-1">{{ CONTACT_TEXT.validation.messageRequired }}</div>
+                <div class="text-destructive text-sm mt-1">{{ 'CV.CONTACT.VALIDATION.MESSAGE_REQUIRED' | translate }}</div>
               }
             </div>
 
@@ -226,14 +226,14 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                 </svg>
-                Sending...
+                {{ 'CV.CONTACT.BUTTON.SENDING' | translate }}
               } @else {
                 <svg class="w-5 h-5 group-hover:animate-pulse" fill="none" stroke="currentColor"
                      viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                 </svg>
-                Send Message
+                {{ 'CV.CONTACT.BUTTON.SEND' | translate }}
               }
             </span>
             </button>

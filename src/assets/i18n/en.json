@@ -1,0 +1,242 @@
+{
+  "SHARED": {
+    "ARIA": {
+      "CLEAR_INPUT": "Clear input",
+      "CLEAR_TEXTAREA": "Clear textarea",
+      "CLOSE": "Close",
+      "REMOVE": "Remove"
+    },
+    "BUTTON": {
+      "CANCEL": "Cancel",
+      "CLOSE": "Close",
+      "COLLAPSE": "Collapse",
+      "COLLAPSE_ALL": "Collapse All",
+      "EXPAND": "Expand",
+      "EXPAND_ALL": "Expand All",
+      "HIDE": "Hide",
+      "READ": "Read",
+      "SHOW": "Show"
+    },
+    "INDUSTRY": {
+      "AUTOMOTIVE": "Automotive",
+      "COMPUTER_VISION": "Computer Vision",
+      "ENTERPRISE_APPLICATION_INTEGRATION": "Enterprise Application Integration",
+      "FINANCE": "Finance",
+      "FINTECH": "FinTech",
+      "HEALTHCARE": "Healthcare",
+      "INFOTAINMENT": "Infotainment",
+      "MOBILE_APPLICATION_DEVELOPMENT": "Mobile Application Development",
+      "OTHER": "Other",
+      "PUBLIC_INFRASTRUCTURE": "Public Infrastructure",
+      "TELECOMMUNICATIONS": "Telecommunications",
+      "THREE_D_GRAPHICS": "3D Graphics",
+      "VOIP": "VoIP"
+    }
+  },
+  "APP": {
+    "FOOTER": {
+      "BRAND": "Lubomir of Slavigrad Chronicles",
+      "COPYRIGHT": "© {{year}} Lubomir Dobrovodsky. Built with Angular {{version}} & Tailwind CSS.",
+      "POWERED_BY": "Powered by modern web technologies and futuristic design principles.",
+      "TAGLINE": "Where code and legend intertwine in the digital realm"
+    },
+    "NAV": {
+      "EGYPT_STORY": "I Wandered Through Egypt",
+      "GO_TO_HOME": "Go to home",
+      "LANGUAGE": {
+        "LABEL": "Select language"
+      },
+      "LINK_CITADEL": "The Citadel",
+      "LINK_CONTACT": "Oracle's Chamber",
+      "LINK_EXPERIENCE": "Hall of Records",
+      "LINK_PROJECTS": "Marketplace",
+      "LINK_SKILLS": "The Library of Skills",
+      "LOGO_ALT": "Slavigrad Logo",
+      "SITE_TITLE": "Lubomir of Slavigrad"
+    }
+  },
+  "ERROR": {
+    "NOT_FOUND": {
+      "BODY": "The path you seek does not exist in the Chronicles of Slavigrad. Perhaps the Oracle can guide you back to familiar territory.",
+      "CODEX_SUBTITLE": "Skills & Arsenal",
+      "CODEX_TITLE": "The Codex",
+      "EXPLORE_TITLE": "Or explore these mystical realms:",
+      "MARKET_SUBTITLE": "Projects & Demos",
+      "MARKET_TITLE": "Marketplace",
+      "ORACLE_SUBTITLE": "Get in Touch",
+      "ORACLE_TITLE": "Oracle's Chamber",
+      "RECORDS_SUBTITLE": "Career Journey",
+      "RECORDS_TITLE": "Hall of Records",
+      "RETURN_HOME": "Return to the Citadel",
+      "TITLE": "Lost in the Digital Realm"
+    }
+  },
+  "CV": {
+    "HERO": {
+      "ARIA": {
+        "EMAIL": "Send Email",
+        "GITHUB": "GitHub Profile",
+        "LINKEDIN": "LinkedIn Profile",
+        "SCROLL_NEXT": "Scroll to next section",
+        "WEBSITE": "Personal Website"
+      },
+      "CHOOSE_TEMPLATE": "Choose Template",
+      "CORE_TECHNOLOGIES": "Core Technologies:",
+      "DOWNLOAD_CV": "Download CV",
+      "DOWNLOAD_FULL_PORTFOLIO": "Download Full Portfolio",
+      "EYEBROW": "Slavigrad Chronicles",
+      "GENERATE_PDF": "Generate PDF",
+      "GENERATING_PDF": "Generating PDF...",
+      "GET_IN_TOUCH": "Get In Touch",
+      "PDF_CONFIGURATION": "PDF Configuration"
+    },
+    "CONTACT": {
+      "ARIA": {
+        "GITHUB": "GitHub Profile",
+        "LINKEDIN": "LinkedIn Profile",
+        "WEBSITE": "Personal Website"
+      },
+      "BUTTON": {
+        "SEND": "Send Message",
+        "SENDING": "Sending..."
+      },
+      "CONNECT_TITLE": "Connect With Me",
+      "EYEBROW": "Get in touch",
+      "FORM_TITLE": "Do not Send me a Message Here",
+      "HEADING": "Let's build something",
+      "INFO_TITLE": "Contact Information",
+      "LABEL": {
+        "EMAIL": "Email",
+        "LOCATION": "Location",
+        "MESSAGE": "Message",
+        "NAME": "Name",
+        "PHONE": "Phone",
+        "SUBJECT": "Subject"
+      },
+      "PLACEHOLDER": {
+        "EMAIL": "your.email@example.com",
+        "MESSAGE": "LinkedIn preferred for professional contact. This email form is inactive.",
+        "NAME": "Your full name is not needed",
+        "SUBJECT": "Does it matter?"
+      },
+      "SECTION_SUBTITLE": "Ready to collaborate on your next project? Let's discuss how we can work together",
+      "SECTION_TITLE": "Get In Touch",
+      "SUCCESS": "Thank you for your message! Nothing was actually sent.",
+      "VALIDATION": {
+        "EMAIL_REQUIRED": "Valid email is required",
+        "MESSAGE_REQUIRED": "Message is required",
+        "NAME_REQUIRED": "Name is required",
+        "SUBJECT_REQUIRED": "Subject is required"
+      }
+    },
+    "EXPERIENCE": {
+      "ARIA": { "VIEW_DETAILS": "View details" },
+      "EYEBROW": "Career",
+      "HEADING": {
+        "ACHIEVEMENTS": "Achievements",
+        "DESCRIPTION": "Description",
+        "PROJECTS": "Projects",
+        "RESPONSIBILITIES": "Responsibilities",
+        "TECHNOLOGIES": "Technologies"
+      },
+      "LABEL": {
+        "CURRENT": "Current",
+        "PRESENT": "Present",
+        "TEAM": "Team"
+      },
+      "SECTION_TITLE": "Professional Experience",
+      "SUMMARY": {
+        "COMPANIES_WORKED": "Companies Worked",
+        "PROJECTS_DELIVERED": "Projects Delivered",
+        "TECHNOLOGIES_USED": "Technologies Used",
+        "YEARS_OF_EXPERIENCE": "Years of Experience"
+      },
+      "SUMMARY_LINE": "A journey through innovative projects and technical leadership roles"
+    },
+    "STATS": {
+      "ARIA": {
+        "OPEN_DETAILS": "Open details for {{title}}"
+      },
+      "DESCRIPTION": {
+        "INDUSTRIES_COVERED": "Telco, FinTech, Automotive, Healthcare, Infotainment, Public Infrastructure & Transport",
+        "PROJECTS_DELIVERED": "Successfully delivered projects from concept to production",
+        "SECTION_SUBTITLE": "Key achievements and milestones in my software development journey",
+        "TECHNOLOGIES_MASTERED": "Modern frameworks, languages, and development tools",
+        "YEARS_EXPERIENCE": "Professional software development experience across multiple domains"
+      },
+      "EYEBROW": "By the numbers",
+      "INDUSTRY_SUMMARY": "Companies: {{companies}}, Experiences: {{experiences}} and Projects: {{projects}}",
+      "LABEL": {
+        "COMPANY_PROJECTS": "Experience Projects by Company",
+        "EXPERIENCE_PROJECTS": "Experience Projects",
+        "PORTFOLIO_PROJECTS": "Portfolio Projects",
+        "PROJECTS_DEDUPE_NOTE": "Projects with similar names are counted once for the total."
+      },
+      "MODAL": {
+        "EXPERIENCE_BREAKDOWN": "Experience Breakdown",
+        "PROJECTS_BREAKDOWN": "Projects Breakdown",
+        "TECHNOLOGIES_BREAKDOWN": "Technologies Breakdown"
+      },
+      "SECTION": {
+        "CAREER_HIGHLIGHTS": "Career Highlights",
+        "PROFESSIONAL_METRICS": "Professional Metrics"
+      },
+      "TITLE": {
+        "INDUSTRIES_COVERED": "Industries Covered",
+        "PROJECTS_DELIVERED": "Projects Delivered",
+        "TECHNOLOGIES_ADAPTED": "Technologies Adapted",
+        "YEARS_EXPERIENCE": "Years of Experience"
+      },
+      "UNIT": {
+        "YEARS": "years"
+      }
+    }
+  },
+  "MEMOIR": {
+    "NAV": {
+      "BACK_TO_TOP": "Back to top",
+      "CHAPTERS": "Chapters",
+      "SCROLL_TO_TOP": "Scroll to top"
+    },
+    "SHARE": {
+      "ARIA": {
+        "COPY": "Copy link",
+        "FACEBOOK": "Share on Facebook",
+        "LINKEDIN": "Share on LinkedIn",
+        "TWITTER": "Share on Twitter"
+      },
+      "COPIED": "Copied!",
+      "COPY_LINK": "Copy Link",
+      "NETWORK": {
+        "FACEBOOK": "Facebook",
+        "LINKEDIN": "LinkedIn",
+        "TWITTER": "Twitter"
+      },
+      "TITLE": "Share this story",
+      "TOAST": "Link copied to clipboard!"
+    },
+    "STORY": {
+      "CHAPTERS_COUNT": "{{count}} chapters",
+      "READING_TIME": "{{minutes}} min read",
+      "RETURN_HOME": "Return Home",
+      "RETURN_TO_CITADEL": "Return to the Citadel"
+    }
+  },
+  "LAB": {
+    "FORM": {
+      "FIX_ERRORS": "Please fix the errors above",
+      "RESET": "Reset",
+      "SELECT_OPTION": "Select an option",
+      "SUBMIT": "Submit",
+      "SUBMIT_ERROR": "An error occurred while submitting the form",
+      "SUBMIT_SUCCESS": "Form submitted successfully!",
+      "VALIDATION": {
+        "EMAIL": "Please enter a valid email address",
+        "MAX_LENGTH": "Maximum length is {{max}} characters",
+        "MIN_LENGTH": "Minimum length is {{min}} characters",
+        "PATTERN": "Please enter a valid format",
+        "REQUIRED": "{{field}} is required"
+      }
+    }
+  }
+}

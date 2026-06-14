@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 import { CvDataService } from '../../data/cv-data.service';
 import {
   ScrollAnimateDirective,
   InteractiveAnimateDirective,
 } from '../../../shared/util-performance/utils/animations';
-import { CONTACT_TEXT, CONTACT_TIMINGS } from './contact.constants';
+import { CONTACT_TIMINGS } from './contact.constants';
 import { CONTACT_CONFIG } from './contact.configuration';
 
 interface SubmitResult {
@@ -16,7 +17,7 @@ interface SubmitResult {
 
 @Component({
   selector: 'app-contact',
-  imports: [ReactiveFormsModule, ScrollAnimateDirective, InteractiveAnimateDirective],
+  imports: [ReactiveFormsModule, ScrollAnimateDirective, InteractiveAnimateDirective, TranslatePipe],
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,12 +25,12 @@ interface SubmitResult {
 export class Contact {
   private readonly cvDataService = inject(CvDataService);
   private readonly fb = inject(FormBuilder);
+  private readonly translate = inject(TranslateService);
 
   protected readonly personalInfo = this.cvDataService.personalInfo;
   protected readonly isSubmitting = signal(false);
   protected readonly submitMessage = signal<SubmitResult | null>(null);
 
-  protected readonly CONTACT_TEXT = CONTACT_TEXT;
   protected readonly TIMINGS = CONTACT_TIMINGS;
   protected readonly FEATURES = CONTACT_CONFIG.features;
 
@@ -57,7 +58,7 @@ export class Contact {
       this.isSubmitting.set(false);
       this.submitMessage.set({
         success: true,
-        message: this.CONTACT_TEXT.successMessage,
+        message: this.translate.instant('CV.CONTACT.SUCCESS'),
       });
       this.contactForm.reset();
     }, this.TIMINGS.submitDelayMs);

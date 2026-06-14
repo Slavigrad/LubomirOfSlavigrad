@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-not-found',
-  imports: [RouterModule],
+  imports: [RouterModule, TranslatePipe],
   template: `
     <div class="min-h-screen flex items-center justify-center relative overflow-hidden">
       <!-- Animated Background Elements -->
@@ -21,11 +22,10 @@ import { RouterModule } from '@angular/router';
           <div class="mb-8">
             <h1 class="text-9xl font-bold gradient-text mb-4 animate-slide-in-up">404</h1>
             <h2 class="text-3xl font-semibold text-foreground mb-4 animate-slide-in-up">
-              Lost in the Digital Realm
+              {{ 'ERROR.NOT_FOUND.TITLE' | translate }}
             </h2>
             <p class="text-lg text-muted-foreground mb-8 max-w-md mx-auto leading-relaxed animate-slide-in-up">
-              The path you seek does not exist in the Chronicles of Slavigrad. 
-              Perhaps the Oracle can guide you back to familiar territory.
+              {{ 'ERROR.NOT_FOUND.BODY' | translate }}
             </p>
           </div>
           
@@ -34,42 +34,42 @@ import { RouterModule } from '@angular/router';
             <a 
               routerLink="/" 
               class="inline-block px-8 py-3 bg-gradient-primary text-primary-foreground font-semibold rounded-lg btn-glow transition-all duration-300 hover:scale-105">
-              🏰 Return to the Citadel
+              🏰 {{ 'ERROR.NOT_FOUND.RETURN_HOME' | translate }}
             </a>
-            
+
             <div class="text-sm text-muted-foreground">
-              <p class="mb-4">Or explore these mystical realms:</p>
+              <p class="mb-4">{{ 'ERROR.NOT_FOUND.EXPLORE_TITLE' | translate }}</p>
               <div class="grid grid-cols-2 gap-4 max-w-md mx-auto">
                 <a 
                   routerLink="/" 
                   fragment="skills" 
                   class="glass-card p-3 rounded-lg hover:glow-primary transition-all duration-300 hover:scale-105 group">
-                  <div class="text-primary group-hover:text-primary-glow transition-colors">📜 The Codex</div>
-                  <div class="text-xs text-muted-foreground">Skills & Arsenal</div>
+                  <div class="text-primary group-hover:text-primary-glow transition-colors">📜 {{ 'ERROR.NOT_FOUND.CODEX_TITLE' | translate }}</div>
+                  <div class="text-xs text-muted-foreground">{{ 'ERROR.NOT_FOUND.CODEX_SUBTITLE' | translate }}</div>
                 </a>
                 
                 <a 
                   routerLink="/" 
                   fragment="experience" 
                   class="glass-card p-3 rounded-lg hover:glow-primary transition-all duration-300 hover:scale-105 group">
-                  <div class="text-secondary group-hover:text-secondary-glow transition-colors">🏛️ Hall of Records</div>
-                  <div class="text-xs text-muted-foreground">Career Journey</div>
+                  <div class="text-secondary group-hover:text-secondary-glow transition-colors">🏛️ {{ 'ERROR.NOT_FOUND.RECORDS_TITLE' | translate }}</div>
+                  <div class="text-xs text-muted-foreground">{{ 'ERROR.NOT_FOUND.RECORDS_SUBTITLE' | translate }}</div>
                 </a>
                 
                 <a 
                   routerLink="/" 
                   fragment="projects" 
                   class="glass-card p-3 rounded-lg hover:glow-primary transition-all duration-300 hover:scale-105 group">
-                  <div class="text-accent group-hover:text-accent-glow transition-colors">🏪 Marketplace</div>
-                  <div class="text-xs text-muted-foreground">Projects & Demos</div>
+                  <div class="text-accent group-hover:text-accent-glow transition-colors">🏪 {{ 'ERROR.NOT_FOUND.MARKET_TITLE' | translate }}</div>
+                  <div class="text-xs text-muted-foreground">{{ 'ERROR.NOT_FOUND.MARKET_SUBTITLE' | translate }}</div>
                 </a>
                 
                 <a 
                   routerLink="/" 
                   fragment="contact" 
                   class="glass-card p-3 rounded-lg hover:glow-primary transition-all duration-300 hover:scale-105 group">
-                  <div class="text-primary group-hover:text-primary-glow transition-colors">🔮 Oracle's Chamber</div>
-                  <div class="text-xs text-muted-foreground">Get in Touch</div>
+                  <div class="text-primary group-hover:text-primary-glow transition-colors">🔮 {{ 'ERROR.NOT_FOUND.ORACLE_TITLE' | translate }}</div>
+                  <div class="text-xs text-muted-foreground">{{ 'ERROR.NOT_FOUND.ORACLE_SUBTITLE' | translate }}</div>
                 </a>
               </div>
             </div>

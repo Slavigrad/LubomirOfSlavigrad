@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { CvDataService } from '../../data/cv-data.service';
 import { Experience } from '../../data/cv-data.interface';
@@ -8,16 +9,19 @@ import {
 } from '../../../shared/util-performance/utils/animations';
 import { GlassModalComponent } from '../../../shared/ui-glass/glass-modal.component';
 import { GlassListCardComponent } from '../../../shared/ui-glass/glass-list-card.component';
-import { STATS_CONTENT } from '../../../shared/util-performance/constants/stats-content.constants';
 
 // Two-tone accent: gold leads, jade supports. (Was a four-hue rainbow.)
 type StatAccent = 'gold' | 'jade';
 
+// Stable identifiers used for logic; display copy lives in assets/i18n.
+type StatId = 'YEARS' | 'PROJECTS' | 'TECHNOLOGIES' | 'INDUSTRIES';
+
 interface StatItem {
-  title: string;
+  id: StatId;
   value: string;
   icon: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   accent: StatAccent;
 }
 
@@ -28,6 +32,7 @@ interface StatItem {
     InteractiveAnimateDirective,
     GlassModalComponent,
     GlassListCardComponent,
+    TranslatePipe,
   ],
   templateUrl: './stats.html',
   styleUrl: './stats.scss',
@@ -35,8 +40,6 @@ interface StatItem {
 })
 export class Stats {
   private readonly cvDataService = inject(CvDataService);
-
-  protected readonly STATS = STATS_CONTENT;
 
   // Data access.
   protected readonly experiences = this.cvDataService.experiences;
@@ -64,10 +67,10 @@ export class Stats {
 
   // Modal state.
   protected readonly statModalOpen = signal(false);
-  protected readonly selectedStat = signal<string | null>(null);
+  protected readonly selectedStat = signal<StatId | null>(null);
 
-  protected openStat(title: string): void {
-    this.selectedStat.set(title);
+  protected openStat(id: StatId): void {
+    this.selectedStat.set(id);
     this.statModalOpen.set(true);
   }
 
@@ -76,15 +79,16 @@ export class Stats {
     this.selectedStat.set(null);
   }
 
+  // Returns an i18n key resolved by the template's translate pipe.
   protected readonly modalTitle = computed(() => {
     switch (this.selectedStat()) {
-      case 'Projects Delivered':
-        return this.STATS.MODAL_TITLES.PROJECTS_BREAKDOWN;
-      case 'Technologies Adapted':
-        return this.STATS.MODAL_TITLES.TECHNOLOGIES_BREAKDOWN;
-      case 'Years of Experience':
-      case 'Industries Covered':
-        return this.STATS.MODAL_TITLES.EXPERIENCE_BREAKDOWN;
+      case 'PROJECTS':
+        return 'CV.STATS.MODAL.PROJECTS_BREAKDOWN';
+      case 'TECHNOLOGIES':
+        return 'CV.STATS.MODAL.TECHNOLOGIES_BREAKDOWN';
+      case 'YEARS':
+      case 'INDUSTRIES':
+        return 'CV.STATS.MODAL.EXPERIENCE_BREAKDOWN';
       default:
         return '';
     }
@@ -156,40 +160,43 @@ export class Stats {
 
   protected readonly stats = computed<StatItem[]>(() => [
     {
-      title: 'Years of Experience',
+      id: 'YEARS',
       value: `${this.formatYears(this.totalExperienceYears(), 1)}+`,
       icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
       </svg>`,
-      description: 'Professional software development experience across multiple domains',
+      titleKey: 'CV.STATS.TITLE.YEARS_EXPERIENCE',
+      descriptionKey: 'CV.STATS.DESCRIPTION.YEARS_EXPERIENCE',
       accent: 'gold',
     },
     {
-      title: 'Projects Delivered',
+      id: 'PROJECTS',
       value: `${this.totalProjectsDelivered()}+`,
       icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
       </svg>`,
-      description: 'Successfully delivered projects from concept to production',
+      titleKey: 'CV.STATS.TITLE.PROJECTS_DELIVERED',
+      descriptionKey: 'CV.STATS.DESCRIPTION.PROJECTS_DELIVERED',
       accent: 'jade',
     },
     {
-      title: 'Technologies Adapted',
+      id: 'TECHNOLOGIES',
       value: `${this.totalSkills()}+`,
       icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
       </svg>`,
-      description: 'Modern frameworks, languages, and development tools',
+      titleKey: 'CV.STATS.TITLE.TECHNOLOGIES_ADAPTED',
+      descriptionKey: 'CV.STATS.DESCRIPTION.TECHNOLOGIES_MASTERED',
       accent: 'jade',
     },
     {
-      title: 'Industries Covered',
+      id: 'INDUSTRIES',
       value: '6+',
       icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
       </svg>`,
-      description:
-        'Telco, FinTech, Automotive, Healthcare, Infotainment, Public Infrastructure & Transport',
+      titleKey: 'CV.STATS.TITLE.INDUSTRIES_COVERED',
+      descriptionKey: 'CV.STATS.DESCRIPTION.INDUSTRIES_COVERED',
       accent: 'gold',
     },
   ]);

@@ -29,7 +29,7 @@
     />
 
     @if (clearable() && value()) {
-      <button type="button" class="input-clear" (click)="clearValue()" aria-label="Clear input">
+      <button type="button" class="input-clear" (click)="clearValue()" [attr.aria-label]="'SHARED.ARIA.CLEAR_INPUT' | translate">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"

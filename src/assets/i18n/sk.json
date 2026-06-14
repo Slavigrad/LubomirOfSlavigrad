@@ -1,0 +1,241 @@
+{
+  "SHARED": {
+    "ARIA": {
+      "CLEAR_INPUT": "Vymazať vstup",
+      "CLEAR_TEXTAREA": "Vymazať textovú oblasť",
+      "CLOSE": "Zatvoriť",
+      "REMOVE": "Odstrániť"
+    },
+    "BUTTON": {
+      "CANCEL": "Zrušiť",
+      "CLOSE": "Zatvoriť",
+      "COLLAPSE": "Zbaliť",
+      "COLLAPSE_ALL": "Zbaliť všetko",
+      "EXPAND": "Rozbaliť",
+      "EXPAND_ALL": "Rozbaliť všetko",
+      "HIDE": "Skryť",
+      "READ": "Čítať",
+      "SHOW": "Zobraziť"
+    },
+    "INDUSTRY": {
+      "AUTOMOTIVE": "Automobilový priemysel",
+      "COMPUTER_VISION": "Počítačové videnie",
+      "ENTERPRISE_APPLICATION_INTEGRATION": "Integrácia podnikových aplikácií",
+      "FINANCE": "Financie",
+      "FINTECH": "FinTech",
+      "HEALTHCARE": "Zdravotníctvo",
+      "INFOTAINMENT": "Infotainment",
+      "MOBILE_APPLICATION_DEVELOPMENT": "Vývoj mobilných aplikácií",
+      "OTHER": "Iné",
+      "PUBLIC_INFRASTRUCTURE": "Verejná infraštruktúra",
+      "TELECOMMUNICATIONS": "Telekomunikácie",
+      "THREE_D_GRAPHICS": "3D grafika",
+      "VOIP": "VoIP"
+    }
+  },
+  "APP": {
+    "FOOTER": {
+      "BRAND": "Kroniky Ľubomíra zo Slavigradu",
+      "COPYRIGHT": "© {{year}} Ľubomír Dobrovodský. Vytvorené pomocou Angular {{version}} & Tailwind CSS.",
+      "POWERED_BY": "Poháňané modernými webovými technológiami a futuristickými dizajnovými princípmi.",
+      "TAGLINE": "Kde sa kód a legendy preplietajú v digitálnej ríši"
+    },
+    "NAV": {
+      "EGYPT_STORY": "Putoval som po Egypte",
+      "GO_TO_HOME": "Prejsť domov",
+      "LINK_CITADEL": "Citadela",
+      "LINK_CONTACT": "Svätyňa orákula",
+      "LINK_EXPERIENCE": "Sieň záznamov",
+      "LINK_PROJECTS": "Trhovisko",
+      "LINK_SKILLS": "Knižnica zručností",
+      "LOGO_ALT": "Logo Slavigrad",
+      "SITE_TITLE": "Ľubomír zo Slavigradu"
+    }
+  },
+  "ERROR": {
+    "NOT_FOUND": {
+      "BODY": "Cesta, ktorú hľadáte, v Kronikách Slavigradu neexistuje. Možno vás orákulum dokáže viesť späť na známe územie.",
+      "CODEX_SUBTITLE": "Zručnosti a arzenál",
+      "CODEX_TITLE": "Kódex",
+      "EXPLORE_TITLE": "Alebo preskúmajte tieto mystické ríše:",
+      "MARKET_SUBTITLE": "Projekty a ukážky",
+      "MARKET_TITLE": "Trhovisko",
+      "ORACLE_SUBTITLE": "Ozvite sa mi",
+      "ORACLE_TITLE": "Svätyňa orákula",
+      "RECORDS_SUBTITLE": "Kariérna cesta",
+      "RECORDS_TITLE": "Sieň záznamov",
+      "RETURN_HOME": "Návrat do Citadely",
+      "TITLE": "Stratený v digitálnej ríši"
+    }
+  },
+  "CV": {
+    "HERO": {
+      "ARIA": {
+        "EMAIL": "Poslať e-mail",
+        "GITHUB": "Profil GitHub",
+        "LINKEDIN": "Profil LinkedIn",
+        "SCROLL_NEXT": "Prejsť na ďalšiu sekciu",
+        "WEBSITE": "Osobná webová stránka"
+      },
+      "CHOOSE_TEMPLATE": "Vybrať šablónu",
+      "CORE_TECHNOLOGIES": "Hlavné technológie:",
+      "DOWNLOAD_CV": "Stiahnuť Životopis",
+      "DOWNLOAD_FULL_PORTFOLIO": "Stiahnuť celé portfólio",
+      "EYEBROW": "Kroniky Slavigradu",
+      "GENERATE_PDF": "Generovať PDF",
+      "GENERATING_PDF": "Generuje sa PDF...",
+      "GET_IN_TOUCH": "Kontaktujte ma",
+      "PDF_CONFIGURATION": "Konfigurácia PDF"
+    },
+    "CONTACT": {
+      "ARIA": {
+        "GITHUB": "Profil GitHub",
+        "LINKEDIN": "Profil LinkedIn",
+        "WEBSITE": "Osobná webová stránka"
+      },
+      "BUTTON": {
+        "SEND": "Odoslať správu",
+        "SENDING": "Odosiela sa..."
+      },
+      "CONNECT_TITLE": "Spojte sa so mnou",
+      "EYEBROW": "Kontakt",
+      "FORM_TITLE": "Neposielajte mi sem správu",
+      "HEADING": "Poďme niečo vytvoriť",
+      "INFO_TITLE": "Kontaktné informácie",
+      "LABEL": {
+        "EMAIL": "E-mail",
+        "LOCATION": "Lokalita",
+        "MESSAGE": "Správa",
+        "NAME": "Meno",
+        "PHONE": "Telefón",
+        "SUBJECT": "Predmet"
+      },
+      "PLACEHOLDER": {
+        "EMAIL": "vas.email@example.com",
+        "MESSAGE": "Pre profesionálny kontakt preferujem LinkedIn. Tento e-mailový formulár je neaktívny.",
+        "NAME": "Vaše celé meno nie je potrebné",
+        "SUBJECT": "Záleží na tom?"
+      },
+      "SECTION_SUBTITLE": "Ste pripravení spolupracovať na vašom ďalšom projekte? Poďme diskusiu o tom, ako môžeme spolupracovať",
+      "SECTION_TITLE": "Ozvite sa mi",
+      "SUCCESS": "Ďakujem za vašu správu! V skutočnosti nebolo nič odoslané.",
+      "VALIDATION": {
+        "EMAIL_REQUIRED": "Vyžaduje sa platný e-mail",
+        "MESSAGE_REQUIRED": "Správa je vyžadovaná",
+        "NAME_REQUIRED": "Meno je vyžadované",
+        "SUBJECT_REQUIRED": "Predmet je vyžadovaný"
+      }
+    },
+    "EXPERIENCE": {
+      "ARIA": {
+        "VIEW_DETAILS": "Zobraziť podrobnosti"
+      },
+      "EYEBROW": "Kariéra",
+      "HEADING": {
+        "ACHIEVEMENTS": "Úspechy",
+        "DESCRIPTION": "Popis",
+        "PROJECTS": "Projekty",
+        "RESPONSIBILITIES": "Zodpovednosti",
+        "TECHNOLOGIES": "Technológie"
+      },
+      "LABEL": {
+        "CURRENT": "Aktuálne",
+        "PRESENT": "Súčasnosť",
+        "TEAM": "Tím"
+      },
+      "SECTION_TITLE": "Profesijné skúsenosti",
+      "SUMMARY": {
+        "COMPANIES_WORKED": "Spoločnosti",
+        "PROJECTS_DELIVERED": "Doručené projekty",
+        "TECHNOLOGIES_USED": "Použité technológie",
+        "YEARS_OF_EXPERIENCE": "Roky praxe"
+      },
+      "SUMMARY_LINE": "Cesta plná inovatívnych projektov a technických líderských rolí"
+    },
+    "STATS": {
+      "ARIA": {
+        "OPEN_DETAILS": "Otvoriť podrobnosti pre {{title}}"
+      },
+      "DESCRIPTION": {
+        "INDUSTRIES_COVERED": "Telekomunikácie, FinTech, Automobilový priemysel, Zdravotníctvo, Infotainment, Verejná infraštruktúra a doprava",
+        "PROJECTS_DELIVERED": "Úspešne doručené projekty od konceptu až po produkciu",
+        "SECTION_SUBTITLE": "Kľúčové úspechy a míľniky na mojej ceste vývoja softvéru",
+        "TECHNOLOGIES_MASTERED": "Moderné frameworky, jazyky a vývojárske nástroje",
+        "YEARS_EXPERIENCE": "Profesionálne skúsenosti s vývojom softvéru vo viacerých doménach"
+      },
+      "EYEBROW": "V číslach",
+      "INDUSTRY_SUMMARY": "Spoločnosti: {{companies}}, Skúsenosti: {{experiences}} a Projekty: {{projects}}",
+      "LABEL": {
+        "COMPANY_PROJECTS": "Projekty podľa spoločnosti",
+        "EXPERIENCE_PROJECTS": "Skúsenostné projekty",
+        "PORTFOLIO_PROJECTS": "Projekty v portfóliu",
+        "PROJECTS_DEDUPE_NOTE": "Projekty s podobnými názvami sa do celkového počtu započítavajú iba raz."
+      },
+      "MODAL": {
+        "EXPERIENCE_BREAKDOWN": "Prehľad skúseností",
+        "PROJECTS_BREAKDOWN": "Prehľad projektov",
+        "TECHNOLOGIES_BREAKDOWN": "Prehľad technológií"
+      },
+      "SECTION": {
+        "CAREER_HIGHLIGHTS": "Kariérne úspechy",
+        "PROFESSIONAL_METRICS": "Profesionálne metriky"
+      },
+      "TITLE": {
+        "INDUSTRIES_COVERED": "Pokryté odvetvia",
+        "PROJECTS_DELIVERED": "Doručené projekty",
+        "TECHNOLOGIES_ADAPTED": "Osvojené technológie",
+        "YEARS_EXPERIENCE": "Roky praxe"
+      },
+      "UNIT": {
+        "YEARS": "rokov"
+      }
+    }
+  },
+  "MEMOIR": {
+    "NAV": {
+      "BACK_TO_TOP": "Späť nahor",
+      "CHAPTERS": "Kapitoly",
+      "SCROLL_TO_TOP": "Prejsť nahor"
+    },
+    "SHARE": {
+      "ARIA": {
+        "COPY": "Kopírovať odkaz",
+        "FACEBOOK": "Zdieľať na Facebooku",
+        "LINKEDIN": "Zdieľať na LinkedIn",
+        "TWITTER": "Zdieľať na Twitteri"
+      },
+      "COPIED": "Skopírované!",
+      "COPY_LINK": "Kopírovať odkaz",
+      "NETWORK": {
+        "FACEBOOK": "Facebook",
+        "LINKEDIN": "LinkedIn",
+        "TWITTER": "Twitter"
+      },
+      "TITLE": "Zdieľať tento príbeh",
+      "TOAST": "Odkaz bol skopírovaný do schránky!"
+    },
+    "STORY": {
+      "CHAPTERS_COUNT": "{{count}} kapitol",
+      "READING_TIME": "{{minutes}} min čítania",
+      "RETURN_HOME": "Návrat domov",
+      "RETURN_TO_CITADEL": "Návrat do Citadely"
+    }
+  },
+  "LAB": {
+    "FORM": {
+      "FIX_ERRORS": "Prosím, opravte chyby vyššie",
+      "RESET": "Resetovať",
+      "SELECT_OPTION": "Vyberte možnosť",
+      "SUBMIT": "Odoslať",
+      "SUBMIT_ERROR": "Pri odosielaní formulára sa vyskytla chyba",
+      "SUBMIT_SUCCESS": "Formulár bol úspešne odoslaný!",
+      "VALIDATION": {
+        "EMAIL": "Prosím, zadajte platnú e-mailovú adresu",
+        "MAX_LENGTH": "Maximálna dĺžka je {{max}} znakov",
+        "MIN_LENGTH": "Minimálna dĺžka je {{min}} znakov",
+        "PATTERN": "Prosím, zadajte platný formát",
+        "REQUIRED": "Pole {{field}} je povinné"
+      }
+    }
+  }
+}

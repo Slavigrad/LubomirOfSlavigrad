@@ -1,0 +1,50 @@
+<button
+  type="button"
+  class="ls-trigger"
+  [class.is-open]="open()"
+  (click)="toggle()"
+  aria-haspopup="listbox"
+  [attr.aria-expanded]="open()"
+  [attr.aria-label]="'APP.NAV.LANGUAGE.LABEL' | translate"
+>
+  <span class="ls-code">{{ currentLabel() }}</span>
+  <svg class="ls-caret" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <path
+      d="M5 7.5 10 12.5 15 7.5"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</button>
+
+@if (open()) {
+  <ul class="ls-panel" role="listbox" [attr.aria-label]="'APP.NAV.LANGUAGE.LABEL' | translate">
+    @for (lang of languages; track lang.code) {
+      <li role="none">
+        <button
+          type="button"
+          role="option"
+          class="ls-option"
+          [class.is-active]="isActive(lang.code)"
+          [attr.aria-selected]="isActive(lang.code)"
+          (click)="select(lang.code)"
+        >
+          <span>{{ lang.label }}</span>
+          @if (isActive(lang.code)) {
+            <svg class="ls-caret" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path
+                d="M5 7.5 10 12.5 15 7.5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          }
+        </button>
+      </li>
+    }
+  </ul>
+}

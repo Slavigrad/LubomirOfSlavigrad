@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { CvDataService } from '../../data/cv-data.service';
 import { Experience as ExperienceModel, Position } from '../../data/cv-data.interface';
@@ -9,9 +10,7 @@ import {
 import { TechnologyListComponent } from '../../../shared/ui-glass/technology-list.component';
 import { GlassModalComponent } from '../../../shared/ui-glass/glass-modal.component';
 
-import { STATS_CONTENT } from '../../../shared/util-performance/constants/stats-content.constants';
-
-import { EXPERIENCE_TEXT, EXPERIENCE_CLASSES, EXPERIENCE_ICONS } from './experience.constants';
+import { EXPERIENCE_CLASSES, EXPERIENCE_ICONS } from './experience.constants';
 import { EXPERIENCE_CONFIG } from './experience.configuration';
 
 @Component({
@@ -21,6 +20,7 @@ import { EXPERIENCE_CONFIG } from './experience.configuration';
     InteractiveAnimateDirective,
     TechnologyListComponent,
     GlassModalComponent,
+    TranslatePipe,
   ],
   templateUrl: './experience.html',
   styleUrl: './experience.scss',
@@ -30,11 +30,9 @@ export class Experience {
   private readonly cvDataService = inject(CvDataService);
 
   // Extracted constants/config for template access.
-  protected readonly UI = EXPERIENCE_TEXT;
   protected readonly CLASSES = EXPERIENCE_CLASSES;
   protected readonly ICONS = EXPERIENCE_ICONS;
   protected readonly CONFIG = EXPERIENCE_CONFIG;
-  protected readonly STATS = STATS_CONTENT;
 
   // Data signals.
   protected readonly experiences = this.cvDataService.experiences;

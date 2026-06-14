@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 import { ChapterNavigationComponent, NavigationChapter } from './chapter-navigation.component';
 
 describe('ChapterNavigationComponent', () => {
@@ -16,6 +17,7 @@ describe('ChapterNavigationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ChapterNavigationComponent],
+      providers: [provideTranslateService()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ChapterNavigationComponent);

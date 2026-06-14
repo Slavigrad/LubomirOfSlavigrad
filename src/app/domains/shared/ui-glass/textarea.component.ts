@@ -8,6 +8,7 @@ import {
   viewChild,
   AfterViewInit,
 } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { type VariantProps } from 'class-variance-authority';
@@ -37,6 +38,7 @@ export type TextareaSize = TextareaVariants['size'];
       multi: true,
     },
   ],
+  imports: [TranslatePipe],
   templateUrl: './textarea.component.html',
   styleUrl: './textarea.component.scss',
 })

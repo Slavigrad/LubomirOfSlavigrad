@@ -1,4 +1,5 @@
 import { Component, input, signal, computed, forwardRef } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { type VariantProps } from 'class-variance-authority';
@@ -28,6 +29,7 @@ export type InputSize = InputVariants['size'];
       multi: true,
     },
   ],
+  imports: [TranslatePipe],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
 })

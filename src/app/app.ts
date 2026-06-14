@@ -1,10 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+
+import { LanguageSelectorComponent } from './shell/language-selector/language-selector.component';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, TranslatePipe, LanguageSelectorComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

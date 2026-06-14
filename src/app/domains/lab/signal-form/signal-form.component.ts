@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   input,
   output,
   signal,
@@ -11,6 +12,7 @@ import {
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 /**
  * Modern signal-based form component
@@ -43,7 +45,7 @@ export interface FormErrors {
 
 @Component({
   selector: 'app-signal-form',
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <form
@@ -112,7 +114,7 @@ export interface FormErrors {
               [class.error]="hasFieldError(field.id)"
               [attr.aria-describedby]="hasFieldError(field.id) ? field.id + '-error' : null"
             >
-              <option value="">Select an option</option>
+              <option value="">{{ 'LAB.FORM.SELECT_OPTION' | translate }}</option>
               @for (option of field.options; track option.value) {
                 <option [value]="option.value">{{ option.label }}</option>
               }
@@ -181,7 +183,7 @@ export interface FormErrors {
             [disabled]="isSubmitting() || !isDirty()"
             (click)="handleReset()"
           >
-            {{ resetButtonText() }}
+            {{ resetButtonText() | translate }}
           </button>
         }
 
@@ -193,7 +195,7 @@ export interface FormErrors {
           @if (isSubmitting()) {
             <span class="loading-spinner"></span>
           }
-          {{ submitButtonText() }}
+          {{ submitButtonText() | translate }}
         </button>
       </div>
 
@@ -400,9 +402,11 @@ export interface FormErrors {
 })
 export class SignalFormComponent implements OnInit {
   // Signal-based inputs
+  private readonly translate = inject(TranslateService);
+
   readonly fields = input.required<FormField[]>();
-  readonly submitButtonText = input<string>('Submit');
-  readonly resetButtonText = input<string>('Reset');
+  readonly submitButtonText = input<string>('LAB.FORM.SUBMIT');
+  readonly resetButtonText = input<string>('LAB.FORM.RESET');
   readonly showResetButton = input<boolean>(true);
   readonly disabled = input<boolean>(false);
 
@@ -517,7 +521,9 @@ export class SignalFormComponent implements OnInit {
 
       // Required validation
       if (field.required && (!value || (typeof value === 'string' && value.trim() === ''))) {
-        fieldErrors.push(`${field.label} is required`);
+        fieldErrors.push(
+          this.translate.instant('LAB.FORM.VALIDATION.REQUIRED', { field: field.label }),
+        );
       }
 
       // Type-specific validation
@@ -526,24 +532,32 @@ export class SignalFormComponent implements OnInit {
         if (field.type === 'email' && value) {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(value)) {
-            fieldErrors.push('Please enter a valid email address');
+            fieldErrors.push(this.translate.instant('LAB.FORM.VALIDATION.EMAIL'));
           }
         }
 
         // Length validation
         if (field.validation?.minLength && value.length < field.validation.minLength) {
-          fieldErrors.push(`Minimum length is ${field.validation.minLength} characters`);
+          fieldErrors.push(
+            this.translate.instant('LAB.FORM.VALIDATION.MIN_LENGTH', {
+              min: field.validation.minLength,
+            }),
+          );
         }
 
         if (field.validation?.maxLength && value.length > field.validation.maxLength) {
-          fieldErrors.push(`Maximum length is ${field.validation.maxLength} characters`);
+          fieldErrors.push(
+            this.translate.instant('LAB.FORM.VALIDATION.MAX_LENGTH', {
+              max: field.validation.maxLength,
+            }),
+          );
         }
 
         // Pattern validation
         if (field.validation?.pattern) {
           const regex = new RegExp(field.validation.pattern);
           if (!regex.test(value)) {
-            fieldErrors.push('Please enter a valid format');
+            fieldErrors.push(this.translate.instant('LAB.FORM.VALIDATION.PATTERN'));
           }
         }
       }
@@ -598,7 +612,7 @@ export class SignalFormComponent implements OnInit {
     this.validateForm();
 
     if (!this.isValid()) {
-      this.formError.set('Please fix the errors above');
+      this.formError.set(this.translate.instant('LAB.FORM.FIX_ERRORS'));
       return;
     }
 
@@ -607,9 +621,9 @@ export class SignalFormComponent implements OnInit {
 
     try {
       this.formSubmit.emit(this.formData());
-      this.successMessage.set('Form submitted successfully!');
+      this.successMessage.set(this.translate.instant('LAB.FORM.SUBMIT_SUCCESS'));
     } catch (error) {
-      this.formError.set('An error occurred while submitting the form');
+      this.formError.set(this.translate.instant('LAB.FORM.SUBMIT_ERROR'));
     } finally {
       this.isSubmitting.set(false);
     }

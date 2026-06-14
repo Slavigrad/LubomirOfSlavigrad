@@ -33,10 +33,10 @@
           <!-- Home link - site title -->
           <a
             routerLink="/"
-            aria-label="Go to home"
+            [attr.aria-label]="'APP.NAV.GO_TO_HOME' | translate"
             class="text-xl font-bold gradient-text transition-all duration-300 hover:scale-105 hover:opacity-90"
           >
-            Lubomir of Slavigrad
+            {{ 'APP.NAV.SITE_TITLE' | translate }}
           </a>
           <!-- Egypt Story Button -->
           <a
@@ -58,7 +58,7 @@
               <svg class="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
               </svg>
-              I Wandered Through Egypt
+              {{ 'APP.NAV.EGYPT_STORY' | translate }}
             </span>
           </a>
         </div>
@@ -66,22 +66,27 @@
         <!-- Center Logo - clickable to home -->
         <a
           routerLink="/"
-          aria-label="Go to home"
+          [attr.aria-label]="'APP.NAV.GO_TO_HOME' | translate"
           class="group shrink-0"
         >
           <img
             src="/assets/images/slavigrad-logo.png"
-            alt="Slavigrad Logo"
+            [attr.alt]="'APP.NAV.LOGO_ALT' | translate"
             class="h-12 w-auto drop-shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_14px_rgba(255,255,255,0.45)]"
           />
         </a>
 
-        <div class="hidden md:flex space-x-6 text-sm">
-          <a href="#hero" class="text-muted-foreground hover:text-primary transition-colors">The Citadel</a>
-          <a href="#skills" class="text-muted-foreground hover:text-primary transition-colors">The Library of Skills</a>
-          <a href="#experience" class="text-muted-foreground hover:text-primary transition-colors">Hall of Records</a>
-          <a href="#projects" class="text-muted-foreground hover:text-primary transition-colors">Marketplace</a>
-          <a href="#contact" class="text-muted-foreground hover:text-primary transition-colors">Oracle's Chamber</a>
+        <div class="flex items-center gap-6">
+          <div class="hidden md:flex space-x-6 text-sm">
+            <a href="#hero" class="text-muted-foreground hover:text-primary transition-colors">{{ 'APP.NAV.LINK_CITADEL' | translate }}</a>
+            <a href="#skills" class="text-muted-foreground hover:text-primary transition-colors">{{ 'APP.NAV.LINK_SKILLS' | translate }}</a>
+            <a href="#experience" class="text-muted-foreground hover:text-primary transition-colors">{{ 'APP.NAV.LINK_EXPERIENCE' | translate }}</a>
+            <a href="#projects" class="text-muted-foreground hover:text-primary transition-colors">{{ 'APP.NAV.LINK_PROJECTS' | translate }}</a>
+            <a href="#contact" class="text-muted-foreground hover:text-primary transition-colors">{{ 'APP.NAV.LINK_CONTACT' | translate }}</a>
+          </div>
+
+          <!-- Language Selector -->
+          <app-language-selector />
         </div>
       </div>
     </div>
@@ -98,12 +103,12 @@
     <div class="container mx-auto px-6 py-8">
       <div class="text-center">
         <div class="text-sm text-muted-foreground mb-4">
-          <p class="gradient-text font-semibold">Lubomir of Slavigrad Chronicles</p>
-          <p>Where code and legend intertwine in the digital realm</p>
+          <p class="gradient-text font-semibold">{{ 'APP.FOOTER.BRAND' | translate }}</p>
+          <p>{{ 'APP.FOOTER.TAGLINE' | translate }}</p>
         </div>
         <div class="text-xs text-muted-foreground">
-          <p>&copy; {{ currentYear }} Lubomir Dobrovodsky. Built with Angular {{ angularVersion }} & Tailwind CSS.</p>
-          <p>Powered by modern web technologies and futuristic design principles.</p>
+          <p>{{ 'APP.FOOTER.COPYRIGHT' | translate: { year: currentYear, version: angularVersion } }}</p>
+          <p>{{ 'APP.FOOTER.POWERED_BY' | translate }}</p>
         </div>
       </div>
     </div>

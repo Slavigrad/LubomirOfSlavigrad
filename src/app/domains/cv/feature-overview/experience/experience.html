@@ -6,12 +6,12 @@
   <div class="relative z-10 max-w-6xl mx-auto px-6">
     <!-- Section Header -->
     <div class="text-center mb-16" appScrollAnimate="fadeInUp">
-      <div class="eyebrow mb-3">Career</div>
+      <div class="eyebrow mb-3">{{ 'CV.EXPERIENCE.EYEBROW' | translate }}</div>
       <h2 class="text-3xl md:text-4xl mb-3 gradient-text-enhanced">
-        {{ UI.SECTION_TITLE }}
+        {{ 'CV.EXPERIENCE.SECTION_TITLE' | translate }}
       </h2>
       <div class="max-w-2xl mx-auto text-center text-muted-foreground">
-        <p class="text-sm mb-4">{{ UI.SUMMARY_LINE }}</p>
+        <p class="text-sm mb-4">{{ 'CV.EXPERIENCE.SUMMARY_LINE' | translate }}</p>
         <div class="flex items-center justify-center gap-3">
           <button
             [class]="CLASSES.toolbarButton"
@@ -20,7 +20,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="ICONS.PLUS"/>
             </svg>
-            {{ UI.BUTTONS.EXPAND_ALL }}
+            {{ 'SHARED.BUTTON.EXPAND_ALL' | translate }}
           </button>
           <button
             [class]="CLASSES.toolbarButton"
@@ -29,7 +29,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="ICONS.MINUS"/>
             </svg>
-            {{ UI.BUTTONS.COLLAPSE_ALL }}
+            {{ 'SHARED.BUTTON.COLLAPSE_ALL' | translate }}
           </button>
         </div>
       </div>
@@ -44,24 +44,24 @@
       <div class="mb-16 text-center" appScrollAnimate="fadeInUp">
         <div class="glass-card p-8 max-w-4xl mx-auto" appInteractiveAnimate="lift" [animationTrigger]="CONFIG.animations.interactionTrigger">
           <h3 class="text-2xl font-bold mb-4 text-foreground">
-            {{ STATS.SECTION_TITLES.CAREER_HIGHLIGHTS }}
+            {{ 'CV.STATS.SECTION.CAREER_HIGHLIGHTS' | translate }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
             <div appScrollAnimate="fadeInUp" [animationDelay]="CONFIG.animations.summaryDelays[0]">
               <div class="text-3xl font-bold mb-2" [style.color]="'hsl(var(--orange))'">{{ totalProjectsDelivered() }}+</div>
-              <div class="text-sm text-muted-foreground">{{ UI.SUMMARY_LABELS.PROJECTS_DELIVERED }}</div>
+              <div class="text-sm text-muted-foreground">{{ 'CV.EXPERIENCE.SUMMARY.PROJECTS_DELIVERED' | translate }}</div>
             </div>
             <div appScrollAnimate="fadeInUp" [animationDelay]="CONFIG.animations.summaryDelays[1]">
               <div class="text-3xl font-bold text-primary mb-2">{{ totalExperienceYears() }}+</div>
-              <div class="text-sm text-muted-foreground">{{ UI.SUMMARY_LABELS.YEARS_OF_EXPERIENCE }}</div>
+              <div class="text-sm text-muted-foreground">{{ 'CV.EXPERIENCE.SUMMARY.YEARS_OF_EXPERIENCE' | translate }}</div>
             </div>
             <div appScrollAnimate="fadeInUp" [animationDelay]="CONFIG.animations.summaryDelays[2]">
               <div class="text-3xl font-bold text-secondary mb-2">{{ totalCompanies() }}</div>
-              <div class="text-sm text-muted-foreground">{{ UI.SUMMARY_LABELS.COMPANIES_WORKED }}</div>
+              <div class="text-sm text-muted-foreground">{{ 'CV.EXPERIENCE.SUMMARY.COMPANIES_WORKED' | translate }}</div>
             </div>
             <div appScrollAnimate="fadeInUp" [animationDelay]="CONFIG.animations.summaryDelays[3]">
               <div class="text-3xl font-bold text-accent mb-2">{{ getTotalTechnologies() }}</div>
-              <div class="text-sm text-muted-foreground">{{ UI.SUMMARY_LABELS.TECHNOLOGIES_USED }}</div>
+              <div class="text-sm text-muted-foreground">{{ 'CV.EXPERIENCE.SUMMARY.TECHNOLOGIES_USED' | translate }}</div>
             </div>
           </div>
         </div>
@@ -101,13 +101,13 @@
                     <button
                       [class]="CLASSES.readButton"
                       (click)="openExperienceDetails(experience); $event.stopPropagation()"
-                      [attr.title]="UI.ARIA.VIEW_DETAILS"
-                      [attr.aria-label]="UI.ARIA.VIEW_DETAILS"
+                      [attr.title]="'CV.EXPERIENCE.ARIA.VIEW_DETAILS' | translate"
+                      [attr.aria-label]="'CV.EXPERIENCE.ARIA.VIEW_DETAILS' | translate"
                     >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="ICONS.SEARCH"/>
                       </svg>
-                      {{ UI.BUTTONS.READ }}
+                      {{ 'SHARED.BUTTON.READ' | translate }}
                     </button>
                     <button
                       [class]="CLASSES.toggleButton"
@@ -117,7 +117,7 @@
                       <svg class="w-4 h-4 transition-transform" [class.rotate-180]="!isCompanyExpanded(experience.id)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="ICONS.CHEVRON_DOWN"/>
                       </svg>
-                      {{ isCompanyExpanded(experience.id) ? UI.BUTTONS.COLLAPSE : UI.BUTTONS.EXPAND }}
+                      {{ (isCompanyExpanded(experience.id) ? 'SHARED.BUTTON.COLLAPSE' : 'SHARED.BUTTON.EXPAND') | translate }}
                     </button>
                   </div>
                 </div>
@@ -135,11 +135,11 @@
                     </svg>
                     <span class="duration-text">
                       {{ formatDate(getOverallStart(experience)) }} -
-                      {{ isCurrentExperience(experience) ? UI.LABELS.PRESENT : formatDate(getOverallEnd(experience)!) }}
+                      {{ isCurrentExperience(experience) ? ('CV.EXPERIENCE.LABEL.PRESENT' | translate) : formatDate(getOverallEnd(experience)!) }}
                     </span>
                   </span>
                   @if (isCurrentExperience(experience)) {
-                    <span [class]="CLASSES.currentBadge">{{ UI.LABELS.CURRENT }}</span>
+                    <span [class]="CLASSES.currentBadge">{{ 'CV.EXPERIENCE.LABEL.CURRENT' | translate }}</span>
                   }
                 </div>
               </div>
@@ -158,9 +158,9 @@
                               <div class="text-sm text-muted-foreground mb-1">{{ position.role }}</div>
                             }
                             <div class="text-sm text-muted-foreground">
-                              {{ formatDate(position.startDate) }} - {{ position.endDate ? formatDate(position.endDate) : UI.LABELS.PRESENT }}
+                              {{ formatDate(position.startDate) }} - {{ position.endDate ? formatDate(position.endDate) : ('CV.EXPERIENCE.LABEL.PRESENT' | translate) }}
                               @if (position.teamSize) {
-                                <span class="ml-2">• {{ UI.LABELS.TEAM }}: {{ position.teamSize }}</span>
+                                <span class="ml-2">• {{ 'CV.EXPERIENCE.LABEL.TEAM' | translate }}: {{ position.teamSize }}</span>
                               }
                             </div>
                           </div>
@@ -172,7 +172,7 @@
                             <svg class="w-3 h-3 transition-transform" [class.rotate-180]="!isPositionExpanded(experience.id, pi)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="ICONS.CHEVRON_DOWN"/>
                             </svg>
-                            {{ isPositionExpanded(experience.id, pi) ? UI.BUTTONS.HIDE : UI.BUTTONS.SHOW }}
+                            {{ (isPositionExpanded(experience.id, pi) ? 'SHARED.BUTTON.HIDE' : 'SHARED.BUTTON.SHOW') | translate }}
                           </button>
                         </div>
                       </div>
@@ -183,7 +183,7 @@
                           <!-- Description -->
                           @if (position.description) {
                             <div class="mt-3">
-                              <h5 class="text-sm font-semibold mb-2">{{ UI.HEADINGS.DESCRIPTION }}</h5>
+                              <h5 class="text-sm font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.DESCRIPTION' | translate }}</h5>
                               <p class="text-sm text-muted-foreground leading-relaxed">{{ position.description }}</p>
                             </div>
                           }
@@ -191,7 +191,7 @@
                           <!-- Technologies -->
                           @if (position.technologies?.length) {
                             <div class="mt-4">
-                              <h5 class="text-sm font-semibold mb-2">{{ UI.HEADINGS.TECHNOLOGIES }}</h5>
+                              <h5 class="text-sm font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.TECHNOLOGIES' | translate }}</h5>
                               <app-technology-list [technologies]="position.technologies"
                                 [showPreview]="CONFIG.preview.showPreview"
                                 [previewCount]="CONFIG.preview.techListCard"
@@ -202,7 +202,7 @@
                           <!-- Responsibilities -->
                           @if (position.responsibilities?.length) {
                             <div class="mt-4">
-                              <h5 class="text-sm font-semibold mb-2">{{ UI.HEADINGS.RESPONSIBILITIES }}</h5>
+                              <h5 class="text-sm font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.RESPONSIBILITIES' | translate }}</h5>
                               <ul class="space-y-1">
                                 @for (item of position.responsibilities; track item) {
                                   <li class="text-sm text-muted-foreground flex gap-2">
@@ -217,7 +217,7 @@
                           <!-- Achievements -->
                           @if (position.achievements?.length) {
                             <div class="mt-4">
-                              <h5 class="text-sm font-semibold mb-2">{{ UI.HEADINGS.ACHIEVEMENTS }}</h5>
+                              <h5 class="text-sm font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.ACHIEVEMENTS' | translate }}</h5>
                               <ul class="space-y-1">
                                 @for (ach of position.achievements; track ach) {
                                   <li class="text-sm text-foreground flex gap-2">
@@ -232,7 +232,7 @@
                           <!-- Projects -->
                           @if (position.projects?.length) {
                             <div class="mt-4">
-                              <h5 class="text-sm font-semibold mb-2">{{ UI.HEADINGS.PROJECTS }}</h5>
+                              <h5 class="text-sm font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.PROJECTS' | translate }}</h5>
                               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                 @for (p of position.projects; track p.name) {
                                   <div class="p-3 rounded-lg border border-border/20 bg-muted/20">
@@ -260,7 +260,7 @@
     <app-glass-modal [open]="true" [size]="CONFIG.modal.size" (closed)="closeExperienceDetails()" [closeOnBackdrop]="CONFIG.modal.closeOnBackdrop">
       <div class="flex items-start justify-between mb-6">
         <h3 class="text-3xl md:text-4xl gradient-text-enhanced">{{ exp.company }}</h3>
-        <button class="p-2 hover:bg-white/10 rounded-lg transition-colors" (click)="closeExperienceDetails()" aria-label="Close">
+        <button class="p-2 hover:bg-white/10 rounded-lg transition-colors" (click)="closeExperienceDetails()" [attr.aria-label]="'SHARED.ARIA.CLOSE' | translate">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="ICONS.CLOSE_X"></path>
           </svg>
@@ -280,7 +280,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="ICONS.DURATION"></path>
           </svg>
           <span class="duration-text">
-            {{ formatDate(getOverallStart(exp)) }} - {{ isCurrentExperience(exp) ? UI.LABELS.PRESENT : formatDate(getOverallEnd(exp)!) }}
+            {{ formatDate(getOverallStart(exp)) }} - {{ isCurrentExperience(exp) ? ('CV.EXPERIENCE.LABEL.PRESENT' | translate) : formatDate(getOverallEnd(exp)!) }}
           </span>
         </span>
       </div>
@@ -294,28 +294,28 @@
                 <div class="text-sm md:text-base text-muted-foreground mb-1">{{ position.role }}</div>
               }
               <div class="text-sm md:text-base text-muted-foreground">
-                {{ formatDate(position.startDate) }} - {{ position.endDate ? formatDate(position.endDate) : UI.LABELS.PRESENT }}
-                @if (position.teamSize) { <span class="ml-2">• {{ UI.LABELS.TEAM }}: {{ position.teamSize }}</span> }
+                {{ formatDate(position.startDate) }} - {{ position.endDate ? formatDate(position.endDate) : ('CV.EXPERIENCE.LABEL.PRESENT' | translate) }}
+                @if (position.teamSize) { <span class="ml-2">• {{ 'CV.EXPERIENCE.LABEL.TEAM' | translate }}: {{ position.teamSize }}</span> }
               </div>
             </div>
 
             @if (position.description) {
               <div class="mt-4">
-                <h5 class="text-sm md:text-base font-semibold mb-2">{{ UI.HEADINGS.DESCRIPTION }}</h5>
+                <h5 class="text-sm md:text-base font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.DESCRIPTION' | translate }}</h5>
                 <p class="text-sm md:text-base text-muted-foreground leading-relaxed">{{ position.description }}</p>
               </div>
             }
 
             @if (position.technologies?.length) {
               <div class="mt-4">
-                <h5 class="text-sm md:text-base font-semibold mb-2">{{ UI.HEADINGS.TECHNOLOGIES }}</h5>
+                <h5 class="text-sm md:text-base font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.TECHNOLOGIES' | translate }}</h5>
                 <app-technology-list [technologies]="position.technologies" [showPreview]="CONFIG.preview.showPreview" [previewCount]="CONFIG.preview.techListModal" variant="default" />
               </div>
             }
 
             @if (position.responsibilities?.length) {
               <div class="mt-4">
-                <h5 class="text-sm md:text-base font-semibold mb-2">{{ UI.HEADINGS.RESPONSIBILITIES }}</h5>
+                <h5 class="text-sm md:text-base font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.RESPONSIBILITIES' | translate }}</h5>
                 <ul class="space-y-1">
                   @for (item of position.responsibilities; track item) {
                     <li class="text-sm md:text-base text-muted-foreground flex gap-2">
@@ -329,7 +329,7 @@
 
             @if (position.achievements?.length) {
               <div class="mt-4">
-                <h5 class="text-sm md:text-base font-semibold mb-2">{{ UI.HEADINGS.ACHIEVEMENTS }}</h5>
+                <h5 class="text-sm md:text-base font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.ACHIEVEMENTS' | translate }}</h5>
                 <ul class="space-y-1">
                   @for (ach of position.achievements; track ach) {
                     <li class="text-sm md:text-base text-foreground flex gap-2">
@@ -343,7 +343,7 @@
 
             @if (position.projects?.length) {
               <div class="mt-4">
-                <h5 class="text-sm md:text-base font-semibold mb-2">{{ UI.HEADINGS.PROJECTS }}</h5>
+                <h5 class="text-sm md:text-base font-semibold mb-2">{{ 'CV.EXPERIENCE.HEADING.PROJECTS' | translate }}</h5>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                   @for (p of position.projects; track p.name) {
                     <div class="p-3 rounded-lg border border-border/20 bg-muted/20">

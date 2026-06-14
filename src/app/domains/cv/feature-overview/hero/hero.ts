@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { CvDataService } from '../../data/cv-data.service';
 import { LazyImageDirective } from '../../../shared/util-performance/lazy-image.directive';
 
 import { HERO_CONFIG } from './hero.configuration';
-import { UI_TEXT } from './hero.constants';
 
 @Component({
   selector: 'app-hero',
-  imports: [LazyImageDirective],
+  imports: [LazyImageDirective, TranslatePipe],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,7 +20,6 @@ export class Hero {
   protected readonly profileImageUrl = computed(() => 'assets/images/lubomir_dobrovodsky.jpg');
 
   protected readonly features = HERO_CONFIG.features;
-  protected readonly text = UI_TEXT;
 
   protected scrollToContact(): void {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });

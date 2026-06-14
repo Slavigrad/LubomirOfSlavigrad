@@ -1,4 +1,5 @@
 import { Component, input, computed } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -19,6 +20,7 @@ export type BadgeRemovable = BadgeVariants['removable'];
 
 @Component({
   selector: 'app-badge',
+  imports: [TranslatePipe],
   templateUrl: './badge.component.html',
   styleUrl: './badge.component.scss',
 })
