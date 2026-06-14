@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
 
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -18,6 +18,7 @@ export type ButtonSize = ButtonVariants['size'];
 
 @Component({
   selector: 'app-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
 })

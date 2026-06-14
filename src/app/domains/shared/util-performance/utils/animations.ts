@@ -1,4 +1,4 @@
-import { Injectable, ElementRef, signal, Directive, input, OnInit, OnDestroy, AfterViewInit, inject } from '@angular/core';
+import { Service, ElementRef, signal, Directive, input, OnInit, OnDestroy, AfterViewInit, inject } from '@angular/core';
 
 export interface AnimationOptions {
   threshold?: number;
@@ -22,9 +22,7 @@ export interface InteractiveAnimationConfig {
   options?: AnimationOptions;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class AnimationService {
   private observers = new Map<Element, IntersectionObserver>();
   private animatedElements = new Set<Element>();

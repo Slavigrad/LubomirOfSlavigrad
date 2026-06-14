@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   input,
   signal,
@@ -31,6 +32,7 @@ export type TextareaSize = TextareaVariants['size'];
 
 @Component({
   selector: 'app-textarea',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

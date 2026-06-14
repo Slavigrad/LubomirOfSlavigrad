@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { PreloadingStrategy, Route } from '@angular/router';
 import { Observable, of, timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
@@ -6,9 +6,7 @@ import { mergeMap } from 'rxjs/operators';
 /**
  * Custom preloading strategy that preloads routes based on priority and network conditions
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CustomPreloadingStrategy implements PreloadingStrategy {
   preload(route: Route, load: () => Observable<any>): Observable<any> {
     // Check if route should be preloaded

@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
+import { Service, signal, computed, effect } from '@angular/core';
 import {
   CVData,
   PersonalInfo,
@@ -17,9 +17,7 @@ import {
 import { computeOverallExperienceDates, extractAllTechnologies } from './cv-data.utils';
 import { CV_DATA } from './cv-data';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CvDataService {
   // ============================================================================
   // PRIVATE CORE DATA SIGNALS

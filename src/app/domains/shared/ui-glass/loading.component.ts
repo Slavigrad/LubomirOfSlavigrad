@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
 
 
 export type LoadingVariant = 'spinner' | 'dots' | 'pulse' | 'skeleton';
@@ -6,6 +6,7 @@ export type LoadingSize = 'sm' | 'md' | 'lg' | 'xl';
 
 @Component({
   selector: 'app-loading',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './loading.component.html',
   styleUrl: './loading.component.scss',
 })

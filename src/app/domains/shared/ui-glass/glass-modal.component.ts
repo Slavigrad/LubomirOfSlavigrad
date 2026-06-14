@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   HostListener,
   input,
@@ -19,6 +20,7 @@ export type GlassModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 @Component({
   selector: 'app-glass-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (open()) {
       <div

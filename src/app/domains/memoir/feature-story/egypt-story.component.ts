@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { ChangeDetectionStrategy, Component, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -14,6 +14,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
 
 @Component({
   selector: 'app-egypt-story',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
     InteractiveAnimateDirective,

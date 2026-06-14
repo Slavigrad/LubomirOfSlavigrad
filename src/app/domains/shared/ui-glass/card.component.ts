@@ -1,4 +1,4 @@
-import { Component, input, signal, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, signal, computed } from '@angular/core';
 
 import { type VariantProps } from 'class-variance-authority';
 import { clsx } from 'clsx';
@@ -18,6 +18,7 @@ export type CardHoverable = CardVariants['hoverable'];
 
 @Component({
   selector: 'app-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })

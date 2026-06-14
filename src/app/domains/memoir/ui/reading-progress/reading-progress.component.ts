@@ -1,4 +1,4 @@
-import { Component, HostListener, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, signal } from '@angular/core';
 
 
 /**
@@ -15,6 +15,7 @@ import { Component, HostListener, signal } from '@angular/core';
  */
 @Component({
   selector: 'app-reading-progress',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="reading-progress-container">
       <div 

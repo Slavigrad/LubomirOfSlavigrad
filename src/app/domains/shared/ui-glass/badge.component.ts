@@ -1,4 +1,4 @@
-import { Component, input, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, computed } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { type VariantProps } from 'class-variance-authority';
@@ -20,6 +20,7 @@ export type BadgeRemovable = BadgeVariants['removable'];
 
 @Component({
   selector: 'app-badge',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslatePipe],
   templateUrl: './badge.component.html',
   styleUrl: './badge.component.scss',

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 
 import { CvDataService } from '../data/cv-data.service';
 import { ThemeService } from '../../shared/util-theme/theme.service';
@@ -11,6 +11,7 @@ import { Contact } from './contact/contact';
 
 @Component({
   selector: 'app-home',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Hero, Stats, Skills, Experience, Projects, Contact],
   template: `
     <div class="min-h-screen">

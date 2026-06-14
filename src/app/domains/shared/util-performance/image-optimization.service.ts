@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Service, signal } from '@angular/core';
 import { loadSignalConfig, saveSignalConfig } from './utils/local-storage-config';
 
 export interface ImageOptimizationConfig {
@@ -24,9 +24,7 @@ export interface ImageMetrics {
   compressionRatio?: number;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ImageOptimizationService {
   private readonly _config = signal<ImageOptimizationConfig>({
     enableWebP: true,

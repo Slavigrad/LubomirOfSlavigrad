@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
+import { Service, signal, computed, effect } from '@angular/core';
 
 export interface ThemeConfig {
   name: string;
@@ -20,9 +20,7 @@ export interface ThemeConfig {
   };
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class ThemeService {
   // Available themes
   private readonly themes: ThemeConfig[] = [

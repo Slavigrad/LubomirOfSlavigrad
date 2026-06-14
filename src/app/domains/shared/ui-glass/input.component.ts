@@ -1,4 +1,4 @@
-import { Component, input, signal, computed, forwardRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, signal, computed, forwardRef } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -22,6 +22,7 @@ export type InputSize = InputVariants['size'];
 
 @Component({
   selector: 'app-input',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

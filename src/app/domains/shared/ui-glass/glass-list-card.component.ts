@@ -1,8 +1,9 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 
 @Component({
   selector: 'app-glass-list-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   template: `
     <div class="p-4 md:p-5 rounded-xl border border-border/20 bg-background/60 glass-card">
