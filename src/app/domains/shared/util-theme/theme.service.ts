@@ -207,7 +207,7 @@ export class ThemeService {
     const intensity = this._currentTheme().glassEffect.intensity;
     switch (intensity) {
       case 'subtle':
-        return 'glass-card backdrop-blur-sm';
+        return 'glass-card backdrop-blur-xs';
       case 'strong':
         return 'glass-card backdrop-blur-2xl';
       default:

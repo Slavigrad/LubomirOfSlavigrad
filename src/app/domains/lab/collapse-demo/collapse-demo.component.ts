@@ -26,7 +26,7 @@ import {
     <div class="collapse-demo p-6 space-y-8 max-w-4xl mx-auto">
       <div class="demo-header text-center mb-8">
         <h1
-          class="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+          class="text-3xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent"
         >
           UI Component Library Demo
         </h1>
@@ -139,7 +139,7 @@ import {
           <app-collapse variant="bordered" animation="scale" [expanded]="false" [showIcon]="true">
             <div slot="header" class="flex items-center gap-3">
               <div
-                class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center"
+                class="w-8 h-8 bg-linear-to-br from-primary to-secondary rounded-full flex items-center justify-center"
               >
                 <svg
                   class="w-4 h-4 text-white"

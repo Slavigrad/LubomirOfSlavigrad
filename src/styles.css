@@ -17,6 +17,12 @@
 @plugin '@tailwindcss/typography';
 @plugin 'tailwindcss-animate';
 
+/* Explicit source registration. v4 auto-detection doesn't resolve the
+   project root under @angular/build's PostCSS pipeline, so utilities
+   were emitted empty. Paths are relative to this file (src/), covering
+   external .html templates and inline component templates in .ts. */
+@source './**/*.{html,ts}';
+
 /* ════════════════════════════════════════════════════════════════
    @theme — "Smoked Crystal" design tokens (migrated from the v3
    tailwind.config.js). These are emitted as :root custom properties
@@ -171,6 +177,31 @@
 }
 @utility bg-gradient-conic {
   background-image: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
+}
+
+/* ────────────────────────────────────────────────────────────────
+   0. v4 Preflight compatibility
+   v4 changed two Preflight defaults that matter here:
+   • border-* now defaults to currentColor (v3 used gray-200). Pin it
+     to the smoked border token so a bare `border` reads on-theme
+     instead of generic grey or too-bright ivory.
+   • buttons now use cursor: default. Restore the pointer affordance.
+   Explicit border-* utilities still win (they sit in the utilities
+   layer, above base).
+   ──────────────────────────────────────────────────────────────── */
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-border, currentColor);
+    }
+
+    button:not(:disabled),
+    [role='button']:not(:disabled) {
+        cursor: pointer;
+    }
 }
 
 /* ────────────────────────────────────────────────────────────────

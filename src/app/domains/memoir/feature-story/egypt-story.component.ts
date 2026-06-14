@@ -92,7 +92,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
               <!-- Decorative divider -->
               <div class="flex items-center justify-center gap-4 mb-8">
                 <div
-                  class="h-px w-16 bg-gradient-to-r from-transparent via-primary to-transparent"
+                  class="h-px w-16 bg-linear-to-r from-transparent via-primary to-transparent"
                 ></div>
                 <svg
                   class="w-6 h-6 text-primary animate-pulse-glow"
@@ -104,7 +104,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                   />
                 </svg>
                 <div
-                  class="h-px w-16 bg-gradient-to-r from-transparent via-primary to-transparent"
+                  class="h-px w-16 bg-linear-to-r from-transparent via-primary to-transparent"
                 ></div>
               </div>
 
@@ -229,7 +229,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
             >
               <!-- Enhanced glass overlay -->
               <div
-                class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 pointer-events-none"
+                class="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-secondary/5 pointer-events-none"
               ></div>
               <div class="absolute inset-0 backdrop-blur-xl pointer-events-none"></div>
 
@@ -254,7 +254,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                 <!-- Decorative separator -->
                 <div class="flex items-center justify-center gap-4 mb-16">
                   <div
-                    class="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent"
+                    class="h-px flex-1 bg-linear-to-r from-transparent via-border to-transparent"
                   ></div>
                   <div class="flex gap-2">
                     <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
@@ -268,7 +268,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                     ></div>
                   </div>
                   <div
-                    class="h-px flex-1 bg-gradient-to-r from-transparent via-border to-transparent"
+                    class="h-px flex-1 bg-linear-to-r from-transparent via-border to-transparent"
                   ></div>
                 </div>
 
@@ -284,17 +284,17 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                       <div
                         class="absolute -inset-0.5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                         [class]="{
-                          'bg-gradient-to-r from-primary via-primary to-primary':
+                          'bg-linear-to-r from-primary via-primary to-primary':
                             chapter.theme === 'primary' || !chapter.theme,
-                          'bg-gradient-to-r from-secondary via-secondary to-secondary':
+                          'bg-linear-to-r from-secondary via-secondary to-secondary':
                             chapter.theme === 'secondary',
-                          'bg-gradient-to-r from-accent via-accent to-accent':
+                          'bg-linear-to-r from-accent via-accent to-accent':
                             chapter.theme === 'accent',
                         }"
                       ></div>
                       <!-- Chapter Title -->
                       <div
-                        class="relative bg-card/50 backdrop-blur-sm rounded-2xl p-6 border border-border/20"
+                        class="relative bg-card/50 backdrop-blur-xs rounded-2xl p-6 border border-border/20"
                       >
                         <h2
                           class="text-3xl md:text-4xl font-bold flex items-center gap-4 group-hover:scale-[1.02] transition-transform duration-300"
@@ -308,11 +308,11 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                           <span
                             class="chapter-number w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold shadow-lg text-white"
                             [class]="{
-                              'bg-gradient-to-br from-primary to-primary':
+                              'bg-linear-to-br from-primary to-primary':
                                 chapter.theme === 'primary' || !chapter.theme,
-                              'bg-gradient-to-br from-secondary to-secondary':
+                              'bg-linear-to-br from-secondary to-secondary':
                                 chapter.theme === 'secondary',
-                              'bg-gradient-to-br from-accent to-accent': chapter.theme === 'accent',
+                              'bg-linear-to-br from-accent to-accent': chapter.theme === 'accent',
                             }"
                           >
                             {{ chapter.number }}
@@ -373,7 +373,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                       <div class="chapter-separator mt-16 mb-8">
                         <div class="flex items-center justify-center gap-4">
                           <div
-                            class="h-px flex-1 bg-gradient-to-r from-transparent via-border/50 to-transparent"
+                            class="h-px flex-1 bg-linear-to-r from-transparent via-border/50 to-transparent"
                           ></div>
                           <div class="flex gap-2">
                             <div
@@ -388,7 +388,7 @@ import { SocialShareComponent, ShareConfig } from '../ui/social-share/social-sha
                             <div class="w-1.5 h-1.5 rounded-full bg-border"></div>
                           </div>
                           <div
-                            class="h-px flex-1 bg-gradient-to-r from-transparent via-border/50 to-transparent"
+                            class="h-px flex-1 bg-linear-to-r from-transparent via-border/50 to-transparent"
                           ></div>
                         </div>
                       </div>
