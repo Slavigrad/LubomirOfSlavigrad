@@ -49,39 +49,62 @@ export type CardHoverable = CardVariants['hoverable'];
       }
 
       .card {
-        @apply rounded-xl transition-all duration-300;
-        @apply border border-border/50;
+        border-radius: var(--radius-xl);
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+        border: 1px solid color-mix(in oklab, var(--color-border) 50%, transparent);
       }
 
       .card-header {
-        @apply p-6 pb-4;
+        padding: 1.5rem;
+        padding-bottom: 1rem;
       }
 
       .card-title {
-        @apply text-xl font-semibold text-foreground mb-1;
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        font-weight: 600;
+        color: var(--color-foreground);
+        margin-bottom: 0.25rem;
       }
 
       .card-subtitle {
-        @apply text-sm text-muted-foreground;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: var(--color-muted-foreground);
       }
 
       .card-content {
-        @apply p-6 pt-0;
+        padding: 1.5rem;
+        padding-top: 0;
       }
 
       .card-footer {
-        @apply p-6 pt-0 border-t border-border/50 mt-4;
+        padding: 1.5rem;
+        padding-top: 0;
+        border-top: 1px solid color-mix(in oklab, var(--color-border) 50%, transparent);
+        margin-top: 1rem;
       }
 
       /* Variant Styles */
       .card-default {
-        @apply bg-card text-card-foreground;
-        @apply shadow-sm hover:shadow-md;
+        background-color: var(--color-card);
+        color: var(--color-card-foreground);
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      }
+      .card-default:hover {
+        box-shadow:
+          0 4px 6px -1px rgb(0 0 0 / 0.1),
+          0 2px 4px -2px rgb(0 0 0 / 0.1);
       }
 
       /* Aurora Glass Card - Premium Glassmorphism */
       .card-glass {
-        @apply text-white transition-all duration-300;
+        color: #fff;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
         position: relative;
         overflow: hidden;
 
@@ -136,8 +159,8 @@ export type CardHoverable = CardVariants['hoverable'];
       }
 
       .card-elevated {
-        @apply bg-card text-card-foreground;
-        @apply shadow-lg hover:shadow-xl;
+        background-color: var(--color-card);
+        color: var(--color-card-foreground);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       }
 
@@ -147,13 +170,17 @@ export type CardHoverable = CardVariants['hoverable'];
       }
 
       .card-outlined {
-        @apply bg-transparent border-2 border-border;
-        @apply hover:border-primary hover:bg-muted/50;
+        background-color: transparent;
+        border: 2px solid var(--color-border);
+      }
+      .card-outlined:hover {
+        border-color: var(--color-primary);
+        background-color: color-mix(in oklab, var(--color-muted) 50%, transparent);
       }
 
       /* Hover Effects */
       .card:hover {
-        @apply border-border;
+        border-color: var(--color-border);
       }
 
       /* Animation Classes */
@@ -172,15 +199,15 @@ export type CardHoverable = CardVariants['hoverable'];
         .card-header,
         .card-content,
         .card-footer {
-          @apply p-4;
+          padding: 1rem;
         }
 
         .card-content {
-          @apply pt-0;
+          padding-top: 0;
         }
 
         .card-footer {
-          @apply pt-0;
+          padding-top: 0;
         }
       }
     `,

@@ -38,37 +38,84 @@ export type ButtonSize = ButtonVariants['size'];
       }
 
       button {
-        @apply relative inline-flex items-center justify-center font-medium transition-all duration-300;
-        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
-        @apply disabled:opacity-50 disabled:cursor-not-allowed;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+      }
+
+      button:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow:
+          0 0 0 2px var(--color-background),
+          0 0 0 4px var(--color-primary);
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
 
       /* Variant Styles */
       .btn-primary {
-        @apply bg-primary text-white hover:bg-primary/90;
-        @apply shadow-lg hover:shadow-xl;
+        color: #fff;
+        box-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
         background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      }
+      .btn-primary:hover {
+        background-color: color-mix(in oklab, var(--color-primary) 90%, transparent);
+        box-shadow:
+          0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
       }
 
       .btn-secondary {
-        @apply bg-secondary text-white hover:bg-secondary/90;
-        @apply shadow-lg hover:shadow-xl;
+        color: #fff;
+        box-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
         background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      }
+      .btn-secondary:hover {
+        background-color: color-mix(in oklab, var(--color-secondary) 90%, transparent);
+        box-shadow:
+          0 20px 25px -5px rgb(0 0 0 / 0.1),
+          0 8px 10px -6px rgb(0 0 0 / 0.1);
       }
 
       .btn-ghost {
-        @apply bg-transparent text-foreground hover:bg-muted;
-        @apply border border-transparent hover:border-border;
+        background-color: transparent;
+        color: var(--color-foreground);
+        border: 1px solid transparent;
+      }
+      .btn-ghost:hover {
+        background-color: var(--color-muted);
+        border-color: var(--color-border);
       }
 
       .btn-outline {
-        @apply bg-transparent text-foreground border border-border;
-        @apply hover:bg-muted hover:border-primary;
+        background-color: transparent;
+        color: var(--color-foreground);
+        border: 1px solid var(--color-border);
+      }
+      .btn-outline:hover {
+        background-color: var(--color-muted);
+        border-color: var(--color-primary);
       }
 
       /* Aurora Glass Button - Premium Glassmorphism */
       .btn-glass {
-        @apply text-white transition-all duration-300;
+        color: #fff;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
         position: relative;
         overflow: hidden;
 
@@ -132,15 +179,27 @@ export type ButtonSize = ButtonVariants['size'];
 
       /* Size Styles */
       .btn-sm {
-        @apply px-3 py-1.5 text-sm rounded-md;
+        padding-inline: 0.75rem;
+        padding-block: 0.375rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        border-radius: 0.375rem;
       }
 
       .btn-md {
-        @apply px-4 py-2 text-base rounded-lg;
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        border-radius: 0.5rem;
       }
 
       .btn-lg {
-        @apply px-6 py-3 text-lg rounded-xl;
+        padding-inline: 1.5rem;
+        padding-block: 0.75rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        border-radius: var(--radius-xl);
       }
 
       /* Hover Effects - Enhanced */

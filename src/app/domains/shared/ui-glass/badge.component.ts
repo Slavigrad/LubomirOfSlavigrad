@@ -46,105 +46,161 @@ export type BadgeRemovable = BadgeVariants['removable'];
       }
 
       .badge {
-        @apply inline-flex items-center font-medium transition-all duration-200;
-        @apply border border-transparent;
+        display: inline-flex;
+        align-items: center;
+        font-weight: 500;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+        border: 1px solid transparent;
       }
 
       .badge-icon {
-        @apply flex items-center justify-center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .badge-remove {
-        @apply ml-1 flex items-center justify-center;
-        @apply hover:bg-black/10 rounded-full p-0.5;
-        @apply transition-colors duration-200;
+        margin-left: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9999px;
+        padding: 0.125rem;
+        transition-property: color, background-color, border-color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+      }
+      .badge-remove:hover {
+        background-color: rgb(0 0 0 / 0.1);
       }
 
       /* Size Styles */
       .badge-sm {
-        @apply px-2 py-0.5 text-xs rounded-md;
+        padding-inline: 0.5rem;
+        padding-block: 0.125rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        border-radius: 0.375rem;
       }
 
       .badge-sm .badge-icon {
-        @apply w-3 h-3 mr-1;
+        width: 0.75rem;
+        height: 0.75rem;
+        margin-right: 0.25rem;
       }
 
       .badge-md {
-        @apply px-2.5 py-1 text-sm rounded-lg;
+        padding-inline: 0.625rem;
+        padding-block: 0.25rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        border-radius: 0.5rem;
       }
 
       .badge-md .badge-icon {
-        @apply w-4 h-4 mr-1.5;
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.375rem;
       }
 
       .badge-lg {
-        @apply px-3 py-1.5 text-base rounded-xl;
+        padding-inline: 0.75rem;
+        padding-block: 0.375rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        border-radius: var(--radius-xl);
       }
 
       .badge-lg .badge-icon {
-        @apply w-5 h-5 mr-2;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.5rem;
       }
 
       /* Variant Styles */
       .badge-default {
-        @apply bg-muted text-muted-foreground;
+        background-color: var(--color-muted);
+        color: var(--color-muted-foreground);
       }
 
       .badge-primary {
-        @apply bg-primary/20 text-primary border-primary/30;
+        background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
+        color: var(--color-primary);
+        border-color: color-mix(in oklab, var(--color-primary) 30%, transparent);
       }
 
       .badge-secondary {
-        @apply bg-secondary/20 text-secondary border-secondary/30;
+        background-color: color-mix(in oklab, var(--color-secondary) 20%, transparent);
+        color: var(--color-secondary);
+        border-color: color-mix(in oklab, var(--color-secondary) 30%, transparent);
       }
 
       .badge-accent {
-        @apply bg-accent/20 text-accent border-accent/30;
+        background-color: color-mix(in oklab, var(--color-accent) 20%, transparent);
+        color: var(--color-accent);
+        border-color: color-mix(in oklab, var(--color-accent) 30%, transparent);
       }
 
       .badge-success {
-        @apply bg-green-100 text-green-800 border-green-200;
+        background-color: var(--color-green-100);
+        color: var(--color-green-800);
+        border-color: var(--color-green-200);
       }
 
       .badge-warning {
-        @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+        background-color: var(--color-yellow-100);
+        color: var(--color-yellow-800);
+        border-color: var(--color-yellow-200);
       }
 
       .badge-error {
-        @apply bg-red-100 text-red-800 border-red-200;
+        background-color: var(--color-red-100);
+        color: var(--color-red-800);
+        border-color: var(--color-red-200);
       }
 
       .badge-outline {
-        @apply bg-transparent border-border text-foreground;
+        background-color: transparent;
+        border-color: var(--color-border);
+        color: var(--color-foreground);
       }
 
       /* Dark mode adjustments */
       @media (prefers-color-scheme: dark) {
         .badge-success {
-          @apply bg-green-900/30 text-green-400 border-green-800;
+          background-color: color-mix(in oklab, var(--color-green-900) 30%, transparent);
+          color: var(--color-green-400);
+          border-color: var(--color-green-800);
         }
 
         .badge-warning {
-          @apply bg-yellow-900/30 text-yellow-400 border-yellow-800;
+          background-color: color-mix(in oklab, var(--color-yellow-900) 30%, transparent);
+          color: var(--color-yellow-400);
+          border-color: var(--color-yellow-800);
         }
 
         .badge-error {
-          @apply bg-red-900/30 text-red-400 border-red-800;
+          background-color: color-mix(in oklab, var(--color-red-900) 30%, transparent);
+          color: var(--color-red-400);
+          border-color: var(--color-red-800);
         }
       }
 
       /* Hover Effects */
       .badge:hover {
-        @apply scale-105;
+        transform: scale(1.05);
       }
 
       .badge-removable:hover {
-        @apply shadow-sm;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
       }
 
       /* Animation for removal */
       .badge-removing {
-        @apply scale-95 opacity-0;
+        transform: scale(0.95);
+        opacity: 0;
         transition: all 0.2s ease-out;
       }
     `,

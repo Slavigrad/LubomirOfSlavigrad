@@ -103,96 +103,163 @@ export type TextareaSize = TextareaVariants['size'];
       }
 
       .textarea-container {
-        @apply w-full;
+        width: 100%;
       }
 
       .textarea-label {
-        @apply block text-sm font-medium text-foreground mb-2;
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        font-weight: 500;
+        color: var(--color-foreground);
+        margin-bottom: 0.5rem;
       }
 
       .textarea {
-        @apply w-full transition-all duration-200 resize-none;
-        @apply focus:outline-none focus:ring-2 focus:ring-offset-0;
-        @apply disabled:opacity-50 disabled:cursor-not-allowed;
-        @apply placeholder:text-muted-foreground;
+        width: 100%;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+        resize: none;
+      }
+      .textarea:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px var(--color-ring);
+      }
+      .textarea:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .textarea::placeholder {
+        color: var(--color-muted-foreground);
       }
 
       /* Size Styles */
       .textarea-sm {
-        @apply px-3 py-1.5 text-sm rounded-md;
+        padding-inline: 0.75rem;
+        padding-block: 0.375rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        border-radius: 0.375rem;
       }
 
       .textarea-md {
-        @apply px-4 py-2 text-base rounded-lg;
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        border-radius: 0.5rem;
       }
 
       .textarea-lg {
-        @apply px-5 py-3 text-lg rounded-xl;
+        padding-inline: 1.25rem;
+        padding-block: 0.75rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+        border-radius: var(--radius-xl);
       }
 
       /* Variant Styles */
       .textarea-default {
-        @apply bg-input border border-border text-foreground;
-        @apply focus:ring-primary focus:border-primary;
+        background-color: var(--color-input);
+        border: 1px solid var(--color-border);
+        color: var(--color-foreground);
+      }
+      .textarea-default:focus {
+        box-shadow: 0 0 0 2px var(--color-primary);
+        border-color: var(--color-primary);
       }
 
       .textarea-glass {
-        @apply bg-white/10 border border-white/20 text-white;
-        @apply focus:ring-white/50 focus:border-white/50;
+        background-color: rgb(255 255 255 / 0.1);
+        border: 1px solid rgb(255 255 255 / 0.2);
+        color: #fff;
         backdrop-filter: blur(10px);
+      }
+      .textarea-glass:focus {
+        box-shadow: 0 0 0 2px rgb(255 255 255 / 0.5);
+        border-color: rgb(255 255 255 / 0.5);
       }
 
       .textarea-glass::placeholder {
-        @apply text-white/60;
+        color: rgb(255 255 255 / 0.6);
       }
 
       .textarea-outline {
-        @apply bg-transparent border-2 border-border text-foreground;
-        @apply focus:ring-primary focus:border-primary;
+        background-color: transparent;
+        border: 2px solid var(--color-border);
+        color: var(--color-foreground);
+      }
+      .textarea-outline:focus {
+        box-shadow: 0 0 0 2px var(--color-primary);
+        border-color: var(--color-primary);
       }
 
       /* Auto-resize */
       .textarea-auto-resize {
-        @apply overflow-hidden;
+        overflow: hidden;
         min-height: 2.5rem;
       }
 
       /* Clear Button */
       .textarea-clear {
-        @apply absolute top-3 right-3;
-        @apply text-muted-foreground hover:text-foreground;
-        @apply transition-colors duration-200;
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        color: var(--color-muted-foreground);
+        transition-property: color, background-color, border-color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+      }
+      .textarea-clear:hover {
+        color: var(--color-foreground);
       }
 
       /* Character Counter */
       .textarea-counter {
-        @apply absolute bottom-3 right-3;
-        @apply text-xs text-muted-foreground;
-        @apply bg-background/80 px-2 py-1 rounded;
+        position: absolute;
+        bottom: 0.75rem;
+        right: 0.75rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        color: var(--color-muted-foreground);
+        background-color: color-mix(in oklab, var(--color-background) 80%, transparent);
+        padding-inline: 0.5rem;
+        padding-block: 0.25rem;
+        border-radius: 0.25rem;
       }
 
       /* Error State */
       .textarea-error-state {
-        @apply border-red-500 focus:ring-red-500 focus:border-red-500;
+        border-color: var(--color-red-500);
+      }
+      .textarea-error-state:focus {
+        box-shadow: 0 0 0 2px var(--color-red-500);
+        border-color: var(--color-red-500);
       }
 
       .textarea-error {
-        @apply text-red-500 text-sm mt-1;
+        color: var(--color-red-500);
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        margin-top: 0.25rem;
       }
 
       .textarea-hint {
-        @apply text-muted-foreground text-sm mt-1;
-      }
-
-      /* Focus States */
-      .textarea:focus {
-        @apply ring-2;
+        color: var(--color-muted-foreground);
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        margin-top: 0.25rem;
       }
 
       /* Responsive adjustments */
       @media (max-width: 640px) {
         .textarea-lg {
-          @apply px-4 py-2.5 text-base;
+          padding-inline: 1rem;
+          padding-block: 0.625rem;
+          font-size: 1rem;
+          line-height: 1.5rem;
         }
       }
     `,

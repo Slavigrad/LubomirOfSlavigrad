@@ -85,53 +85,114 @@ export interface TechnologyCategory {
   `,
   styles: [`
     .tech-badge {
-      @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full;
-      @apply transition-all duration-300 ease-out cursor-default;
-      @apply border border-transparent backdrop-blur-sm;
-      @apply hover:scale-105 hover:shadow-lg;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding-inline: 0.75rem;
+      padding-block: 0.375rem;
+      font-size: 0.75rem;
+      line-height: 1rem;
+      font-weight: 500;
+      border-radius: 9999px;
+      transition-property: all;
+      transition-duration: 300ms;
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      cursor: default;
+      border: 1px solid transparent;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .tech-badge:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
     }
 
     .tech-icon {
-      @apply text-sm leading-none;
+      font-size: 0.875rem;
+      line-height: 1;
     }
 
     .tech-name {
-      @apply font-semibold tracking-wide;
+      font-weight: 600;
+      letter-spacing: 0.025em;
     }
 
     /* Technology Category Colors */
     .tech-badge-primary {
-      @apply bg-gradient-to-r from-primary/20 to-primary/30;
-      @apply text-primary border-primary/40;
-      @apply hover:from-primary/30 hover:to-primary/40;
-      @apply hover:border-primary/60 hover:text-primary;
+      background-image: linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-primary) 20%, transparent),
+        color-mix(in oklab, var(--color-primary) 30%, transparent)
+      );
+      color: var(--color-primary);
+      border-color: color-mix(in oklab, var(--color-primary) 40%, transparent);
       box-shadow: 0 2px 8px hsl(var(--primary) / 0.2);
+    }
+    .tech-badge-primary:hover {
+      background-image: linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-primary) 30%, transparent),
+        color-mix(in oklab, var(--color-primary) 40%, transparent)
+      );
+      border-color: color-mix(in oklab, var(--color-primary) 60%, transparent);
+      color: var(--color-primary);
     }
 
     .tech-badge-secondary {
-      @apply bg-gradient-to-r from-secondary/20 to-secondary/30;
-      @apply text-secondary border-secondary/40;
-      @apply hover:from-secondary/30 hover:to-secondary/40;
-      @apply hover:border-secondary/60 hover:text-secondary;
+      background-image: linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-secondary) 20%, transparent),
+        color-mix(in oklab, var(--color-secondary) 30%, transparent)
+      );
+      color: var(--color-secondary);
+      border-color: color-mix(in oklab, var(--color-secondary) 40%, transparent);
       box-shadow: 0 2px 8px hsl(var(--secondary) / 0.2);
+    }
+    .tech-badge-secondary:hover {
+      background-image: linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-secondary) 30%, transparent),
+        color-mix(in oklab, var(--color-secondary) 40%, transparent)
+      );
+      border-color: color-mix(in oklab, var(--color-secondary) 60%, transparent);
+      color: var(--color-secondary);
     }
 
     .tech-badge-accent {
-      @apply bg-gradient-to-r from-accent/20 to-accent/30;
-      @apply text-accent border-accent/40;
-      @apply hover:from-accent/30 hover:to-accent/40;
-      @apply hover:border-accent/60 hover:text-accent;
+      background-image: linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-accent) 20%, transparent),
+        color-mix(in oklab, var(--color-accent) 30%, transparent)
+      );
+      color: var(--color-accent);
+      border-color: color-mix(in oklab, var(--color-accent) 40%, transparent);
       box-shadow: 0 2px 8px hsl(var(--accent) / 0.2);
+    }
+    .tech-badge-accent:hover {
+      background-image: linear-gradient(
+        to right,
+        color-mix(in oklab, var(--color-accent) 30%, transparent),
+        color-mix(in oklab, var(--color-accent) 40%, transparent)
+      );
+      border-color: color-mix(in oklab, var(--color-accent) 60%, transparent);
+      color: var(--color-accent);
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .tech-badge {
-        @apply px-2 py-1 text-xs gap-1;
+        padding-inline: 0.5rem;
+        padding-block: 0.25rem;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        gap: 0.25rem;
       }
 
       .tech-icon {
-        @apply text-xs;
+        font-size: 0.75rem;
+        line-height: 1rem;
       }
     }
   `]

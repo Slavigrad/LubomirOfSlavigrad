@@ -392,24 +392,36 @@ import {
   `,
   styles: [
     `
-      .demo-section {
-        @apply space-y-4;
+      .demo-section > * + * {
+        margin-top: 1rem;
       }
 
       .demo-section h2 {
-        @apply border-b border-border/50 pb-2;
+        border-bottom: 1px solid color-mix(in oklab, var(--color-border) 50%, transparent);
+        padding-bottom: 0.5rem;
       }
 
       .demo-section h3 {
-        @apply text-primary;
+        color: var(--color-primary);
       }
 
       code {
-        @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono;
+        background-color: var(--color-muted);
+        padding-inline: 0.375rem;
+        padding-block: 0.125rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        font-family: var(--font-mono);
       }
 
       select {
-        @apply bg-background border-border focus:ring-2 focus:ring-primary focus:border-primary;
+        background-color: var(--color-background);
+        border-color: var(--color-border);
+      }
+      select:focus {
+        box-shadow: 0 0 0 2px var(--color-primary);
+        border-color: var(--color-primary);
       }
     `,
   ],

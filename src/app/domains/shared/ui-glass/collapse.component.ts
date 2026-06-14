@@ -213,87 +213,133 @@ export interface CollapseConfig {
       }
 
       .collapse-container {
-        @apply w-full;
+        width: 100%;
       }
 
       /* Variant Styles */
       .variant-default {
-        @apply border border-border rounded-lg overflow-hidden;
+        border: 1px solid var(--color-border);
+        border-radius: 0.5rem;
+        overflow: hidden;
       }
 
       .variant-glass {
-        @apply backdrop-blur-xl bg-gradient-to-br from-card/50 to-card/30;
-        @apply border border-border/20 rounded-lg overflow-hidden;
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        background-image: linear-gradient(
+          to bottom right,
+          color-mix(in oklab, var(--color-card) 50%, transparent),
+          color-mix(in oklab, var(--color-card) 30%, transparent)
+        );
+        border: 1px solid color-mix(in oklab, var(--color-border) 20%, transparent);
+        border-radius: 0.5rem;
+        overflow: hidden;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
       }
 
       .variant-bordered {
-        @apply border-2 border-border rounded-lg overflow-hidden;
+        border: 2px solid var(--color-border);
+        border-radius: 0.5rem;
+        overflow: hidden;
       }
 
       .variant-minimal {
-        @apply border-b border-border/50;
+        border-bottom: 1px solid color-mix(in oklab, var(--color-border) 50%, transparent);
       }
 
       .variant-card {
-        @apply bg-card border border-border rounded-lg shadow-lg overflow-hidden;
+        background-color: var(--color-card);
+        border: 1px solid var(--color-border);
+        border-radius: 0.5rem;
+        box-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+        overflow: hidden;
       }
 
       /* Header Styles */
       .collapse-header {
-        @apply flex items-center justify-between p-4 cursor-pointer;
-        @apply transition-all duration-200 ease-in-out;
-        @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        cursor: pointer;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+      }
+      .collapse-header:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow:
+          0 0 0 2px var(--color-background),
+          0 0 0 4px var(--color-primary);
       }
 
       .collapse-header:hover {
-        @apply bg-muted/50;
+        background-color: color-mix(in oklab, var(--color-muted) 50%, transparent);
       }
 
       .collapse-header[aria-disabled='true'] {
-        @apply cursor-not-allowed opacity-50;
+        cursor: not-allowed;
+        opacity: 0.5;
       }
 
       .header-content {
-        @apply flex-1 text-left;
+        flex: 1 1 0%;
+        text-align: left;
       }
 
       .default-header {
-        @apply font-medium text-foreground;
+        font-weight: 500;
+        color: var(--color-foreground);
       }
 
       .collapse-icon {
-        @apply ml-2 text-muted-foreground transition-transform duration-200;
+        margin-left: 0.5rem;
+        color: var(--color-muted-foreground);
+        transition-property: transform;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
       }
 
       /* Size Variants */
       .size-sm .collapse-header {
-        @apply p-2 text-sm;
+        padding: 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
       }
 
       .size-sm .collapse-icon {
-        @apply w-4 h-4;
+        width: 1rem;
+        height: 1rem;
       }
 
       .size-md .collapse-header {
-        @apply p-4 text-base;
+        padding: 1rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
       }
 
       .size-md .collapse-icon {
-        @apply w-5 h-5;
+        width: 1.25rem;
+        height: 1.25rem;
       }
 
       .size-lg .collapse-header {
-        @apply p-6 text-lg;
+        padding: 1.5rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
       }
 
       .size-lg .collapse-icon {
-        @apply w-6 h-6;
+        width: 1.5rem;
+        height: 1.5rem;
       }
 
       /* Content Styles */
       .collapse-content {
-        @apply overflow-hidden;
+        overflow: hidden;
       }
 
       /* Ensure content can overflow when expanded without animating the property */
@@ -302,34 +348,41 @@ export interface CollapseConfig {
       }
 
       .content-wrapper {
-        @apply p-4;
+        padding: 1rem;
       }
 
       .size-sm .content-wrapper {
-        @apply p-2;
+        padding: 0.5rem;
       }
 
       .size-lg .content-wrapper {
-        @apply p-6;
+        padding: 1.5rem;
       }
 
       /* Animation States */
       .animation-fade .collapse-content {
-        @apply transition-all duration-300 ease-in-out;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
       }
 
       .animation-scale .collapse-content {
-        @apply transition-all duration-300 ease-out;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+        transition-duration: 300ms;
       }
 
       /* Accessibility */
       .collapse-header:focus-visible {
-        @apply ring-2 ring-primary ring-offset-2;
+        box-shadow:
+          0 0 0 2px var(--color-background),
+          0 0 0 4px var(--color-primary);
       }
 
       /* Disabled State */
       .disabled {
-        @apply opacity-50 pointer-events-none;
+        opacity: 0.5;
+        pointer-events: none;
       }
     `,
   ],

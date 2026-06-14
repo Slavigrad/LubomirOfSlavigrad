@@ -106,75 +106,130 @@ export interface CollapseGroupItem {
       width: 100%;
     }
 
+    /* Local keyframes (utilities are unavailable in scoped styles) */
+    @keyframes pulse {
+      50% { opacity: 0.5; }
+    }
+
     .collapse-group {
-      @apply w-full space-y-4;
+      width: 100%;
+    }
+    .collapse-group > * + * {
+      margin-top: 1rem;
     }
 
     /* Group Controls */
     .group-controls {
-      @apply flex items-center justify-between p-3 bg-muted/30 rounded-lg border border-border/50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem;
+      background-color: color-mix(in oklab, var(--color-muted) 30%, transparent);
+      border-radius: 0.5rem;
+      border: 1px solid color-mix(in oklab, var(--color-border) 50%, transparent);
     }
 
     .control-buttons {
-      @apply flex gap-2;
+      display: flex;
+      gap: 0.5rem;
     }
 
     .control-btn {
-      @apply inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md;
-      @apply border border-border bg-background hover:bg-muted;
-      @apply transition-colors duration-200;
-      @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
-      @apply disabled:opacity-50 disabled:cursor-not-allowed;
+      display: inline-flex;
+      align-items: center;
+      padding-inline: 0.75rem;
+      padding-block: 0.375rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      border-radius: 0.375rem;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-background);
+      transition-property: color, background-color, border-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+    }
+    .control-btn:hover {
+      background-color: var(--color-muted);
+    }
+    .control-btn:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+      box-shadow:
+        0 0 0 2px var(--color-background),
+        0 0 0 4px var(--color-primary);
+    }
+    .control-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .control-btn:hover:not(:disabled) {
-      @apply bg-muted border-primary/50;
+      background-color: var(--color-muted);
+      border-color: color-mix(in oklab, var(--color-primary) 50%, transparent);
     }
 
     .expand-all {
-      @apply text-green-700 border-green-200 hover:bg-green-50;
+      color: var(--color-green-700);
+      border-color: var(--color-green-200);
+    }
+    .expand-all:hover {
+      background-color: var(--color-green-50);
     }
 
     .collapse-all {
-      @apply text-red-700 border-red-200 hover:bg-red-50;
+      color: var(--color-red-700);
+      border-color: var(--color-red-200);
+    }
+    .collapse-all:hover {
+      background-color: var(--color-red-50);
     }
 
     .group-stats {
-      @apply text-sm text-muted-foreground;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: var(--color-muted-foreground);
     }
 
     .stats-text {
-      @apply font-medium;
+      font-weight: 500;
     }
 
     /* Content Layout */
-    .group-content {
-      @apply space-y-2;
+    .group-content > * + * {
+      margin-top: 0.5rem;
     }
 
     .orientation-horizontal .group-content {
-      @apply flex flex-wrap gap-4 space-y-0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .orientation-horizontal .group-content > * + * {
+      margin-top: 0;
     }
 
     .orientation-horizontal .group-content > * {
-      @apply flex-1 min-w-0;
+      flex: 1 1 0%;
+      min-width: 0;
     }
 
     /* Size Variants */
-    .size-sm .group-content {
-      @apply space-y-1;
+    .size-sm .group-content > * + * {
+      margin-top: 0.25rem;
     }
 
     .size-sm .orientation-horizontal .group-content {
-      @apply gap-2;
+      gap: 0.5rem;
     }
 
-    .size-lg .group-content {
-      @apply space-y-4;
+    .size-lg .group-content > * + * {
+      margin-top: 1rem;
     }
 
     .size-lg .orientation-horizontal .group-content {
-      @apply gap-6;
+      gap: 1.5rem;
     }
 
     /* Animation Variants */
@@ -184,71 +239,105 @@ export interface CollapseGroupItem {
 
     /* Variant Styles */
     .variant-glass {
-      @apply backdrop-blur-xl bg-gradient-to-br from-card/30 to-card/10;
-      @apply border border-border/20 rounded-lg p-4;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background-image: linear-gradient(
+        to bottom right,
+        color-mix(in oklab, var(--color-card) 30%, transparent),
+        color-mix(in oklab, var(--color-card) 10%, transparent)
+      );
+      border: 1px solid color-mix(in oklab, var(--color-border) 20%, transparent);
+      border-radius: 0.5rem;
+      padding: 1rem;
     }
 
     .variant-bordered {
-      @apply border-2 border-border rounded-lg p-4;
+      border: 2px solid var(--color-border);
+      border-radius: 0.5rem;
+      padding: 1rem;
     }
 
     .variant-card {
-      @apply bg-card border border-border rounded-lg shadow-lg p-4;
+      background-color: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 0.5rem;
+      box-shadow:
+        0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
+      padding: 1rem;
     }
 
     .variant-minimal {
-      @apply border-l-4 border-primary pl-4;
+      border-left: 4px solid var(--color-primary);
+      padding-left: 1rem;
     }
 
     /* Group Footer */
     .group-footer {
-      @apply pt-4 border-t border-border/50;
+      padding-top: 1rem;
+      border-top: 1px solid color-mix(in oklab, var(--color-border) 50%, transparent);
     }
 
     /* Responsive Design */
     @media (max-width: 640px) {
       .group-controls {
-        @apply flex-col gap-3 items-stretch;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
       }
 
       .control-buttons {
-        @apply justify-center;
+        justify-content: center;
       }
 
       .orientation-horizontal .group-content {
-        @apply flex-col;
+        flex-direction: column;
       }
     }
 
     /* Focus Management */
     .collapse-group:focus-within {
-      @apply ring-2 ring-primary ring-offset-2 rounded-lg;
+      border-radius: 0.5rem;
+      box-shadow:
+        0 0 0 2px var(--color-background),
+        0 0 0 4px var(--color-primary);
     }
 
     /* Loading State */
     .loading {
-      @apply opacity-50 pointer-events-none;
+      opacity: 0.5;
+      pointer-events: none;
     }
 
     .loading .group-content {
-      @apply animate-pulse;
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     }
 
     /* Empty State */
     .empty-state {
-      @apply text-center py-8 text-muted-foreground;
+      text-align: center;
+      padding-block: 2rem;
+      color: var(--color-muted-foreground);
     }
 
     .empty-state-icon {
-      @apply w-12 h-12 mx-auto mb-4 text-muted-foreground/50;
+      width: 3rem;
+      height: 3rem;
+      margin-inline: auto;
+      margin-bottom: 1rem;
+      color: color-mix(in oklab, var(--color-muted-foreground) 50%, transparent);
     }
 
     .empty-state-text {
-      @apply text-lg font-medium mb-2;
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
     }
 
     .empty-state-description {
-      @apply text-sm;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
     }
   `]
 })

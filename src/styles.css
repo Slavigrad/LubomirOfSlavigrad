@@ -13,9 +13,165 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+@plugin 'tailwindcss-animate';
+
+/* ════════════════════════════════════════════════════════════════
+   @theme — "Smoked Crystal" design tokens (migrated from the v3
+   tailwind.config.js). These are emitted as :root custom properties
+   AND drive the utility classes (bg-primary-500, shadow-glass,
+   animate-float, font-display, …). Exact hex/hsl values preserved.
+   ════════════════════════════════════════════════════════════════ */
+@theme {
+  /* ── Aged Gold — the single signature accent ── */
+  --color-primary: #CFA050;
+  --color-primary-50:  #FBF6EC;
+  --color-primary-100: #F5EAD3;
+  --color-primary-200: #EBD6A8;
+  --color-primary-300: #E0C07D;
+  --color-primary-400: #D8B065;
+  --color-primary-500: #CFA050;
+  --color-primary-600: #B2853C;
+  --color-primary-700: #8E6930;
+  --color-primary-800: #6B4F26;
+  --color-primary-900: #4A371B;
+  --color-primary-950: #2B2010;
+
+  /* ── Jade — quiet supporting hue (smoked-glass green) ── */
+  --color-secondary: #7FA893;
+  --color-secondary-50:  #F0F5F2;
+  --color-secondary-100: #DCE8E1;
+  --color-secondary-200: #BCD3C5;
+  --color-secondary-300: #9DBEAC;
+  --color-secondary-400: #8DB39F;
+  --color-secondary-500: #7FA893;
+  --color-secondary-600: #638A77;
+  --color-secondary-700: #4D6C5D;
+  --color-secondary-800: #394F45;
+  --color-secondary-900: #27352F;
+  --color-secondary-950: #161E1B;
+
+  /* ── Champagne — highlight tone for emphasis text/borders ── */
+  --color-accent: #E6D3AC;
+  --color-accent-50:  #FDFBF5;
+  --color-accent-100: #F9F3E4;
+  --color-accent-200: #F2E6C9;
+  --color-accent-300: #ECDCBA;
+  --color-accent-400: #E9D8B3;
+  --color-accent-500: #E6D3AC;
+  --color-accent-600: #CDB585;
+  --color-accent-700: #A78F60;
+  --color-accent-800: #7C6A47;
+  --color-accent-900: #52462F;
+  --color-accent-950: #2D2619;
+
+  /* ── Surfaces: warm green-black, not blue-black ── */
+  --color-background: hsl(160 14% 5%);
+  --color-foreground: hsl(40 30% 93%);
+  --color-card: hsl(160 12% 7%);
+  --color-card-foreground: hsl(40 30% 93%);
+  --color-card-glass: hsl(160 12% 9%);
+  --color-border: hsl(160 10% 17%);
+  --color-input: hsl(160 10% 12%);
+  --color-ring: hsl(40 55% 58%);
+  --color-muted: hsl(160 10% 12%);
+  --color-muted-foreground: hsl(40 10% 64%);
+  --color-destructive: hsl(8 50% 50%);
+  --color-destructive-foreground: hsl(40 30% 93%);
+
+  /* ── Skill levels: one material, four finishes ── */
+  --color-skill-primary:      #CFA050;
+  --color-skill-secondary:    #7FA893;
+  --color-skill-accent:       #E6D3AC;
+  --color-skill-expert:       #E0C07D;
+  --color-skill-advanced:     #CDB585;
+  --color-skill-intermediate: #8DB39F;
+  --color-skill-beginner:     #8C8577;
+
+  /* ── Sections: gold leads, jade supports ── */
+  --color-hero-accent:       #CFA050;
+  --color-experience-accent: #E6D3AC;
+  --color-projects-accent:   #7FA893;
+  --color-contact-accent:    #CFA050;
+
+  /* ── Typography ── */
+  --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-display: Marcellus, Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Marcellus likes a little air; caps for small-caps eyebrows */
+  --tracking-display: 0.02em;
+  --tracking-caps: 0.14em;
+
+  /* ── Box-shadows: candlelight halos + real drop shadow ── */
+  --shadow-glow:           0 1px 2px hsl(160 20% 2% / 0.5), 0 0 24px hsl(40 55% 58% / 0.08);
+  --shadow-glow-lg:        0 2px 6px hsl(160 20% 2% / 0.5), 0 0 48px hsl(40 55% 58% / 0.10);
+  --shadow-glow-primary:   0 1px 2px hsl(160 20% 2% / 0.5), 0 0 28px hsl(40 55% 58% / 0.12);
+  --shadow-glow-secondary: 0 1px 2px hsl(160 20% 2% / 0.5), 0 0 28px hsl(155 22% 56% / 0.10);
+  --shadow-glow-accent:    0 1px 2px hsl(160 20% 2% / 0.5), 0 0 28px hsl(42 48% 78% / 0.10);
+  /* The crystal shadow: contact line + deep ambient + inner top light */
+  --shadow-glass: 0 1px 1px hsl(160 20% 2% / 0.55), 0 12px 32px -8px hsl(160 20% 2% / 0.55), inset 0 1px 0 hsl(40 30% 93% / 0.07);
+
+  /* ── Radius: crystal is cut, not pebbled ── */
+  --radius-xl:  0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.25rem;
+
+  /* ── Backdrop blur ── */
+  --blur-xs: 2px;
+
+  /* ── Animations (names preserved, calmer values) ── */
+  --animate-float:         float 12s ease-in-out infinite;
+  --animate-float-delay:   float 12s ease-in-out infinite 4s;
+  --animate-pulse-glow:    pulseGlow 5s ease-in-out infinite alternate;
+  --animate-slide-in-up:   slideInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-fade-in-scale: fadeInScale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-gradient-x:    gradient-x 40s ease infinite;
+  --animate-gradient-y:    gradient-y 40s ease infinite;
+  --animate-gradient-xy:   gradient-xy 40s ease infinite;
+}
+
+/* Keyframes for the --animate-* tokens above. (float + slideInUp are
+   already defined further down in section 6 and are reused as-is.) */
+@keyframes pulseGlow {
+  0%   { box-shadow: 0 0 0 1px hsl(40 55% 58% / 0.10); }
+  100% { box-shadow: 0 0 0 1px hsl(40 55% 58% / 0.28); }
+}
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes gradient-y {
+  0%, 100% { background-size: 200% 200%; background-position: center top; }
+  50%      { background-size: 200% 200%; background-position: center bottom; }
+}
+@keyframes gradient-x {
+  0%, 100% { background-size: 200% 200%; background-position: left center; }
+  50%      { background-size: 200% 200%; background-position: right center; }
+}
+@keyframes gradient-xy {
+  0%, 100% { background-size: 200% 200%; background-position: left top; }
+  50%      { background-size: 200% 200%; background-position: right bottom; }
+}
+
+/* backgroundImage tokens have no native v4 theme namespace, so the
+   metal-gradient helpers are re-expressed as custom utilities. */
+@utility bg-gradient-primary {
+  background-image: linear-gradient(135deg, #CFA050, #E6D3AC);
+}
+@utility bg-gradient-secondary {
+  background-image: linear-gradient(135deg, #7FA893, #CDB585);
+}
+@utility bg-gradient-accent {
+  background-image: linear-gradient(135deg, #E6D3AC, #CFA050);
+}
+@utility bg-gradient-radial {
+  background-image: radial-gradient(var(--tw-gradient-stops));
+}
+@utility bg-gradient-conic {
+  background-image: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
+}
 
 /* ────────────────────────────────────────────────────────────────
    1. Design tokens

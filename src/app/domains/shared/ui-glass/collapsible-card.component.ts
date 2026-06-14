@@ -134,157 +134,262 @@ export interface CollapsibleCardConfig {
     }
 
     .collapsible-card {
-      @apply w-full;
+      width: 100%;
     }
 
     /* Header Content Styling */
     .card-header-content {
-      @apply flex items-center gap-3 w-full;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
     }
 
     .card-icon {
-      @apply flex-shrink-0 w-8 h-8 text-primary;
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      color: var(--color-primary);
     }
 
     .card-title-section {
-      @apply flex-1 min-w-0;
+      flex: 1 1 0%;
+      min-width: 0;
     }
 
     .card-title {
-      @apply text-lg font-semibold text-foreground truncate;
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+      font-weight: 600;
+      color: var(--color-foreground);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .card-subtitle {
-      @apply text-sm text-muted-foreground mt-1 truncate;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: var(--color-muted-foreground);
+      margin-top: 0.25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .card-badge {
-      @apply flex-shrink-0;
+      flex-shrink: 0;
     }
 
     .badge {
-      @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+      display: inline-flex;
+      align-items: center;
+      padding-inline: 0.625rem;
+      padding-block: 0.125rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      line-height: 1rem;
+      font-weight: 500;
     }
 
     .badge-default {
-      @apply bg-muted text-muted-foreground;
+      background-color: var(--color-muted);
+      color: var(--color-muted-foreground);
     }
 
     .badge-primary {
-      @apply bg-primary/10 text-primary;
+      background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
+      color: var(--color-primary);
     }
 
     .badge-secondary {
-      @apply bg-secondary/10 text-secondary;
+      background-color: color-mix(in oklab, var(--color-secondary) 10%, transparent);
+      color: var(--color-secondary);
     }
 
     .badge-success {
-      @apply bg-green-100 text-green-800;
+      background-color: var(--color-green-100);
+      color: var(--color-green-800);
     }
 
     .badge-warning {
-      @apply bg-yellow-100 text-yellow-800;
+      background-color: var(--color-yellow-100);
+      color: var(--color-yellow-800);
     }
 
     .badge-error {
-      @apply bg-red-100 text-red-800;
+      background-color: var(--color-red-100);
+      color: var(--color-red-800);
     }
 
     /* Content Styling */
-    .card-content {
-      @apply space-y-4;
+    .card-content > * + * {
+      margin-top: 1rem;
     }
 
     .card-description {
-      @apply text-muted-foreground text-sm leading-relaxed;
+      color: var(--color-muted-foreground);
+      font-size: 0.875rem;
+      line-height: 1.625;
     }
 
-    .card-body {
-      @apply space-y-3;
+    .card-body > * + * {
+      margin-top: 0.75rem;
     }
 
     /* Footer Styling */
     .card-footer {
-      @apply pt-4 border-t border-border/50 space-y-3;
+      padding-top: 1rem;
+      border-top: 1px solid color-mix(in oklab, var(--color-border) 50%, transparent);
+    }
+    .card-footer > * + * {
+      margin-top: 0.75rem;
     }
 
     .card-actions {
-      @apply flex flex-wrap gap-2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     .action-icon {
-      @apply w-4 h-4 mr-1.5;
+      width: 1rem;
+      height: 1rem;
+      margin-right: 0.375rem;
     }
 
     /* Action Button Variants */
     .action-primary {
-      @apply bg-primary text-white hover:bg-primary/90;
-      @apply px-3 py-1.5 rounded-md text-sm font-medium;
-      @apply transition-colors duration-200;
+      background-color: var(--color-primary);
+      color: #fff;
+      padding-inline: 0.75rem;
+      padding-block: 0.375rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      transition-property: color, background-color, border-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+    }
+    .action-primary:hover {
+      background-color: color-mix(in oklab, var(--color-primary) 90%, transparent);
     }
 
     .action-secondary {
-      @apply bg-secondary text-white hover:bg-secondary/90;
-      @apply px-3 py-1.5 rounded-md text-sm font-medium;
-      @apply transition-colors duration-200;
+      background-color: var(--color-secondary);
+      color: #fff;
+      padding-inline: 0.75rem;
+      padding-block: 0.375rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      transition-property: color, background-color, border-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+    }
+    .action-secondary:hover {
+      background-color: color-mix(in oklab, var(--color-secondary) 90%, transparent);
     }
 
     .action-outline {
-      @apply border border-border text-foreground hover:bg-muted;
-      @apply px-3 py-1.5 rounded-md text-sm font-medium;
-      @apply transition-colors duration-200;
+      border: 1px solid var(--color-border);
+      color: var(--color-foreground);
+      padding-inline: 0.75rem;
+      padding-block: 0.375rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      transition-property: color, background-color, border-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+    }
+    .action-outline:hover {
+      background-color: var(--color-muted);
     }
 
     .action-ghost {
-      @apply text-foreground hover:bg-muted;
-      @apply px-3 py-1.5 rounded-md text-sm font-medium;
-      @apply transition-colors duration-200;
+      color: var(--color-foreground);
+      padding-inline: 0.75rem;
+      padding-block: 0.375rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      transition-property: color, background-color, border-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+    }
+    .action-ghost:hover {
+      background-color: var(--color-muted);
     }
 
     .action-link {
-      @apply text-primary hover:text-primary/80 underline;
-      @apply px-1 py-0.5 text-sm font-medium;
-      @apply transition-colors duration-200;
+      color: var(--color-primary);
+      text-decoration-line: underline;
+      padding-inline: 0.25rem;
+      padding-block: 0.125rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      transition-property: color, background-color, border-color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+    }
+    .action-link:hover {
+      color: color-mix(in oklab, var(--color-primary) 80%, transparent);
     }
 
     /* Size Variants */
     .size-sm .card-title {
-      @apply text-base;
+      font-size: 1rem;
+      line-height: 1.5rem;
     }
 
     .size-sm .card-subtitle {
-      @apply text-xs;
+      font-size: 0.75rem;
+      line-height: 1rem;
     }
 
     .size-sm .card-icon {
-      @apply w-6 h-6;
+      width: 1.5rem;
+      height: 1.5rem;
     }
 
     .size-lg .card-title {
-      @apply text-xl;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
     }
 
     .size-lg .card-subtitle {
-      @apply text-base;
+      font-size: 1rem;
+      line-height: 1.5rem;
     }
 
     .size-lg .card-icon {
-      @apply w-10 h-10;
+      width: 2.5rem;
+      height: 2.5rem;
     }
 
     /* Hover Effects */
     .collapsible-card:hover .card-header-content {
-      @apply text-primary;
+      color: var(--color-primary);
     }
 
     /* Focus States */
     .collapsible-card:focus-within {
-      @apply ring-2 ring-primary ring-offset-2 rounded-lg;
+      border-radius: 0.5rem;
+      box-shadow:
+        0 0 0 2px var(--color-background),
+        0 0 0 4px var(--color-primary);
     }
 
     /* Disabled State */
     .disabled {
-      @apply opacity-50 pointer-events-none;
+      opacity: 0.5;
+      pointer-events: none;
     }
   `]
 })
