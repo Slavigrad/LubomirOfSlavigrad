@@ -1,14 +1,19 @@
 ---
-description: Read-only inspection of the Slavigrad CV Angular project. Produces a verified architecture map. Changes NO application code.
+description: Read-only inspection of the Angular 22 project. Produces a verified, up-to-date architecture map from the live codebase. Decision-independent — reflects the repo as it is now, not any ADR. Changes NO application code.
 agent: slavigrad-angular-architect
 ---
 
 # Slavigrad — Inspect Angular Architecture
 
-Inspect the Slavigrad CV Angular project architecture, focused on: {{topic}}
+Inspect the Angular 22 project architecture, focused on: {{topic}}
+(omit `{{topic}}` to map the whole app).
 
-Use the `slavigrad-angular-architect` agent. Work **read-only**. Before writing code,
-produce a trustworthy map of what actually exists.
+Use the `slavigrad-angular-architect` agent. Work **read-only**. Produce a trustworthy
+map of what **actually exists right now**. This command is universal and
+decision-independent: discover the structure, toolchain, and conventions from the live
+tree every run. Do not assume any migration, restructure, or ADR is done or pending —
+verify and report the present state. Treat anything under `ARCHIVE/` as historical
+context only, never as current fact.
 
 ## Hard rules
 
@@ -16,74 +21,45 @@ produce a trustworthy map of what actually exists.
 - The only file you may write is the output map (path below).
 - Verify every path with `glob`/`grep`/`read` before naming it. Do not invent files,
   routes, services, components, or symbols.
-- Separate **facts** (verified from the repo) from **recommendations** (your opinion).
+- Separate **facts** (verified from the repo now) from **recommendations** (your opinion).
   Label recommendations as such.
 - If you cannot verify something, mark it `UNKNOWN — needs human confirmation`. Never
   upgrade a guess to a fact.
-- Prefer existing project conventions over generic Angular advice.
+- Prefer existing project conventions over generic Angular advice. Measure against the
+  `angular-22-best-practices/` docs and flag deviations; do not silently rewrite them.
 
-## Verified ground truth (confirm, do not assume)
+## Discover the toolchain (do not assume it)
 
-These were established from the repo and project ADRs. Re-confirm each against the
-live tree; flag any drift:
+Read these and report the **actual** commands and config — never hardcode a runner or
+version from memory:
 
-- Angular **22.0.1** (all `@angular/*` at `^22.0.1` in `package.json`). Angular 22
-  migration is complete.
-- Build: `npm run build` (`ng build`, `@angular/build:application`). Output path base
-  `dist/LubomirOfSlavigrad/browser`.
-- Tests: `npm test` (`vitest run` via `@analogjs/vitest-angular` + jsDOM).
-- Lint: **wired** — `npm run lint` runs ESLint flat config (`eslint.config.js`) with
-  `angular-eslint` v22 and `@softarc/eslint-plugin-sheriff`. There is NO `ng lint`
-  architect in `angular.json`, but `npm run lint` works. Do NOT report lint as missing.
-- The app is two bounded contexts (cv, memoir) + shared + shell + lab — see
-  ADR-001/003. The current layout **is** domain-based (`src/app/domains/`). The
-  ADR-001 restructure is complete.
-- ADR-002 cleanups: speculative machinery deleted (signal-crud, change-notification,
-  validation engine, search, cloneCVData, etc.). Stats remain as authored static
-  content (curated claims, see ADR-002 §"Stats: fact vs. claim").
-- ADR-003 executed: lab domain exists with collapse-demo, modern-card, signal-form.
-  One item REMAINS OPEN: `modern-lifecycle` (ADR-003 verdict: DELETE) still exists at
-  `src/app/domains/lab/modern-lifecycle/`.
-- ADR-004 executed: SignalStateService, PerformanceService, BundleAnalyzerService,
-  CacheService deleted. ImageOptimizationService kept (unwired).
-- Sheriff (`sheriff.config.ts`) exists with domain modules defined but **permissive**
-  rules (`'*': '*'`). Report this as a gap.
-- ADRs are stored in `ARCHIVE/ADR/` (not `docs/adr/`).
+- `package.json` → the real `scripts` (build, test, lint, format, deploy) and the
+  `@angular/*` version range.
+- `angular.json` → builder, output path, prefix, schematic defaults.
+- `eslint.config.*` / `sheriff.config.*` → whether lint and boundary rules are wired,
+  and whether Sheriff rules are enforced or permissive.
+- Test config (e.g. `vitest.config.*`, `karma.conf.*`, or analog plugin) → which runner
+  is in use and how `npm test` actually runs.
+- `tsconfig*.json` → strictness and path aliases.
 
 ## Your job
 
-1. Inspect the repository structure (the real `src/` tree).
-2. Confirm real paths with `glob`/`grep`/`read`.
-3. Identify existing Angular patterns and name a concrete file for each.
-4. Identify analogous implementations before anyone suggests changes.
+1. Inspect the real `src/` tree and confirm every path with `glob`/`grep`/`read`.
+2. Identify the existing Angular patterns and name a concrete file for each.
+3. Identify analogous implementations before anyone suggests changes.
+4. Verify the dependency boundaries that the structure implies.
 5. Produce the technical map.
 
-Focus areas: app bootstrap & config; routing (real route file + every path);
-standalone components; the two domains' boundaries (do any CV files import memoir files
-or vice versa? — verify, this matters for ADR-001); component organization & naming;
-services & data access; the `CvDataService` signal/computed surface; models &
-interfaces; guards & interceptors (likely none — confirm); state management (signals);
-forms & validation; styling (Tailwind + glass design tokens + `src/styles.css`);
-test coverage (how many `.spec.ts` actually exist?); build & tooling.
-
-## Special verification task — stats-diff check (feeds ADR-002 #2)
-
-ADR-002 decided to **derive** computed stats and skill categories from data (single
-source of truth) and delete the static copies. Before that deletion is safe, we must
-know whether the static copies contain _curated_ values the derivation can't reproduce.
-
-Do this, read-only:
-
-1. Read `src/app/domains/cv/data/cv-data.ts` and capture the literal `stats` and
-   `skillCategories` values it provides.
-2. Read `generateComputedStats` and `groupSkillsByCategory` in
-   `src/app/domains/cv/data/cv-data.utils.ts` and determine, by tracing the logic
-   against the real data files (`experience-data.ts`, `projects-data.ts`,
-   `skills-data.ts`), what those functions WOULD produce.
-3. Report a field-by-field diff: for each stat/category field, `MATCH` (derivation
-   reproduces the static value — safe to derive) or `DIVERGE` (static value is curated,
-   e.g. "12+ years" vs a computed `11.3` — flag for human decision on label/format).
-4. Do NOT change anything. This is evidence for future cleanup decisions.
+Focus areas: app bootstrap & config; change-detection setup (zoneless vs
+`provideZoneChangeDetection`); routing (real route file + every path); standalone
+components; domain/layer structure under `src/app/` and whether boundaries hold (do any
+domains import each other? does `shared` import a domain? is `feature → ui → data → util`
+respected? — verify with grep, report crossings as facts); component organization &
+naming vs the v22 style guide; services & data access; each service's public
+signal/computed/method surface (note members with no consumer); models & interfaces;
+guards & interceptors; state management (signals/computed/effects); forms & validation;
+styling (design tokens, Tailwind, global styles, component styles); test coverage (how
+many `.spec.ts` actually exist and where?); build & tooling.
 
 ## Output
 
@@ -112,19 +88,26 @@ Bootstrap, app.config, app.ts shell.
 
 ## Routing
 
-Real route file; every path and what it loads.
+Real route file; every path and what it loads (lazy vs eager).
 
-## Bounded Context Boundaries (ADR-001 check)
+## Domain & Layer Structure
 
-CV files, memoir files, and whether any import crosses between them. Facts only.
+The real top-level layout under `src/app/` (domains, shell, shared, etc.) and the layers
+inside each domain.
+
+## Dependency Boundaries
+
+Whether domains import each other, whether `shared` imports a domain, and whether the
+`feature → ui → data → util` layer order holds. Facts only, with paths. Note whether
+Sheriff is wired and enforced or permissive.
 
 ## Components
 
-Organization, naming, smart/dumb split if any.
+Organization, naming (vs the v22 style guide), smart/dumb split if any.
 
 ## Services and Data Access
 
-Services; the CvDataService signal/computed API surface.
+Each service and its public signal/computed/method surface; note members with no consumer.
 
 ## Models and Interfaces
 
@@ -132,27 +115,23 @@ DTOs/interfaces/types and where they live.
 
 ## State Management
 
-Signals/computed/effects usage.
+Signals/computed/effects usage; change-detection setup (zoneless vs zone-based).
 
 ## Forms and Validation
 
-What exists today.
+What exists today (Signal Forms / Reactive / template-driven).
 
 ## Styling
 
-Tailwind, glass tokens, styles.css, component styles.
+Design tokens, Tailwind, global styles, component styles.
 
 ## Tests
 
-Actual count and location of .spec.ts files; coverage gaps.
+Actual count and location of `.spec.ts` files; coverage gaps.
 
 ## Build and Tooling
 
-Angular version, scripts, the lint gap, output path.
-
-## Stats-Diff Check (ADR-002 #2)
-
-Field-by-field MATCH/DIVERGE table for stats and skillCategories.
+The real Angular version, scripts, runner, linter, output path — as read from config.
 
 ## Existing Patterns To Reuse
 
@@ -162,6 +141,10 @@ Concrete examples from real files.
 
 Where future work can attach.
 
+## Deviations From angular-22-best-practices
+
+Anything that diverges from the project's v22 conventions, with the rule and file cited.
+
 ## Risks and Unknowns
 
 Anything unverified or surprising.
@@ -169,19 +152,12 @@ Anything unverified or surprising.
 ## Do Not Touch Yet
 
 Areas needing explicit approval before change.
-
-## Open ADR Items
-
-- modern-lifecycle (ADR-003: DELETE) still present in lab
-- Sheriff rules permissive (not enforced)
-- ImageOptimizationService (ADR-004: KEEP) present but unwired
-- Zoneless migration pending (currently uses provideZoneChangeDetection)
 ```
 
 ## Definition of done
 
 - Map written; every path in it is real.
-- Bounded-context import check answered with facts.
-- Stats-diff table complete.
-- Open ADR items reported.
+- Toolchain reported from actual config (not assumed).
+- Dependency-boundary check answered with facts.
+- Deviations from the v22 conventions listed with citations.
 - No application file modified (`git status` clean except the map).
