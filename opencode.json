@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "slavigrad-memoir": {
+      "type": "local",
+      "command": ["node", "tools/mcp/slavigrad-memoir-mcp/src/index.mjs"],
+      "enabled": true
+    }
+  }
+}
