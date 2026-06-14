@@ -28,11 +28,16 @@
   <!-- Navigation Bar (Future Enhancement) -->
   <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border/20">
     <div class="container mx-auto px-6 py-4">
-      <div class="flex items-center justify-between">
+      <div class="relative flex items-center justify-between">
         <div class="flex items-center gap-6">
-          <div class="text-xl font-bold gradient-text">
+          <!-- Home link - site title -->
+          <a
+            routerLink="/"
+            aria-label="Go to home"
+            class="text-xl font-bold gradient-text transition-all duration-300 hover:scale-105 hover:opacity-90"
+          >
             Lubomir of Slavigrad
-          </div>
+          </a>
           <!-- Egypt Story Button -->
           <a
             routerLink="/egypt-story"
@@ -57,6 +62,20 @@
             </span>
           </a>
         </div>
+
+        <!-- Center Logo - clickable to home -->
+        <a
+          routerLink="/"
+          aria-label="Go to home"
+          class="group shrink-0"
+        >
+          <img
+            src="/assets/images/slavigrad-logo.png"
+            alt="Slavigrad Logo"
+            class="h-12 w-auto drop-shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_14px_rgba(255,255,255,0.45)]"
+          />
+        </a>
+
         <div class="hidden md:flex space-x-6 text-sm">
           <a href="#hero" class="text-muted-foreground hover:text-primary transition-colors">The Citadel</a>
           <a href="#skills" class="text-muted-foreground hover:text-primary transition-colors">The Library of Skills</a>
