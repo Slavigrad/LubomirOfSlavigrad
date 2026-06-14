@@ -1,0 +1,242 @@
+{
+  "SHARED": {
+    "ARIA": {
+      "CLEAR_INPUT": "Eingabe löschen",
+      "CLEAR_TEXTAREA": "Textbereich löschen",
+      "CLOSE": "Schließen",
+      "REMOVE": "Entfernen"
+    },
+    "BUTTON": {
+      "CANCEL": "Abbrechen",
+      "CLOSE": "Schließen",
+      "COLLAPSE": "Einklappen",
+      "COLLAPSE_ALL": "Alle einklappen",
+      "EXPAND": "Ausklappen",
+      "EXPAND_ALL": "Alle ausklappen",
+      "HIDE": "Ausblenden",
+      "READ": "Lesen",
+      "SHOW": "Anzeigen"
+    },
+    "INDUSTRY": {
+      "AUTOMOTIVE": "Automobilindustrie",
+      "COMPUTER_VISION": "Computer Vision",
+      "ENTERPRISE_APPLICATION_INTEGRATION": "Unternehmensanwendungsintegration",
+      "FINANCE": "Finanzwesen",
+      "FINTECH": "FinTech",
+      "HEALTHCARE": "Gesundheitswesen",
+      "INFOTAINMENT": "Infotainment",
+      "MOBILE_APPLICATION_DEVELOPMENT": "Mobile App-Entwicklung",
+      "OTHER": "Andere",
+      "PUBLIC_INFRASTRUCTURE": "Öffentliche Infrastruktur",
+      "TELECOMMUNICATIONS": "Telekommunikation",
+      "THREE_D_GRAPHICS": "3D-Grafik",
+      "VOIP": "VoIP"
+    }
+  },
+  "APP": {
+    "FOOTER": {
+      "BRAND": "Chroniken von Lubomir aus Slavigrad",
+      "COPYRIGHT": "© {{year}} Lubomir Dobrovodsky. Erstellt mit Angular {{version}} & Tailwind CSS.",
+      "POWERED_BY": "Angetrieben von modernen Webtechnologien und futuristischen Designprinzipien.",
+      "TAGLINE": "Wo Code und Legende in der digitalen Welt verschmelzen"
+    },
+    "NAV": {
+      "EGYPT_STORY": "Ich wanderte durch Ägypten",
+      "GO_TO_HOME": "Zur Startseite",
+      "LANGUAGE": {
+        "LABEL": "Sprache auswählen"
+      },
+      "LINK_CITADEL": "Die Zitadelle",
+      "LINK_CONTACT": "Kammer des Orakels",
+      "LINK_EXPERIENCE": "Halle der Aufzeichnungen",
+      "LINK_PROJECTS": "Marktplatz",
+      "LINK_SKILLS": "Die Bibliothek der Fertigkeiten",
+      "LOGO_ALT": "Slavigrad-Logo",
+      "SITE_TITLE": "Lubomir aus Slavigrad"
+    }
+  },
+  "ERROR": {
+    "NOT_FOUND": {
+      "BODY": "Der Pfad, den Sie suchen, existiert in den Chroniken von Slavigrad nicht. Vielleicht kann das Orakel Sie in vertrautes Terrain zurückführen.",
+      "CODEX_SUBTITLE": "Fertigkeiten & Arsenal",
+      "CODEX_TITLE": "Der Kodex",
+      "EXPLORE_TITLE": "Oder erkunden Sie diese mystischen Welten:",
+      "MARKET_SUBTITLE": "Projekte & Demos",
+      "MARKET_TITLE": "Marktplatz",
+      "ORACLE_SUBTITLE": "Kontakt aufnehmen",
+      "ORACLE_TITLE": "Kammer des Orakels",
+      "RECORDS_SUBTITLE": "Beruflicher Werdegang",
+      "RECORDS_TITLE": "Halle der Aufzeichnungen",
+      "RETURN_HOME": "Zurück zur Zitadelle",
+      "TITLE": "Verloren in der digitalen Welt"
+    }
+  },
+  "CV": {
+    "HERO": {
+      "ARIA": {
+        "EMAIL": "E-Mail senden",
+        "GITHUB": "GitHub-Profil",
+        "LINKEDIN": "LinkedIn-Profil",
+        "SCROLL_NEXT": "Zum nächsten Bereich scrollen",
+        "WEBSITE": "Persönliche Website"
+      },
+      "CHOOSE_TEMPLATE": "Vorlage auswählen",
+      "CORE_TECHNOLOGIES": "Kerntechnologien:",
+      "DOWNLOAD_CV": "Lebenslauf herunterladen",
+      "DOWNLOAD_FULL_PORTFOLIO": "Vollständiges Portfolio herunterladen",
+      "EYEBROW": "Slavigrad-Chroniken",
+      "GENERATE_PDF": "PDF generieren",
+      "GENERATING_PDF": "PDF wird generiert...",
+      "GET_IN_TOUCH": "Kontakt aufnehmen",
+      "PDF_CONFIGURATION": "PDF-Konfiguration"
+    },
+    "CONTACT": {
+      "ARIA": {
+        "GITHUB": "GitHub-Profil",
+        "LINKEDIN": "LinkedIn-Profil",
+        "WEBSITE": "Persönliche Website"
+      },
+      "BUTTON": {
+        "SEND": "Nachricht senden",
+        "SENDING": "Wird gesendet..."
+      },
+      "CONNECT_TITLE": "Verbinden Sie sich mit mir",
+      "EYEBROW": "Kontakt aufnehmen",
+      "FORM_TITLE": "Senden Sie mir hier keine Nachricht",
+      "HEADING": "Lassen Sie uns etwas aufbauen",
+      "INFO_TITLE": "Kontaktinformationen",
+      "LABEL": {
+        "EMAIL": "E-Mail",
+        "LOCATION": "Standort",
+        "MESSAGE": "Nachricht",
+        "NAME": "Name",
+        "PHONE": "Telefon",
+        "SUBJECT": "Betreff"
+      },
+      "PLACEHOLDER": {
+        "EMAIL": "ihre.email@example.com",
+        "MESSAGE": "LinkedIn wird für berufliche Kontakte bevorzugt. Dieses E-Mail-Formular ist inaktiv.",
+        "NAME": "Ihr vollständiger Name wird nicht benötigt",
+        "SUBJECT": "Spielt das eine Rolle?"
+      },
+      "SECTION_SUBTITLE": "Bereit für die Zusammenarbeit an Ihrem nächsten Projekt? Lassen Sie uns besprechen, wie wir zusammenarbeiten können",
+      "SECTION_TITLE": "Kontakt aufnehmen",
+      "SUCCESS": "Vielen Dank für Ihre Nachricht! Es wurde eigentlich nichts gesendet.",
+      "VALIDATION": {
+        "EMAIL_REQUIRED": "Eine gültige E-Mail-Adresse ist erforderlich",
+        "MESSAGE_REQUIRED": "Nachricht ist erforderlich",
+        "NAME_REQUIRED": "Name ist erforderlich",
+        "SUBJECT_REQUIRED": "Betreff ist erforderlich"
+      }
+    },
+    "EXPERIENCE": {
+      "ARIA": { "VIEW_DETAILS": "Details anzeigen" },
+      "EYEBROW": "Karriere",
+      "HEADING": {
+        "ACHIEVEMENTS": "Erfolge",
+        "DESCRIPTION": "Beschreibung",
+        "PROJECTS": "Projekte",
+        "RESPONSIBILITIES": "Verantwortlichkeiten",
+        "TECHNOLOGIES": "Technologien"
+      },
+      "LABEL": {
+        "CURRENT": "Aktuell",
+        "PRESENT": "Heute",
+        "TEAM": "Team"
+      },
+      "SECTION_TITLE": "Berufserfahrung",
+      "SUMMARY": {
+        "COMPANIES_WORKED": "Unternehmen",
+        "PROJECTS_DELIVERED": "Gelieferte Projekte",
+        "TECHNOLOGIES_USED": "Verwendete Technologien",
+        "YEARS_OF_EXPERIENCE": "Jahre an Erfahrung"
+      },
+      "SUMMARY_LINE": "Eine Reise durch innovative Projekte und technische Führungsrollen"
+    },
+    "STATS": {
+      "ARIA": {
+        "OPEN_DETAILS": "Details für {{title}} öffnen"
+      },
+      "DESCRIPTION": {
+        "INDUSTRIES_COVERED": "Telekommunikation, FinTech, Automobilindustrie, Gesundheitswesen, Infotainment, öffentliche Infrastruktur & Transport",
+        "PROJECTS_DELIVERED": "Erfolgreich gelieferte Projekte vom Konzept bis zur Produktion",
+        "SECTION_SUBTITLE": "Wichtige Erfolge und Meilensteine auf meinem Weg der Softwareentwicklung",
+        "TECHNOLOGIES_MASTERED": "Moderne Frameworks, Sprachen und Entwicklungswerkzeuge",
+        "YEARS_EXPERIENCE": "Professionelle Softwareentwicklungserfahrung in verschiedenen Bereichen"
+      },
+      "EYEBROW": "In Zahlen",
+      "INDUSTRY_SUMMARY": "Unternehmen: {{companies}}, Erfahrungen: {{experiences}} und Projekte: {{projects}}",
+      "LABEL": {
+        "COMPANY_PROJECTS": "Erfahrungsprojekte nach Unternehmen",
+        "EXPERIENCE_PROJECTS": "Erfahrungsprojekte",
+        "PORTFOLIO_PROJECTS": "Portfolio-Projekte",
+        "PROJECTS_DEDUPE_NOTE": "Projekte mit ähnlichen Namen werden für die Gesamtsumme nur einmal gezählt."
+      },
+      "MODAL": {
+        "EXPERIENCE_BREAKDOWN": "Aufschlüsselung der Erfahrung",
+        "PROJECTS_BREAKDOWN": "Aufschlüsselung der Projekte",
+        "TECHNOLOGIES_BREAKDOWN": "Aufschlüsselung der Technologien"
+      },
+      "SECTION": {
+        "CAREER_HIGHLIGHTS": "Karriere-Highlights",
+        "PROFESSIONAL_METRICS": "Professionelle Kennzahlen"
+      },
+      "TITLE": {
+        "INDUSTRIES_COVERED": "Abgedeckte Branchen",
+        "PROJECTS_DELIVERED": "Gelieferte Projekte",
+        "TECHNOLOGIES_ADAPTED": "Angepasste Technologien",
+        "YEARS_EXPERIENCE": "Jahre an Erfahrung"
+      },
+      "UNIT": {
+        "YEARS": "Jahre"
+      }
+    }
+  },
+  "MEMOIR": {
+    "NAV": {
+      "BACK_TO_TOP": "Nach oben",
+      "CHAPTERS": "Kapitel",
+      "SCROLL_TO_TOP": "Nach oben scrollen"
+    },
+    "SHARE": {
+      "ARIA": {
+        "COPY": "Link kopieren",
+        "FACEBOOK": "Auf Facebook teilen",
+        "LINKEDIN": "Auf LinkedIn teilen",
+        "TWITTER": "Auf Twitter teilen"
+      },
+      "COPIED": "Kopiert!",
+      "COPY_LINK": "Link kopieren",
+      "NETWORK": {
+        "FACEBOOK": "Facebook",
+        "LINKEDIN": "LinkedIn",
+        "TWITTER": "Twitter"
+      },
+      "TITLE": "Diese Geschichte teilen",
+      "TOAST": "Link in die Zwischenablage kopiert!"
+    },
+    "STORY": {
+      "CHAPTERS_COUNT": "{{count}} Kapitel",
+      "READING_TIME": "{{minutes}} Min. Lesezeit",
+      "RETURN_HOME": "Zur Startseite zurückkehren",
+      "RETURN_TO_CITADEL": "Zur Zitadelle zurückkehren"
+    }
+  },
+  "LAB": {
+    "FORM": {
+      "FIX_ERRORS": "Bitte beheben Sie die obigen Fehler",
+      "RESET": "Zurücksetzen",
+      "SELECT_OPTION": "Option auswählen",
+      "SUBMIT": "Absenden",
+      "SUBMIT_ERROR": "Beim Absenden des Formulars ist ein Fehler aufgetreten",
+      "SUBMIT_SUCCESS": "Formular erfolgreich abgesendet!",
+      "VALIDATION": {
+        "EMAIL": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+        "MAX_LENGTH": "Die maximale Länge beträgt {{max}} Zeichen",
+        "MIN_LENGTH": "Die minimale Länge beträgt {{min}} Zeichen",
+        "PATTERN": "Bitte geben Sie ein gültiges Format ein",
+        "REQUIRED": "{{field}} ist erforderlich"
+      }
+    }
+  }
+}

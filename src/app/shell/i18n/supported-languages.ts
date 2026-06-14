@@ -16,6 +16,7 @@ export interface SupportedLanguage {
 export const SUPPORTED_LANGUAGES: readonly SupportedLanguage[] = [
   { code: 'en', label: 'EN' },
   { code: 'sk', label: 'SK' },
+  { code: 'de', label: 'DE' },
 ] as const;
 
 /** The language used on first load and as the fallback. */
