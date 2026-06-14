@@ -25,7 +25,7 @@ export interface ImageMetrics {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ImageOptimizationService {
   private readonly _config = signal<ImageOptimizationConfig>({
@@ -34,7 +34,7 @@ export class ImageOptimizationService {
     enableCompression: true,
     quality: 85,
     enableLazyLoading: true,
-    enablePreloading: false
+    enablePreloading: false,
   });
 
   private readonly _metrics = signal<Map<string, ImageMetrics>>(new Map());
@@ -52,13 +52,18 @@ export class ImageOptimizationService {
    * Generate optimized image URL with format and quality parameters
    */
   getOptimizedImageUrl(
-    originalUrl: string, 
-    width?: number, 
+    originalUrl: string,
+    width?: number,
     height?: number,
-    quality?: number
+    quality?: number,
   ): string {
+    // Only apply CDN-style transformations to absolute URLs
+    if (!originalUrl.startsWith('http://') && !originalUrl.startsWith('https://')) {
+      return originalUrl;
+    }
+
     const config = this._config();
-    
+
     // If WebP is supported and enabled, convert format
     if (config.enableWebP && this.webpSupported) {
       originalUrl = this.convertToWebP(originalUrl);
@@ -80,10 +85,7 @@ export class ImageOptimizationService {
   /**
    * Generate responsive image srcset
    */
-  generateResponsiveSrcSet(
-    baseUrl: string,
-    config: ResponsiveImageConfig
-  ): string {
+  generateResponsiveSrcSet(baseUrl: string, config: ResponsiveImageConfig): string {
     const srcsetEntries: string[] = [];
 
     config.breakpoints.forEach((width, index) => {
@@ -110,7 +112,7 @@ export class ImageOptimizationService {
       link.rel = 'preload';
       link.as = 'image';
       link.href = url;
-      
+
       if (priority === 'high') {
         link.setAttribute('fetchpriority', 'high');
       }
@@ -126,10 +128,10 @@ export class ImageOptimizationService {
    * Compress image using canvas
    */
   compressImage(
-    file: File, 
+    file: File,
     quality: number = 0.8,
     maxWidth?: number,
-    maxHeight?: number
+    maxHeight?: number,
   ): Promise<Blob> {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement('canvas');
@@ -139,12 +141,12 @@ export class ImageOptimizationService {
       img.onload = () => {
         // Calculate dimensions
         let { width, height } = img;
-        
+
         if (maxWidth && width > maxWidth) {
           height = (height * maxWidth) / width;
           width = maxWidth;
         }
-        
+
         if (maxHeight && height > maxHeight) {
           width = (width * maxHeight) / height;
           height = maxHeight;
@@ -155,7 +157,7 @@ export class ImageOptimizationService {
 
         // Draw and compress
         ctx?.drawImage(img, 0, 0, width, height);
-        
+
         canvas.toBlob(
           (blob) => {
             if (blob) {
@@ -165,7 +167,7 @@ export class ImageOptimizationService {
             }
           },
           'image/jpeg',
-          quality
+          quality,
         );
       };
 
@@ -184,19 +186,19 @@ export class ImageOptimizationService {
 
       img.onload = () => {
         const loadTime = performance.now() - startTime;
-        
+
         const metrics: ImageMetrics = {
           loadTime,
           fileSize: this.estimateFileSize(img),
           format: this.detectImageFormat(url),
           dimensions: {
             width: img.naturalWidth,
-            height: img.naturalHeight
-          }
+            height: img.naturalHeight,
+          },
         };
 
         // Store metrics
-        this._metrics.update(current => {
+        this._metrics.update((current) => {
           const newMap = new Map(current);
           newMap.set(url, metrics);
           return newMap;
@@ -235,7 +237,7 @@ export class ImageOptimizationService {
    * Update configuration
    */
   updateConfig(config: Partial<ImageOptimizationConfig>): void {
-    this._config.update(current => ({ ...current, ...config }));
+    this._config.update((current) => ({ ...current, ...config }));
     saveSignalConfig(this._config, 'image-optimization-config');
   }
 
@@ -245,11 +247,14 @@ export class ImageOptimizationService {
       return;
     }
 
-    const canvas = document.createElement('canvas');
-    canvas.width = 1;
-    canvas.height = 1;
-    
-    this.webpSupported = canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = 1;
+      this.webpSupported = canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    } catch {
+      this.webpSupported = false;
+    }
   }
 
   private convertToWebP(url: string): string {
@@ -266,10 +271,10 @@ export class ImageOptimizationService {
   private addDimensionParams(url: string, width?: number, height?: number): string {
     const separator = url.includes('?') ? '&' : '?';
     const params: string[] = [];
-    
+
     if (width) params.push(`w=${width}`);
     if (height) params.push(`h=${height}`);
-    
+
     return params.length > 0 ? `${url}${separator}${params.join('&')}` : url;
   }
 

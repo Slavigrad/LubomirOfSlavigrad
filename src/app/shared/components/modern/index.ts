@@ -5,20 +5,16 @@
 
 // Modern signal-based components
 export { ModernCardComponent } from '../modern-card/modern-card.component';
-export { SignalFormComponent, type FormField, type FormData, type FormErrors } from '../signal-form/signal-form.component';
+export {
+  SignalFormComponent,
+  type FormField,
+  type FormData,
+  type FormErrors,
+} from '../signal-form/signal-form.component';
 export { ModernLifecycleComponent } from '../modern-lifecycle/modern-lifecycle.component';
-
-// Modern signal models and utilities
-export * from '../../models/signal-models';
-
-// Modern signal-based services
-export { SignalStateService } from '../../services/signal-state.service';
 
 // Modern directives
 export { LazyImageDirective, LazyBackgroundDirective } from '../../directives/lazy-image.directive';
-
-// Modern performance components
-export { PerformanceMonitorComponent } from '../performance-monitor/performance-monitor.component';
 
 /**
  * Collection of all modern Angular components for easy importing
@@ -27,23 +23,17 @@ export const MODERN_COMPONENTS = [
   'ModernCardComponent',
   'SignalFormComponent',
   'ModernLifecycleComponent',
-  'PerformanceMonitorComponent'
 ] as const;
 
 /**
  * Collection of all modern Angular directives for easy importing
  */
-export const MODERN_DIRECTIVES = [
-  'LazyImageDirective',
-  'LazyBackgroundDirective'
-] as const;
+export const MODERN_DIRECTIVES = ['LazyImageDirective', 'LazyBackgroundDirective'] as const;
 
 /**
  * Collection of all modern Angular services for easy importing
  */
-export const MODERN_SERVICES = [
-  'SignalStateService'
-] as const;
+export const MODERN_SERVICES = [] as const;
 
 /**
  * All modern Angular features combined
@@ -51,16 +41,16 @@ export const MODERN_SERVICES = [
 export const MODERN_ANGULAR_FEATURES = [
   ...MODERN_COMPONENTS,
   ...MODERN_DIRECTIVES,
-  ...MODERN_SERVICES
+  ...MODERN_SERVICES,
 ] as const;
 
 /**
  * Type definitions for modern Angular features
  */
-export type ModernComponent = typeof MODERN_COMPONENTS[number];
-export type ModernDirective = typeof MODERN_DIRECTIVES[number];
-export type ModernService = typeof MODERN_SERVICES[number];
-export type ModernAngularFeature = typeof MODERN_ANGULAR_FEATURES[number];
+export type ModernComponent = (typeof MODERN_COMPONENTS)[number];
+export type ModernDirective = (typeof MODERN_DIRECTIVES)[number];
+export type ModernService = (typeof MODERN_SERVICES)[number];
+export type ModernAngularFeature = (typeof MODERN_ANGULAR_FEATURES)[number];
 
 /**
  * Utility function to check if a feature is a modern Angular component
@@ -79,8 +69,8 @@ export function isModernDirective(feature: any): feature is ModernDirective {
 /**
  * Utility function to check if a feature is a modern Angular service
  */
-export function isModernService(feature: any): feature is ModernService {
-  return MODERN_SERVICES.includes(feature);
+export function isModernService(_feature: any): _feature is ModernService {
+  return false;
 }
 
 /**
@@ -186,9 +176,9 @@ export const ModernAngularUtils = {
     return {
       isModern,
       features,
-      recommendations
+      recommendations,
     };
-  }
+  },
 };
 
 /**
@@ -209,7 +199,7 @@ export const ModernAngularBestPractices = {
     useEffectsSparingly: 'Use effect() only for side effects, not for derived state',
 
     // Prefer signal inputs over @Input
-    preferSignalInputs: 'Use signal-based inputs for better type safety and reactivity'
+    preferSignalInputs: 'Use signal-based inputs for better type safety and reactivity',
   },
 
   /**
@@ -226,7 +216,7 @@ export const ModernAngularBestPractices = {
     useInjectFunction: 'Use inject() function instead of constructor injection',
 
     // Use new control flow
-    useNewControlFlow: 'Use @if, @for, @switch instead of *ngIf, *ngFor, *ngSwitch'
+    useNewControlFlow: 'Use @if, @for, @switch instead of *ngIf, *ngFor, *ngSwitch',
   },
 
   /**
@@ -243,7 +233,7 @@ export const ModernAngularBestPractices = {
     minimizeEffectUsage: 'Use effects only when necessary, prefer computed signals',
 
     // Use async pipe
-    useAsyncPipe: 'Use async pipe for observables in templates'
+    useAsyncPipe: 'Use async pipe for observables in templates',
   },
 
   /**
@@ -260,8 +250,8 @@ export const ModernAngularBestPractices = {
     testAccessibility: 'Include accessibility testing in component tests',
 
     // Test performance
-    testPerformance: 'Include performance tests for critical components'
-  }
+    testPerformance: 'Include performance tests for critical components',
+  },
 };
 
 /**
@@ -272,5 +262,5 @@ export default {
   directives: MODERN_DIRECTIVES,
   services: MODERN_SERVICES,
   utils: ModernAngularUtils,
-  bestPractices: ModernAngularBestPractices
+  bestPractices: ModernAngularBestPractices,
 };

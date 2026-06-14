@@ -7,8 +7,9 @@ import {
   Renderer2,
   signal,
   effect,
-  inject
+  inject,
 } from '@angular/core';
+import { ImageOptimizationService } from '../services/image-optimization.service';
 
 export interface LazyImageConfig {
   placeholder?: string;
@@ -21,7 +22,7 @@ export interface LazyImageConfig {
 }
 
 @Directive({
-  selector: '[appLazyImage]'
+  selector: '[appLazyImage]',
 })
 export class LazyImageDirective implements OnInit, OnDestroy {
   readonly appLazyImage = input.required<string>(); // Image source URL
@@ -40,6 +41,7 @@ export class LazyImageDirective implements OnInit, OnDestroy {
 
   private readonly elementRef = inject(ElementRef<HTMLImageElement>);
   private readonly renderer = inject(Renderer2);
+  private readonly imageOptimization = inject(ImageOptimizationService);
 
   constructor() {
     // Apply loading effects
@@ -81,7 +83,7 @@ export class LazyImageDirective implements OnInit, OnDestroy {
     // Set up intersection observer
     this.observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             this.loadImage();
             this.observer?.unobserve(img);
@@ -90,8 +92,8 @@ export class LazyImageDirective implements OnInit, OnDestroy {
       },
       {
         threshold: this.lazyThreshold(),
-        rootMargin: this.lazyRootMargin()
-      }
+        rootMargin: this.lazyRootMargin(),
+      },
     );
 
     this.observer.observe(img);
@@ -117,7 +119,7 @@ export class LazyImageDirective implements OnInit, OnDestroy {
     // Create a simple SVG placeholder
     const width = this.elementRef.nativeElement.width || 300;
     const height = this.elementRef.nativeElement.height || 200;
-    
+
     const svg = `
       <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
         <rect width="100%" height="100%" fill="#f3f4f6"/>
@@ -126,14 +128,15 @@ export class LazyImageDirective implements OnInit, OnDestroy {
         </text>
       </svg>
     `;
-    
+
     return `data:image/svg+xml;base64,${btoa(svg)}`;
   }
 
   private loadImage(): void {
     const img = this.elementRef.nativeElement;
     const actualImage = new Image();
-    const imageUrl = this.appLazyImage();
+    const rawUrl = this.appLazyImage();
+    const imageUrl = this.imageOptimization.getOptimizedImageUrl(rawUrl);
 
     // Set up load handlers
     actualImage.onload = () => {
@@ -201,7 +204,7 @@ export class LazyImageDirective implements OnInit, OnDestroy {
   private generateErrorPlaceholder(): string {
     const width = this.elementRef.nativeElement.width || 300;
     const height = this.elementRef.nativeElement.height || 200;
-    
+
     const svg = `
       <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
         <rect width="100%" height="100%" fill="#fef2f2"/>
@@ -210,7 +213,7 @@ export class LazyImageDirective implements OnInit, OnDestroy {
         </text>
       </svg>
     `;
-    
+
     return `data:image/svg+xml;base64,${btoa(svg)}`;
   }
 }
@@ -219,7 +222,7 @@ export class LazyImageDirective implements OnInit, OnDestroy {
  * Lazy loading directive for background images
  */
 @Directive({
-  selector: '[appLazyBackground]'
+  selector: '[appLazyBackground]',
 })
 export class LazyBackgroundDirective implements OnInit, OnDestroy {
   readonly appLazyBackground = input.required<string>();
@@ -246,7 +249,7 @@ export class LazyBackgroundDirective implements OnInit, OnDestroy {
 
     this.observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             this.loadBackgroundImage();
             this.observer?.unobserve(element);
@@ -255,8 +258,8 @@ export class LazyBackgroundDirective implements OnInit, OnDestroy {
       },
       {
         threshold: this.lazyThreshold(),
-        rootMargin: this.lazyRootMargin()
-      }
+        rootMargin: this.lazyRootMargin(),
+      },
     );
 
     this.observer.observe(element);
@@ -268,11 +271,7 @@ export class LazyBackgroundDirective implements OnInit, OnDestroy {
     const bgUrl = this.appLazyBackground();
 
     img.onload = () => {
-      this.renderer.setStyle(
-        element,
-        'background-image',
-        `url(${bgUrl})`
-      );
+      this.renderer.setStyle(element, 'background-image', `url(${bgUrl})`);
       this.renderer.addClass(element, 'lazy-bg-loaded');
     };
 

@@ -36,7 +36,7 @@ export {
   type FormVariantProps,
   type BadgeVariantProps,
   type CardVariantProps,
-  type CollapseVariantProps
+  type CollapseVariantProps,
 } from './variant-definitions';
 
 // ============================================================================
@@ -71,14 +71,8 @@ export {
   type ResponsiveVariant,
   type ThemeVariant,
   type AnimationCompoundVariant,
-  type A11yCompoundVariant
+  type A11yCompoundVariant,
 } from './compound-variants';
-
-// ============================================================================
-// INTERVAL MANAGER
-// ============================================================================
-
-export { IntervalManager } from './interval-manager';
 
 // ============================================================================
 // ANIMATION UTILITIES
@@ -97,7 +91,7 @@ export {
   // Type exports
   type AnimationOptions,
   type ScrollAnimationConfig,
-  type InteractiveAnimationConfig
+  type InteractiveAnimationConfig,
 } from './animations';
 
 // ============================================================================
@@ -108,10 +102,7 @@ export {
  * Utility function to merge variant classes with custom classes
  * Ensures proper class precedence and deduplication
  */
-export function mergeVariantClasses(
-  variantClasses: string,
-  customClasses?: string
-): string {
+export function mergeVariantClasses(variantClasses: string, customClasses?: string): string {
   if (!customClasses) return variantClasses;
 
   // Simple concatenation - clsx will handle deduplication
@@ -124,7 +115,7 @@ export function mergeVariantClasses(
 export function conditionalVariant(
   condition: boolean,
   trueVariant: string,
-  falseVariant: string = ''
+  falseVariant: string = '',
 ): string {
   return condition ? trueVariant : falseVariant;
 }
@@ -134,7 +125,7 @@ export function conditionalVariant(
  */
 export function responsiveSize(
   baseSize: 'sm' | 'md' | 'lg',
-  mobileSize?: 'sm' | 'md' | 'lg'
+  mobileSize?: 'sm' | 'md' | 'lg',
 ): string {
   if (!mobileSize) return baseSize;
   return `${mobileSize} md:${baseSize}`;
@@ -153,7 +144,7 @@ export function createFocusClasses(variant: string): string {
     error: 'focus:ring-red-500 focus:border-red-500',
     outline: 'focus:ring-primary focus:border-primary',
     ghost: 'focus:ring-primary focus:border-primary',
-    glass: 'focus:ring-white/50 focus:border-white/50'
+    glass: 'focus:ring-white/50 focus:border-white/50',
   };
 
   return focusMap[variant] || focusMap['primary'];
@@ -172,7 +163,7 @@ export function createHoverClasses(variant: string): string {
     error: 'hover:bg-red-600',
     outline: 'hover:bg-muted',
     ghost: 'hover:bg-muted',
-    glass: 'hover:bg-white/20'
+    glass: 'hover:bg-white/20',
   };
 
   return hoverMap[variant] || hoverMap['primary'];
@@ -205,7 +196,7 @@ export const TRANSITIONS = {
   slow: 'transition-all duration-300 ease-in-out',
   colors: 'transition-colors duration-200 ease-in-out',
   transform: 'transition-transform duration-200 ease-in-out',
-  opacity: 'transition-opacity duration-200 ease-in-out'
+  opacity: 'transition-opacity duration-200 ease-in-out',
 } as const;
 
 /**
@@ -218,7 +209,7 @@ export const SHADOWS = {
   xl: 'shadow-xl',
   '2xl': 'shadow-2xl',
   inner: 'shadow-inner',
-  none: 'shadow-none'
+  none: 'shadow-none',
 } as const;
 
 /**
@@ -231,7 +222,7 @@ export const BORDER_RADIUS = {
   lg: 'rounded-lg',
   xl: 'rounded-xl',
   '2xl': 'rounded-2xl',
-  full: 'rounded-full'
+  full: 'rounded-full',
 } as const;
 
 /**
@@ -242,7 +233,7 @@ export const SPACING = {
   sm: 'p-2',
   md: 'p-4',
   lg: 'p-6',
-  xl: 'p-8'
+  xl: 'p-8',
 } as const;
 
 // ============================================================================
@@ -273,8 +264,6 @@ export {
   type NoiseType,
   type NoisePatternOptions,
 } from './canvas-noise';
-
-
 
 // ============================================================================
 // TYPE EXPORTS
