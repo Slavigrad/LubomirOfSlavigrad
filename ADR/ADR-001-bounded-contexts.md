@@ -3,13 +3,13 @@
 - **Status:** Accepted (2026-06-13) — verified against the repo by the Phase 0 inspection map
 - **Date:** 2026-06-12 (proposed), 2026-06-13 (accepted)
 - **Deciders:** Lubomir (owner), Claude (architecture analysis)
-- **Technical story:** Restructure of the Slavigrad CV application from type-first layout (`components/`, `pages/`, `models/`, `services/`, `shared/`) to a domain-based architecture per *Modern Angular* (Steyer) and `advanced-modern-angular-application-structure-guide.md`.
+- **Technical story:** Restructure of the Slavigrad CV application from type-first layout (`components/`, `pages/`, `models/`, `services/`, `shared/`) to a domain-based architecture per *Modern Angular* (Steyer) and `angular-22-best-practices/advanced-modern-angular-application-structure-guide.md`.
 
 ---
 
 ## Context
 
-The application is a standalone Angular app (currently v21, migration to v22 planned) serving a personal CV/portfolio site with a long-form memoir page. The current `src/app` layout is horizontal/type-first, which produces the known failure modes: three plausible homes for any component (`components/`, `pages/`, `shared/components/`), domain types split across `interfaces/` and `models/`, and no structural expression of what the application is about.
+The application is a standalone Angular app (v22) serving a personal CV/portfolio site with a long-form memoir page. The current `src/app` layout is horizontal/type-first, which produces the known failure modes: three plausible homes for any component (`components/`, `pages/`, `shared/components/`), domain types split across `interfaces/` and `models/`, and no structural expression of what the application is about.
 
 Before choosing a target structure, a domain analysis was performed using ubiquitous-language analysis: bounded contexts are identified by where the vocabulary changes.
 

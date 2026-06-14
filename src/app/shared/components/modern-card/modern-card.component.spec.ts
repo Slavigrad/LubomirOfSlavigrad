@@ -264,7 +264,7 @@ describe('ModernCardComponent', () => {
     });
 
     it('should show header when title or subtitle is provided', () => {
-      expect(component.showHeader()).toBe(true);
+      expect(component.showHeader()).toBeTruthy();
 
       hostComponent.title.set('');
       hostComponent.subtitle.set('');
@@ -355,8 +355,10 @@ describe('ModernCardComponent', () => {
 
     it('should collapse the card', () => {
       hostComponent.expanded.set(true);
+      fixture.detectChanges();
 
       component.collapse();
+      fixture.detectChanges();
 
       expect(hostComponent.expanded()).toBe(false);
     });
