@@ -29,7 +29,6 @@ export const config: SheriffConfig = {
     'src/app/domains/lab/collapse-demo': 'lab',
     'src/app/domains/lab/modern': 'lab',
     'src/app/domains/lab/modern-card': 'lab',
-    'src/app/domains/lab/modern-lifecycle': 'lab',
     'src/app/domains/lab/signal-form': 'lab',
     'src/app/domains/shared': 'shared',
     'src/app/domains/shared/ui-glass': 'shared:ui',
